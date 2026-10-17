@@ -370,18 +370,18 @@
           <span class="imp imp-mid">중요도 중간</span>
           <span class="badge">저장소 릴리스</span>
         </div>
-        <h3>AI 공격 지식베이스가 월 단위 릴리스로 바뀌었고, 이번 판에 담긴 기법은 120개다</h3>
-        <p>마이터 ATLAS가 날짜 기반 월간 릴리스로 전환했고, v2026.09 릴리스 노트는 이 판의 구성을 매트릭스 1개&middot;전술 16개&middot;기법 120개&middot;하위기법 88개&middot;완화책 40개&middot;사례연구 73건으로 적었습니다<sub class="tgrade">[T2]</sub>. 새로 들어온 기법에는 AI Agent Response Biasing(에이전트 응답을 특정 방향으로 기울이는 기법)과 Discover AI Agent Runtime Capabilities(에이전트가 런타임에 쓸 수 있는 기능을 정찰하는 기법)가 있습니다<sub class="tgrade">[T2]</sub>. 조작된 어시스턴트 링크로 AI 추천을 오염시키는 사례연구도 추가됐습니다<sub class="tgrade">[T2]</sub>. 릴리스가 월 단위로 끊기면 위협 매핑 문서의 갱신 주기도 그 리듬을 따라가야 합니다.</p>
+        <h3>AI 공격 지식베이스가 월 단위 릴리스로 바뀌었다 &mdash; 9월 15일 판에서 새로 들어온 기법 11종은 대부분 에이전트 쪽이다</h3>
+        <p>마이터 ATLAS가 날짜 기반 월간 릴리스로 전환했고, 2026-09-15 나온 v2026.09는 매트릭스 1개&middot;전술 16개&middot;기법 120개&middot;하위기법 88개&middot;완화책 40개&middot;사례연구 73건으로 구성됩니다<sub class="tgrade">[T1]</sub>. 직전 판(v2026.08, 2026-09-01)의 기법 114개에서 11종이 새로 들어오고 기존 8종이 개정된 결과입니다<sub class="tgrade">[T1]</sub>. 새 기법은 에이전트 운영면을 겨냥한 쪽에 몰려 있습니다. AI 에이전트 응답 편향(AML.T0130), AI 에이전트 런타임 능력 탐색(AML.T0133), 조작된 AI 어시스턴트 링크(AML.T0131), 노출&middot;오설정 AI 서비스(AML.T0132)가 그렇습니다<sub class="tgrade">[T1]</sub>. 완화책에는 &lsquo;AI 허니팟&rsquo;이 신설됐고 사례연구 5건이 새로 들어오거나 고쳐졌습니다<sub class="tgrade">[T1]</sub>.</p>
         <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 사내 위협 모델이 참조하는 ATLAS 버전을 문서에 박아 두고, 월간 릴리스마다 추가 기법만 확인하는 방식으로 바꾸는 편이 낫습니다. 버전을 적지 않으면 어느 판을 기준으로 평가했는지 나중에 증명할 수 없습니다.</p>
         <details class="more"><summary>자세히 보기</summary><div class="more-body">
           <p><b>월간 릴리스가 바꾸는 것</b> &mdash; 버전 번호가 의미 단위(v5.1.0 같은)에서 날짜(v2026.09)로 바뀌면, &ldquo;최신판을 쓴다&rdquo;는 말이 더는 상태를 설명하지 못합니다. 어느 달 판인지가 기준이 됩니다. 사내 문서가 ATLAS를 인용할 때 버전을 함께 적어야 하는 이유이고, 공급사 평가 질의서에서 상대가 어느 판을 봤는지 묻게 되는 이유이기도 합니다.</p>
           <p><b>새 기법 두 개가 가리키는 방향</b> &mdash; 응답을 기울이는 기법과 런타임 기능을 정찰하는 기법은 둘 다 모델 자체를 깨는 쪽이 아니라, 에이전트가 무엇을 할 수 있는지 알아내고 그 판단을 밀어내는 쪽입니다. 에이전트가 쓰는 도구 목록과 권한이 공격자에게 얼마나 드러나는지가 점검 항목이 된다는 뜻으로 읽을 수 있습니다.</p>
-          <p><b>2차 출처만 있는 수치는 따로 둔다</b> &mdash; 기법 항목 208개 가운데 139개에 Agentic AI 태그가 붙었다는 집계와, 이번 판이 권한 확장 통제(AML.M0037)&middot;범위 이탈 탐지(AML.M0038) 두 완화책을 추가했다는 설명은 2차 분석에서만 확인됐고 발행처 릴리스 데이터로 대조하지 못했습니다<sub class="tgrade">[T3]</sub>. 직전 판(v2026.07)을 기법 101개&middot;완화책 37개로 적은 자료도 같은 성격이라 증감 폭을 단정하지 않았습니다<sub class="tgrade">[T3]</sub>.</p>
-          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 위협 모델 문서에 참조 버전을 &lsquo;ATLAS v2026.09&rsquo;처럼 날짜 판으로 명시합니다. &#9313; 에이전트 운영 중인 서비스에 대해 새 기법 두 개를 질문으로 바꿔 봅니다. 에이전트의 도구 목록과 권한이 응답을 통해 노출되는가, 응답을 특정 방향으로 밀 수 있는 입력 경로가 있는가. &#9314; 완화책 식별자는 발행처 데이터로 확인한 뒤 통제 매핑표에 넣습니다. 2차 출처의 식별자를 그대로 옮기면 나중에 매핑이 깨집니다.</p>
+          <p><b>2차 출처만 있는 수치는 따로 둔다</b> &mdash; 기법 항목 208개 가운데 139개에 Agentic AI 태그가 붙었다는 집계는 2차 분석에서만 확인됐고 발행처 릴리스 데이터로 대조하지 못했습니다<sub class="tgrade">[T3]</sub>. 완화책 식별자를 권한 확장 통제(AML.M0037)&middot;범위 이탈 탐지(AML.M0038)로 적은 2차 분석도 있으나, 발행처 릴리스 노트가 적은 신규 완화책은 &lsquo;AI 허니팟&rsquo; 한 건이므로 이 식별자들은 채택하지 않았습니다<sub class="tgrade">[T1]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 위협 모델 문서에 참조 버전을 &lsquo;ATLAS v2026.09&rsquo;처럼 날짜 판으로 명시합니다. &#9313; 에이전트 운영 중인 서비스에 대해 새 기법 두 개를 질문으로 바꿔 봅니다. 에이전트의 도구 목록과 권한이 응답을 통해 노출되는가, 응답을 특정 방향으로 밀 수 있는 입력 경로가 있는가. &#9314; 통제 매핑표에는 발행처 릴리스 노트가 적은 완화책(이번 판은 &lsquo;AI 허니팟&rsquo;)만 넣습니다. 2차 분석이 만들어 붙인 식별자를 그대로 옮기면 나중에 매핑이 깨집니다.</p>
         </div></details>
         <figure>
           <div class="scroll-x">
-            <svg class="dg" viewBox="0 0 620 196" role="img" aria-label="마이터 ATLAS v2026.09 구성: 매트릭스 1개, 전술 16개, 기법 120개, 하위기법 88개, 완화책 40개, 사례연구 73건이며 새 기법 두 개와 새 사례연구 한 건이 추가되었다">
+            <svg class="dg" viewBox="0 0 620 196" role="img" aria-label="마이터 ATLAS v2026.09 구성: 매트릭스 1개, 전술 16개, 기법 120개, 하위기법 88개, 완화책 40개, 사례연구 73건이며, 직전 판의 기법 114개에서 11종이 추가되고 8종이 개정되었고 신규 완화책 AI 허니팟이 들어왔다">
               <text x="12" y="20" class="s-sub t-accent">MITRE ATLAS v2026.09 · 날짜 기반 월간 릴리스</text>
 
               <rect x="10" y="30" width="190" height="42" rx="3" class="s-box"/>
@@ -409,12 +409,12 @@
               <text x="596" y="108" text-anchor="end" class="s-lab" font-size="16" font-weight="600">1</text>
 
               <rect x="10" y="132" width="600" height="54" rx="3" class="s-box"/>
-              <text x="24" y="152" class="s-lab t-new" font-size="10.5" font-weight="600">새 기법: AI Agent Response Biasing · Discover AI Agent Runtime Capabilities</text>
-              <text x="24" y="169" class="s-lab" font-size="10.5">새 사례연구: 조작된 어시스턴트 링크로 AI 추천 오염</text>
-              <text x="24" y="181" class="s-sub">Agentic AI 태그 집계·완화책 식별자는 2차 출처만 확인 [T3]</text>
+              <text x="24" y="150" class="s-lab t-new" font-size="10.5" font-weight="600">신규 기법 11종 · 기존 8종 개정 — 기법 114 → 120 (v2026.08 → v2026.09)</text>
+              <text x="24" y="166" class="s-lab" font-size="10.5">에이전트 응답 편향 T0130 · 런타임 능력 탐색 T0133 · 신규 완화 'AI 허니팟'</text>
+              <text x="24" y="180" class="s-sub">Agentic AI 태그 집계(208개 중 139개)는 2차 출처만 확인 [T3]</text>
             </svg>
           </div>
-          <figcaption>수치는 발행처 릴리스 노트에 적힌 구성이고, 아래 한 줄은 2차 출처에만 있는 항목입니다. <span class="src">근거: <a href="https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09">마이터 ATLAS &mdash; v2026.09 릴리스 노트</a> · <a href="https://github.com/mitre-atlas/atlas-data/blob/main/CHANGELOG.md">ATLAS 변경 이력</a></span></figcaption>
+          <figcaption>구성과 증감은 발행처 릴리스 노트 기준이고, 맨 아래 한 줄만 2차 출처에서 온 집계입니다. <span class="src">근거: <a href="https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09">마이터 ATLAS &mdash; v2026.09 릴리스 노트</a> · <a href="https://github.com/mitre-atlas/atlas-data/blob/main/CHANGELOG.md">ATLAS 변경 이력</a></span></figcaption>
         </figure>
       </div>
 
