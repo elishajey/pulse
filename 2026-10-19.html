@@ -1,0 +1,534 @@
+<title>AI SEC Pulse</title>
+<meta name="description" content="법·컴플라이언스 모니터링, AI 보안·서비스 동향 3선(도해), 솔루션·컨퍼런스 안내를 담은 일일 브리핑 — 2026-10-19 호">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --bg: #e9edf1;
+    --paper: #ffffff;
+    --paper-2: #f5f7f9;
+    --ink: #17202c;
+    --ink-soft: #3c4858;
+    --muted: #62707f;
+    --line: #d7dee5;
+    --line-strong: #b6c0cb;
+    --accent: #0d7c86;
+    --accent-soft: #d2eaeb;
+    --acq: #ad5019;
+    --new: #2d7a4d;
+    --flag: #916b00;
+    --hi: #b4381f;        /* importance high */
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c1016;
+      --paper: #151c25;
+      --paper-2: #1a222d;
+      --ink: #e6ebf1;
+      --ink-soft: #b7c1cd;
+      --muted: #8a96a5;
+      --line: #29323d;
+      --line-strong: #3a4551;
+      --accent: #3cb8c3;
+      --accent-soft: #102f35;
+      --acq: #d9853f;
+      --new: #5bad7c;
+      --flag: #d5aa3d;
+      --hi: #e07a5f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c1016; --paper: #151c25; --paper-2: #1a222d;
+    --ink: #e6ebf1; --ink-soft: #b7c1cd; --muted: #8a96a5;
+    --line: #29323d; --line-strong: #3a4551;
+    --accent: #3cb8c3; --accent-soft: #102f35;
+    --acq: #d9853f; --new: #5bad7c; --flag: #d5aa3d; --hi: #e07a5f;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.62; -webkit-font-smoothing: antialiased;
+  }
+  .mail { max-width: 680px; margin: 0 auto; padding: 28px 16px 80px; }
+  .envelope {
+    background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 4px; padding: 10px 14px; margin-bottom: 14px;
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted);
+  }
+  .envelope b { color: var(--ink-soft); font-weight: 600; }
+
+  .sheet {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 1px 2px rgba(20,28,40,.05), 0 14px 40px -20px rgba(20,28,40,.22);
+  }
+
+  header.rpt {
+    padding: 30px 28px 22px; border-bottom: 3px solid var(--ink);
+  }
+  header.rpt .brandline {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--accent);
+  }
+  header.rpt h1 {
+    font-family: "Archivo", sans-serif; font-weight: 700;
+    font-size: 2rem; letter-spacing: -.02em; margin: 8px 0 6px;
+  }
+  header.rpt .date {
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink-soft);
+  }
+  header.rpt .cadence {
+    margin-top: 12px; font-size: 12.5px; color: var(--muted);
+  }
+  header.rpt .byline {
+    text-align: right; margin: 10px 0 0; font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted);
+  }
+
+  section.blk { padding: 26px 28px; border-top: 1px solid var(--line); }
+  section.blk:first-of-type { border-top: 0; }
+  .sec-tag {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;
+  }
+  .sec-no {
+    font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 12px;
+    color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 1px 6px;
+  }
+  .sec-tag h2 {
+    font-family: "Archivo", sans-serif; font-weight: 700; font-size: 1.2rem;
+    letter-spacing: -.01em; margin: 0;
+  }
+  .sec-lede { margin: 0 0 18px; font-size: .9rem; color: var(--muted); }
+  .board-link { margin: 0 0 16px; margin-left: 31.2px; font-size: .85rem; }
+  .board-link a {
+    color: var(--accent); font-weight: 600; text-decoration: none;
+    background: var(--accent-soft); padding: 3px 10px; border-radius: 4px; display: inline-block;
+  }
+  .board-link a::after { content: " ↗"; font-weight: 400; }
+  /* §1 카드가 0건인 날 — "오늘의 뉴스 없음"(2026-10-12 사용자 요청). */
+  .no-news { margin: 0 0 4px; margin-left: 31.2px; font-size: .9rem; color: var(--muted); }
+
+  /* ---- section 1 : compliance items ---- */
+  .item { padding: 14px 0; border-top: 1px dashed var(--line); }
+  .item:first-child { border-top: 0; padding-top: 0; }
+  .item .row1 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .badge {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .05em;
+    padding: 1px 6px; border-radius: 2px; border: 1px solid currentColor; white-space: nowrap;
+  }
+  .b-new { color: var(--new); }
+  .b-upd { color: var(--accent); }
+  .b-hold { color: var(--muted); }
+  .b-t1 { color: var(--accent); }
+  .b-t2 { color: var(--ink-soft); }
+  .b-t3 { color: var(--flag); }
+  .jur {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted);
+  }
+  .item h3 {
+    font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 1.05rem;
+    margin: 6px 0 4px;
+  }
+  .item p { margin: 0; font-size: .82rem; color: var(--ink-soft); }
+  .item .src {
+    margin-top: 5px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted);
+  }
+  .item .src a { color: var(--accent); word-break: break-all; }
+
+  /* ---- 자세히 보기 드롭다운 (§1·§2 공용) ---- */
+  .more { margin-top: 8px; }
+  .more > summary {
+    cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    font-weight: 600; color: var(--accent); list-style: revert;
+  }
+  .more > summary::marker { color: var(--accent); }
+  .more-body {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .82rem; color: var(--ink-soft);
+  }
+  .more-body p { margin: 0 0 8px; }
+  .more-body p:last-child { margin-bottom: 0; }
+
+  .quiet-note {
+    margin-top: 16px; padding: 10px 12px; background: var(--paper-2);
+    border-left: 3px solid var(--line-strong); font-size: .84rem; color: var(--muted);
+  }
+
+  /* ---- section 2 : trend cards with figures ---- */
+  .trend-card { padding: 20px 0; border-top: 1px solid var(--line); }
+  .trend-card:first-of-type { border-top: 0; padding-top: 4px; }
+  .tc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .imp {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .04em;
+    padding: 1px 6px; border-radius: 2px;
+  }
+  .imp-high { background: transparent; color: var(--hi); border: 2px solid var(--hi); font-weight: 700; }
+  .imp-mid { background: #0d7c86; color: #fff; }
+  .trend-card h3 {
+    font-family: "Archivo", sans-serif; font-weight: 600; font-size: 1.05rem;
+    letter-spacing: -.005em; margin: 0 0 6px;
+  }
+  .trend-card > p { margin: 0 0 14px; font-size: .89rem; color: var(--ink-soft); }
+  figure {
+    margin: 0; background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 3px; padding: 14px 12px 8px;
+  }
+  figure .scroll-x { overflow-x: auto; }
+  svg.dg { display: block; width: 100%; height: auto; color: var(--ink); min-width: 520px; }
+  figcaption {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .8rem; color: var(--muted);
+  }
+  figcaption .src { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+
+  .take { color: var(--accent); }
+
+  /* svg helpers */
+  .s-box { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-box-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+  .s-lab { fill: var(--ink); font-family: "IBM Plex Sans", sans-serif; font-size: 12px; }
+  .s-sub { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .02em; }
+  .s-arw { stroke: var(--muted); stroke-width: 1.4; fill: none; }
+  .s-axis { stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-tick { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .dot-acq { fill: var(--acq); }
+  .dot-new { fill: var(--new); }
+  .t-acq { fill: var(--acq); color: var(--acq); }
+  .t-new { fill: var(--new); color: var(--new); }
+  .t-accent { fill: var(--accent); color: var(--accent); }
+  .node-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+  .head-mut { fill: var(--muted); }
+  .head-acc { fill: var(--accent); }
+  .link-acc { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+
+  /* ---- section 3 : solutions + events ---- */
+  .sub-h {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); margin: 18px 0 8px;
+  }
+  .sub-h:first-child { margin-top: 0; }
+  .sol { padding: 10px 0; border-top: 1px dashed var(--line); font-size: .88rem; }
+  .sol:first-of-type { border-top: 0; }
+  .sol b { font-weight: 600; }
+  .sol .m { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10.5px; }
+
+  .evt {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px 14px; align-items: center;
+    padding: 12px 0; border-top: 1px dashed var(--line);
+  }
+  .evt:first-of-type { border-top: 0; }
+  .evt .when {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--accent);
+  }
+  .evt .name { font-weight: 600; font-size: .92rem; margin: 2px 0 2px; }
+  .evt .where { font-size: .82rem; color: var(--muted); }
+  .apply {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .04em;
+    text-decoration: none; color: var(--accent);
+    border: 1px solid var(--accent); border-radius: 3px; padding: 6px 12px; white-space: nowrap;
+  }
+  .apply:hover { background: var(--accent-soft); }
+
+  footer.rpt-foot {
+    padding: 20px 28px 26px; border-top: 3px solid var(--ink);
+    font-size: .8rem; color: var(--muted);
+  }
+  footer.rpt-foot p { margin: 0 0 6px; }
+  footer.rpt-foot code { font-family: "IBM Plex Mono", monospace; font-size: .76rem; color: var(--ink-soft); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 10px 0; }
+  .legend span { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .tgrade { color: var(--muted); font-size: 42%; }
+
+  /* ---- 해시태그(2026-09-17 사용자 요청) — 카드마다 근거 아래 국가·회사유형·법규명·AI사명/모델명·
+     보안용어를 인스타그램 스타일 해시태그로 노출. data-type 속성은 화면에 안 보이지만 나중에
+     이 데이터를 파싱해 체인으로 엮을 때 카테고리를 바로 구분하도록 남겨둔다. ---- */
+  .tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 9px; }
+  .tag { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; }
+  .tag-country { color: var(--accent); }
+  .tag-org { color: var(--flag); }
+  .tag-law { color: var(--acq); }
+  .tag-ai { color: var(--new); }
+  .tag-security { color: var(--hi); }
+
+  a { color: var(--accent); }
+  @media (max-width: 560px) {
+    .evt { grid-template-columns: 1fr; }
+    header.rpt h1 { font-size: 1.7rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="mail">
+
+  <div class="envelope">
+    <div>제목 &nbsp; <b>AI SEC Pulse (2026-10-19)</b></div>
+    <div>발송 &nbsp; 매일 오전 10:00 (KST) &nbsp;·&nbsp; 수신자: AI 보안·컴플라이언스 담당</div>
+  </div>
+
+  <div class="sheet">
+
+    <header class="rpt">
+      <div class="brandline">Daily Briefing</div>
+      <h1>AI SEC Pulse</h1>
+      <div class="date">2026년 10월 19일 월요일 · No. 046</div>
+      <p class="byline">reported by elishaJEY</p>
+    </header>
+
+    <!-- ============ 1 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">1</span><h2>법 · 컴플라이언스 모니터링</h2></div>
+      <p class="board-link"><a href="https://elishajey.github.io/ai-compliance-board/">AI SEC Compliance Dashboard</a></p>
+      <div class="item">
+        <div class="row1">
+          <span class="badge b-upd">변동 확인</span>
+          <span class="jur">EU</span>
+        </div>
+        <h3>AI법을 뒷받침하는 첫 표준이 관보에 올랐다 &mdash; 이 표준을 따르면 품질경영 요건을 충족한 것으로 본다</h3>
+        <p>고위험 AI를 EU 시장에 내놓는 사업자가 품질경영 체계를 어떻게 갖춰야 하는지, 그 답을 표준 하나로 갈음할 수 있게 됐습니다. 집행위원회가 시행결정 (EU) 2026/2274으로 <b>EN 18286:2026</b>을 EU 관보에 인용했고(관보 L 2026/2274, 2026-10-14), AI법을 뒷받침하는 <b>조화표준</b>이 관보에 오른 것은 이번이 처음입니다<sub class="tgrade">[T2]</sub>. 효과는 <b>적합성 추정</b>입니다. 이 표준을 따른 공급자는 AI법 <b>제17조</b>(1)과 제11조(1) 첫 문장을 충족한 것으로 추정되지만, 추정 범위는 표준 부속서 ZA가 정하는 만큼이어서 <b>시판 후 모니터링</b>이나 비례성 조항은 들어가지 않습니다<sub class="tgrade">[T2]</sub>. 표준 적용 자체는 여전히 자발적이고 다른 방법으로 적합성을 증명해도 되며, 인용이 뒤에 철회되면 추정 효과도 함께 사라집니다<sub class="tgrade">[T2]</sub>.<br><br>국내 사업자에게 걸리는 대목은 인증서 한 장으로 끝나지 않는다는 쪽입니다. <b>ISO/IEC 42001</b> 인증을 이미 받아 뒀더라도 적합성 추정은 생기지 않고, EN 18286 부속서 B&middot;C의 대응표도 조항 번호를 맞춰 줄 뿐 요구사항과 개념까지 옮겨 주지 않아서 제17조용 증빙은 따로 만들어야 한다고 인증&middot;검증기관 LRQA가 짚었습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; ISO/IEC 42001 인증서를 근거로 &lsquo;EU 쪽은 정리됐다&rsquo;고 적어 둔 내부 문서가 있다면 이번에 문구를 고쳐야 합니다. 추정이 생기는 구간은 제17조(1)과 제11조(1) 첫 문장뿐이고, 나머지는 그대로 증빙 대상입니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>관보 인용이 무엇을 바꾸는가</b> &mdash; EN 18286:2026 자체는 2026년 7월에 CEN&middot;CENELEC 공동기술위원회 21(JTC 21)이 승인&middot;발행했습니다<sub class="tgrade">[T1]</sub>. 그때까지는 ISO/IEC 42001과 지위가 같았습니다. 좋은 참고 문서이지만 따랐다고 해서 법적으로 유리해지는 것은 없었습니다. 10월 14일 관보 인용으로 달라진 것은 딱 하나입니다. 이제 이 표준을 따랐다는 사실만으로 해당 조항을 충족한 것으로 당국이 추정해 주고, 입증 부담이 사업자에게서 당국 쪽으로 옮겨 갑니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>표준이 요구하는 내용</b> &mdash; AI법 제17조가 고위험 AI 공급자에게 요구하는 품질경영시스템을 조직 차원의 절차로 풀어낸 문서입니다. 규제 준수 전략, 설계&middot;개발&middot;검증 절차, 데이터 관리, 위험관리 연계, 시판 후 모니터링, 사고 보고, 문서&middot;기록 관리, 책임 배분을 다룹니다. ISO 9001의 품질경영 개념을 AI법 요건에 맞춰 특화한 형태로 볼 수 있습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>적용대상이 다른 두 갈래를 섞어 읽지 않도록</b> &mdash; <b>고위험 AI 공급자(제17조):</b> 이 표준의 1차 대상입니다. EU 안에 법인이 있는지와는 무관하고, 고위험 AI 시스템을 EU 시장에 내놓거나 EU 안에서 서비스로 제공하면 제17조 품질경영 의무가 걸립니다<sub class="tgrade">[T2]</sub>. <b>범용 AI 모델 제공자:</b> 제53조&middot;제55조 계열 의무를 지는 쪽이며 이 표준의 적합성 추정 대상이 아닙니다. 두 의무를 하나의 체계로 묶어 두면 어느 쪽 증빙도 완결되지 않습니다.</p>
+          <p><b>추정이 미치지 않는 구간</b> &mdash; 부속서 ZA가 정하는 범위만 추정됩니다. 일부 행에는 조건이 붙고, 명시적으로 포함되지 않는 조항도 있습니다. 2차 출처는 시판 후 모니터링과 비례성&middot;통합 관련 조항이 빠졌다고 적고 있습니다<sub class="tgrade">[T2]</sub>. 시행결정 원문을 직접 확인하지는 못했으므로 어느 행에 어떤 조건이 붙었는지는 조문으로 다시 봐야 합니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>AI 보안 쪽에서 보면</b> &mdash; 품질경영시스템이 요구하는 위험관리 연계와 사고 보고, 문서&middot;기록 관리는 NIST AI RMF의 Govern 기능이 요구하는 조직 차원 거버넌스와 맞닿는 성격으로 볼 수 있습니다. 다만 EN 18286이 그 프레임워크를 인용해 매핑하고 있다는 근거는 확인되지 않았습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; EU로 나가는 AI 제품 목록을 꺼내 각각이 부속서 III 고위험에 걸리는지부터 다시 판정합니다. 고위험이 아니면 제17조도, 이 표준도 적용 대상이 아닙니다. &#9313; 고위험으로 판정된 제품에 대해 ISO/IEC 42001 문서와 EN 18286 조항을 1:1로 맞춰 보는 대응표를 만듭니다. 부속서 B&middot;C는 조항 번호만 맞춰 주므로 요구사항 수준의 공백은 직접 찾아야 합니다. &#9314; 시판 후 모니터링과 사고 보고 절차는 추정 범위 밖이라고 보고 별도 증빙을 준비합니다. 이 두 건은 AI 보안 운영 기록과 그대로 겹치므로 사고 대응 로그&middot;보고 이력을 증빙 형태로 보관하는 쪽이 효율적입니다. &#9315; 인용 철회 시나리오를 문서에 한 줄 남깁니다. 추정은 인용에 딸린 효과이고, 인용이 철회되면 같은 문서로 같은 주장을 할 수 없습니다.</p>
+        </div></details>
+        <div class="src">근거: <a href="https://digital.nemko.com/news/en-18286-eu-ai-act-cites-new-harmonized-qms-standard">Nemko &mdash; 관보 인용과 적합성 추정 범위</a> · <a href="https://reglog.io/blog/en-18286-first-ai-act-harmonised-standard">Reglog &mdash; 추정이 미치지 않는 구간</a> · 조문: <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng">EUR-Lex AI Act 제17조</a> · 표준: <a href="https://www.cencenelec.eu/news-events/news/2026/en-in-the-spotlight/2026-07-30-ai-quality-management/">CEN-CENELEC JTC 21 발행 공지</a> · 국내 관점: <a href="https://www.lrqa.com/en/insights/articles/what-iso-42001-does-and-does-not-get-you-under-the-eu-ai-act/">LRQA &mdash; ISO 42001이 주는 것과 주지 않는 것</a></div>
+        <div class="tags"><span class="tag tag-country" data-type="country">#EU</span><span class="tag tag-org" data-type="org">#표준기구</span><span class="tag tag-law" data-type="law">#AI법</span><span class="tag tag-law" data-type="law">#EN18286</span><span class="tag tag-law" data-type="law">#ISO_IEC_42001</span><span class="tag tag-security" data-type="security">#품질경영시스템</span><span class="tag tag-security" data-type="security">#적합성추정</span><span class="tag tag-security" data-type="security">#시판후모니터링</span></div>
+      </div>
+    </section>
+    <!-- ============ 2 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">2</span><h2>AI 보안 · 서비스 동향 3선</h2></div>
+      <!-- Trend A -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">연구소 공개 · 벤더 분류 거부</span>
+        </div>
+        <h3>지시문을 암호문으로 보내니 인젝션 필터가 그냥 통과시켰다 &mdash; 28초 만에 운영 환경변수 파일이 빠져나갔다</h3>
+        <p>깃허브 코파일럿 CLI를 상대로 지시문을 암호문에 숨겨 보내는 공격이 공개됐습니다. 연구팀 어드버사 AI는 이를 <b>암호문 컨텍스트 인젝션</b>(Cryptographic Context Injection)으로 이름 붙였고, 9월 17일 깃허브에 신고한 뒤 10월 6일 공개했습니다<sub class="tgrade">[T2]</sub>. 수법은 웹페이지에 암호문과 복호화 키를 함께 올려 두고 에이전트에게 파이썬으로 풀게 하는 것인데, 키를 일부러 망가뜨려 <b>로컬 파일에서 읽은 값이 키 문자열에 섞여 들어가게</b> 만들고 두 번째 멀쩡한 키로 그 값을 받을 주소를 드러냅니다<sub class="tgrade">[T2]</sub>. 시연에서는 로컬 <b>.env.prod</b> 파일이 <b>28초</b> 만에 빠져나갔고, 같은 지시문을 평문으로 보냈을 때는 <b>프롬프트 인젝션</b>으로 걸려 거부됐습니다<sub class="tgrade">[T2]</sub>. 깃허브는 신뢰할 수 없는 콘텐츠를 가져온 것이고 사용자가 실행을 확인했으므로 제품 취약점이 아니라고 보고 분류를 거부했으며, 어드버사는 이에 동의하지 않습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 벤더가 고칠 사안으로 보지 않았으니 막는 일은 쓰는 쪽에 남았습니다. <b>무인 실행</b> 모드를 쓰는 저장소에서 모델 자동 선택을 끄고 어느 모델이 그 모드를 맡는지 고정하는 것이 지금 바로 되는 조치입니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>왜 필터가 못 잡았나</b> &mdash; 프롬프트 인젝션 필터는 읽을 수 있는 문장을 봅니다. 암호를 풀어 보지는 않습니다. 그래서 같은 지시문이 평문일 때는 걸리고 암호문일 때는 통과합니다. 지시문이 읽을 수 있는 형태로 바뀌는 시점은 필터를 지나 에이전트가 자기 셸에서 복호화를 실행한 다음입니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>키를 망가뜨리는 이유</b> &mdash; 이 공격의 핵심은 복호화가 아니라 키 조립입니다. 페이지는 키를 로컬 파일 내용으로 만들라고 지시하고, 에이전트는 그 지시에 따라 파일을 읽어 키 문자열에 넣습니다. 키가 망가져 있어 복호화는 실패하지만, 그 실패한 키 안에 비밀값이 이미 들어 있습니다. 두 번째로 주어진 멀쩡한 키가 후속 URL을 드러내고, 그 URL로 값이 넘어갑니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>모델에 따라 결과가 갈린다</b> &mdash; 어드버사는 이것이 확인 프롬프트를 우회하는 공격이 아니라고 분명히 밝혔습니다. 성립 조건은 두 가지입니다. 무인 실행(autopilot) 모드와, 지시를 그대로 따르는 모델입니다<sub class="tgrade">[T2]</sub>. 한 보도에 따르면 마이크로소프트의 mai-code-1.1-flash는 전체 공격 체인을 50% 확률로 끝까지 실행했고, OpenAI GPT-5.6 계열 두 모델은 같은 페이로드를 거부했습니다<sub class="tgrade">[T2]</sub>. 문제는 모델 선택이 자동으로 이뤄질 수 있다는 점입니다. 쓰는 사람은 자기 세션이 어느 모델에 배정됐는지 모른 채 작업합니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>처음 나온 수법은 아니다</b> &mdash; 같은 기법은 앞서 Grok을 상대로 시연된 적이 있고, 어드버사는 코파일럿 CLI 건을 그와 같은 취약점으로 설명했습니다<sub class="tgrade">[T2]</sub>. 다만 깃허브 자체 입장문이나 CVE 번호는 확인되지 않아, 벤더 측 설명은 모두 연구팀 공개 자료를 인용한 2차 보도에 근거합니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>프레임워크로 보면 어디인가</b> &mdash; 2026년판 OWASP Top 10 for LLM Applications는 프롬프트 인젝션을 여전히 1위로 두고 있고, 이 공격은 그 범주에 바로 들어갑니다<sub class="tgrade">[T2]</sub>. 다만 실제 피해가 성립한 지점은 지시문 자체가 아니라 에이전트에게 무인 실행 권한과 로컬 파일 접근이 함께 주어졌다는 쪽이어서, 같은 판에서 3위로 올라온 과도한 권한 위임(Excessive Agency)과 겹쳐 읽는 편이 맞습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 코딩 에이전트의 무인 실행 모드를 쓰는 저장소를 세고, 그중 운영 비밀값 파일(.env 계열, 키스토어, 클라우드 자격증명)이 작업 디렉터리 안에 있는 곳을 먼저 분리합니다. 이 교집합이 이번 사례의 실제 노출면입니다. &#9313; 모델 자동 선택을 끕니다. 같은 정책을 걸어도 배정 모델에 따라 결과가 갈리면 통제가 성립하지 않습니다. &#9314; 에이전트가 새로 접속하는 외부 도메인과 작업 디렉터리 밖 쓰기에 확인을 요구하도록 설정합니다. 어드버사가 권고한 방향도 문자열 단위 검사가 아니라 행동 연쇄를 보는 쪽입니다. &#9315; 비밀값을 파일이 아니라 단기 토큰으로 주입하는 경로를 검토합니다. 파일로 두는 한, 에이전트가 읽는 것을 문장 검사로 막는 데는 한계가 있습니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 220" role="img" aria-label="평문으로 보낸 지시문은 인젝션 필터에 탐지돼 거부되지만, 암호문과 망가진 키를 함께 보내면 필터를 통과해 에이전트가 파이썬으로 복호화하고, 그 과정에서 로컬 파일 값이 키 문자열에 섞여 두 번째 키가 가리킨 주소로 전송되는 흐름 비교도">
+              <defs>
+                <marker id="cc1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head-mut"/></marker>
+              </defs>
+              <rect x="12" y="20" width="170" height="40" rx="3" class="s-box"/>
+              <text x="97" y="45" text-anchor="middle" class="s-lab" font-size="11">평문으로 보낸 지시문</text>
+
+              <rect x="212" y="20" width="170" height="40" rx="3" class="s-box"/>
+              <text x="297" y="45" text-anchor="middle" class="s-lab" font-size="11">필터가 인젝션으로 탐지</text>
+
+              <line x1="182" y1="40" x2="210" y2="40" class="s-arw" marker-end="url(#cc1)"/>
+              <line x1="382" y1="40" x2="410" y2="40" class="s-arw" marker-end="url(#cc1)"/>
+              <text x="440" y="45" text-anchor="middle" class="s-lab" font-size="11">거부</text>
+
+              <rect x="12" y="92" width="140" height="56" rx="3" class="s-box"/>
+              <text x="82" y="116" text-anchor="middle" class="s-lab" font-size="11">암호문 + 망가진 키</text>
+              <text x="82" y="132" text-anchor="middle" class="s-lab" font-size="11">같은 페이지에</text>
+
+              <rect x="172" y="92" width="140" height="56" rx="3" class="s-box"/>
+              <text x="242" y="116" text-anchor="middle" class="s-lab" font-size="11">에이전트가 파이썬</text>
+              <text x="242" y="132" text-anchor="middle" class="s-lab" font-size="11">으로 복호화</text>
+
+              <rect x="332" y="92" width="140" height="56" rx="3" class="s-box-accent"/>
+              <text x="402" y="116" text-anchor="middle" class="s-lab" font-size="11">로컬 파일 값이</text>
+              <text x="402" y="132" text-anchor="middle" class="s-lab" font-size="11">키 문자열에 섞임</text>
+
+              <rect x="492" y="92" width="116" height="56" rx="3" class="s-box-accent"/>
+              <text x="550" y="110" text-anchor="middle" class="s-lab" font-size="11">두 번째 키가</text>
+              <text x="550" y="126" text-anchor="middle" class="s-lab" font-size="11">가리킨 주소로</text>
+              <text x="550" y="142" text-anchor="middle" class="s-lab t-acq" font-size="11">전송</text>
+
+              <line x1="152" y1="120" x2="170" y2="120" class="s-arw" marker-end="url(#cc1)"/>
+              <line x1="312" y1="120" x2="330" y2="120" class="s-arw" marker-end="url(#cc1)"/>
+              <line x1="472" y1="120" x2="490" y2="120" class="s-arw" marker-end="url(#cc1)"/>
+
+              <text x="310" y="176" text-anchor="middle" class="s-sub">필터는 읽을 수 있는 문장을 본다 — 암호를 풀어 보지는 않는다</text>
+              <text x="310" y="192" text-anchor="middle" class="s-sub">성립 조건: 무인 실행 모드 + 지시를 그대로 따르는 모델</text>
+              <text x="310" y="208" text-anchor="middle" class="s-sub">mai-code-1.1-flash 50% 실행 · GPT-5.6 두 모델 거부</text>
+            </svg>
+          </div>
+          <figcaption>위쪽이 평문 경로, 아래쪽이 암호문 경로이고 갈라지는 지점은 필터가 아니라 복호화 시점입니다. <span class="src">근거: <a href="https://adversa.ai/blog/cryptographic-context-injection-github-copilot/">어드버사 AI &mdash; 기법 공개와 권고</a> · <a href="https://cybersecuritynews.com/github-copilot-cli-vulnerability/">Cyber Security News &mdash; 모델별 실행률과 깃허브 입장</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-org" data-type="org">#리서치기관</span><span class="tag tag-law" data-type="law">#OWASP_LLM_Top10</span><span class="tag tag-ai" data-type="ai">#mai-code-1.1-flash</span><span class="tag tag-ai" data-type="ai">#GPT-5.6</span><span class="tag tag-security" data-type="security">#암호문컨텍스트인젝션</span><span class="tag tag-security" data-type="security">#프롬프트인젝션</span><span class="tag tag-security" data-type="security">#무인실행</span></div>
+      </div>
+
+      <!-- Trend B -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-mid">중요도 중간~높음</span>
+          <span class="badge">벤더 수정 완료 · 검증코드 공개</span>
+        </div>
+        <h3>코파일럿이 건드리면 안 되는 설정 파일에 쓸 수 있었다 &mdash; 파일명 끝의 점 하나가 경로 검사를 통과시켰다</h3>
+        <p>마이크로소프트가 10월 13일 정기 패치에서 비주얼 스튜디오와 SQL 서버 관리 스튜디오(SSMS)의 코파일럿 원격코드실행 결함 <b>CVE-2026-103572</b>를 고쳤습니다. CVSS 기준점수는 <b>8.8</b>, 벤더 등급은 Important입니다<sub class="tgrade">[T2]</sub>. 원인은 윈도우가 파일명 끝의 점을 떼어 내는 처리와 코파일럿의 <b>경로 검사</b>가 어긋난 지점입니다. 이름 끝에 점을 붙이면 검사를 통과한 뒤 실제로는 보호 대상인 설정 파일과 <b>MCP</b> 서버 정의 파일에 기록됐습니다<sub class="tgrade">[T2]</sub>. 여기에 경로 순회와 SSMS.isolation.ini를 통한 설치 식별자 노출을 엮으면, <b>간접 프롬프트 인젝션</b>으로 코파일럿이 쓰는 모델을 바꿔 끼우고 임의 명령까지 돌릴 수 있었습니다<sub class="tgrade">[T2]</sub>. 고쳐진 빌드는 17.14.42와 18.10.4이고, 발견자 요한 레베르거가 기술 상세와 시연을 공개했으나 실제 악용은 확인되지 않았습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; MCP 서버 정의 파일이 사실상 실행 권한 설정이라는 점을 이 결함이 보여 줍니다. 패치는 끝났지만 그 파일을 누가 쓸 수 있는지 정리하는 숙제는 남습니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>점 하나가 검사를 통과시킨 이유</b> &mdash; 윈도우는 파일명 끝에 붙은 점을 저장할 때 떼어 냅니다. 그래서 검사 단계에서 보는 이름과 실제로 만들어지는 파일의 이름이 달라집니다. 코파일럿은 이름을 보고 &lsquo;보호 대상이 아니다&rsquo;라고 판단했지만, 쓰기가 끝난 뒤 디스크에 남은 것은 보호 대상 파일이었습니다. 패치는 파일명을 정규화해 끝의 점을 떼어 낸 뒤 검사하도록 바꿨습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>MCP 서버 정의 파일이 왜 중요한가</b> &mdash; 그 파일은 에이전트가 어떤 외부 도구를 호출할 수 있는지를 적어 둔 목록입니다. 쓰기 권한이 생기면 호출 가능한 도구와 그 실행 명령을 공격자가 정할 수 있습니다. 모델을 바꿔 끼울 수 있었다는 대목도 같은 성격입니다. 설정 파일에 쓰기가 되는 순간 그 뒤의 행동은 전부 공격자가 정의한 환경에서 일어납니다.</p>
+          <p><b>세 가지가 엮여야 끝까지 간다</b> &mdash; 단독으로는 어느 것도 원격코드실행이 되지 않습니다. 경로 검사 우회로 보호 파일에 쓰고, 경로 순회로 쓸 위치를 정하고, SSMS.isolation.ini에서 새어 나온 설치 식별자로 실제 경로를 특정합니다. 여기에 간접 프롬프트 인젝션이 방아쇠를 당깁니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>엇갈리는 대목</b> &mdash; 영향 범위를 Visual Studio Tools for Applications와 SSMS로 적은 자료와 Visual Studio 2022까지 포함한다고 적은 자료가 함께 있습니다<sub class="tgrade">[T3]</sub>. 발견자가 버그는 인정받았으나 포상금은 0달러였다고 밝힌 내용은 한 출처에만 있습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 비주얼 스튜디오를 17.14.42 또는 18.10.4 이상으로 올립니다. 10월 정기 패치에 들어 있으므로 사내 패치 주기에 이미 포함됐는지부터 확인합니다. &#9313; 개발 단말의 MCP 서버 정의 파일 경로를 목록화하고 쓰기 권한을 가진 주체를 확인합니다. 에이전트 프로세스가 그 파일에 쓸 수 있어야 할 이유는 거의 없습니다. &#9314; 코파일럿이 읽는 외부 콘텐츠(이슈 본문, 코드 주석, 문서 파일)가 어디서 들어오는지 경로를 적어 둡니다. 간접 인젝션의 입구는 늘 이쪽입니다. &#9315; 설정 파일 변경을 감시 대상에 넣습니다. 파일 이름이 정상으로 보여도 내용이 바뀌는 쪽을 봐야 이 유형이 잡힙니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 214" role="img" aria-label="파일명 끝에 점을 붙여 경로 검사를 통과한 뒤 설정 파일과 MCP 서버 정의 파일에 기록하고, 모델을 바꿔 끼워 임의 명령을 실행하는 단계와, 경로 순회·설치 식별자 노출이 함께 엮이는 구조도">
+              <defs>
+                <marker id="vs1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head-mut"/></marker>
+              </defs>
+              <rect x="12" y="34" width="140" height="46" rx="3" class="s-box"/>
+              <text x="82" y="54" text-anchor="middle" class="s-lab" font-size="11">파일명 끝에 점</text>
+              <text x="82" y="70" text-anchor="middle" class="s-lab" font-size="11">하나 붙이기</text>
+
+              <rect x="164" y="34" width="140" height="46" rx="3" class="s-box"/>
+              <text x="234" y="54" text-anchor="middle" class="s-lab" font-size="11">경로 검사 통과</text>
+              <text x="234" y="70" text-anchor="middle" class="s-lab" font-size="11">이름이 달라진다</text>
+
+              <rect x="316" y="34" width="140" height="46" rx="3" class="s-box"/>
+              <text x="386" y="54" text-anchor="middle" class="s-lab" font-size="11">설정·MCP 정의</text>
+              <text x="386" y="70" text-anchor="middle" class="s-lab" font-size="11">파일에 기록</text>
+
+              <rect x="468" y="34" width="140" height="46" rx="3" class="s-box-accent"/>
+              <text x="538" y="54" text-anchor="middle" class="s-lab" font-size="11">모델 바꿔 끼우고</text>
+              <text x="538" y="70" text-anchor="middle" class="s-lab t-acq" font-size="11">임의 명령 실행</text>
+
+              <line x1="152" y1="57" x2="162" y2="57" class="s-arw" marker-end="url(#vs1)"/>
+              <line x1="304" y1="57" x2="314" y2="57" class="s-arw" marker-end="url(#vs1)"/>
+              <line x1="456" y1="57" x2="466" y2="57" class="s-arw" marker-end="url(#vs1)"/>
+
+              <line x1="386" y1="80" x2="386" y2="108" class="s-arw" marker-end="url(#vs1)"/>
+
+              <rect x="140" y="118" width="340" height="48" rx="3" class="s-box"/>
+              <text x="310" y="137" text-anchor="middle" class="s-lab" font-size="11">경로 순회 + SSMS.isolation.ini로 설치 식별자 노출</text>
+              <text x="310" y="155" text-anchor="middle" class="s-lab" font-size="11">방아쇠는 간접 프롬프트 인젝션</text>
+
+              <text x="310" y="188" text-anchor="middle" class="s-sub">CVSS 8.8 · 10-13 패치 · 17.14.42 / 18.10.4</text>
+              <text x="310" y="204" text-anchor="middle" class="s-sub">검증코드 공개 · 실제 악용 미확인</text>
+            </svg>
+          </div>
+          <figcaption>세 갈래가 모여야 끝까지 가고, 패치는 맨 왼쪽 단계의 파일명 정규화를 고친 것입니다. <span class="src">근거: <a href="https://embracethered.com/blog/posts/2026/visual-studio-copilot-remote-code-execution/">Embrace The Red &mdash; 기술 상세와 시연</a> · <a href="https://securityonline.info/cve-2026-103572-visual-studio-copilot-rce-disclosed/">Daily CyberSecurity &mdash; 패치 빌드와 공개 경과</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-law" data-type="law">#CVE_2026_103572</span><span class="tag tag-security" data-type="security">#간접프롬프트인젝션</span><span class="tag tag-security" data-type="security">#경로검사우회</span><span class="tag tag-security" data-type="security">#MCP</span><span class="tag tag-security" data-type="security">#원격코드실행</span></div>
+      </div>
+
+      <!-- Trend C -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-mid">중요도 중간</span>
+          <span class="badge">조사기관 수행 · 벤더 공개</span>
+        </div>
+        <h3>AI 사고가 이사회까지 올라간 기업이 10곳 중 8곳인데, 그 뒤 거버넌스를 고친 곳은 4곳이었다</h3>
+        <p>유럽&middot;중동 기업 임원 10명 중 8명이 지난 1년 안에 AI 관련 사고가 이사회나 최고경영진까지 올라갔다고 답했고, 그 뒤 AI 거버넌스 정책이나 체계를 고쳤다고 답한 비율은 <b>40%</b>였습니다<sub class="tgrade">[T2]</sub>. 사고에는 에이전트 오작동, 데이터 노출, AI 판단 오류, AI 보안 침해가 모두 들어갑니다<sub class="tgrade">[T2]</sub>. 에이전틱 AI를 운영 환경에서 돌리고 있다는 응답은 <b>35%</b>, 2027년까지 에이전트가 어느 정도 의사결정 자율성을 갖게 될 것으로 본 응답은 <b>75%</b>였지만, 거버넌스가 그 확장을 감당하도록 설계돼 있다고 답한 곳은 <b>37%</b>에 그쳤습니다<sub class="tgrade">[T2]</sub>. 책임 소재는 더 흐릿합니다. 이사회 차원에서 AI 리스크 책임을 공식 배정한 곳은 98%인데, 에이전트가 낸 나쁜 결과의 책임자로 가장 많이 꼽힌 역할조차 CIO&middot;CTO로 17%에 머물렀습니다<sub class="tgrade">[T2]</sub>. 조사는 IBM 의뢰로 조사기관 센서스와이드가 8개국 임원 3,221명을 상대로 9월 14일부터 24일까지 수행했습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 사고가 이사회에 올라갔다는 사실 자체는 성과가 아닙니다. 올라간 사고 중 몇 건이 정책이나 통제 변경으로 끝났는지 세어 보면 우리 조직 숫자도 바로 나옵니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>공급망 쪽 공백이 더 크다</b> &mdash; 협력사나 벤더가 쓰는 AI까지 거버넌스가 덮지 못한다고 인정한 응답이 54%였고, 제3자 AI 리스크를 상시 점검한다고 답한 곳은 21%였습니다<sub class="tgrade">[T2]</sub>. 사내 에이전트는 어느 정도 보고 있지만 남이 돌리는 에이전트는 보지 못한다는 구도입니다.</p>
+          <p><b>금액으로 환산한 곳은 적다</b> &mdash; AI 거버넌스 공백이 만드는 재무 리스크를 이사회가 검토하는 형태로 정량화해 둔 곳은 37%였습니다<sub class="tgrade">[T2]</sub>. 책임을 배정한 비율(98%)과 이 숫자의 차이가 이 조사에서 가장 벌어진 구간입니다.</p>
+          <p><b>배포를 멈추지는 않는다</b> &mdash; 배포 속도가 거버넌스&middot;컴플라이언스 준비를 앞지를 때 어떻게 하느냐는 물음에, 합의된 리스크 한도 안에서 계속 간다는 응답이 56%, 거버넌스가 준비될 때까지 배포를 미룬다는 응답이 33%였습니다<sub class="tgrade">[T2]</sub>. 이사회 차원 AI 위원회를 따로 둔 곳은 26%입니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>책임 배분을 보는 시각</b> &mdash; 심각한 피해의 책임을 운영자와 벤더가 비례해 나눠야 한다는 응답이 20%, 벤더에 있다는 응답이 14%였습니다<sub class="tgrade">[T2]</sub>. 어느 쪽도 과반이 아니고, 조사는 책임 소재에 뚜렷한 합의가 없다고 정리했습니다.</p>
+          <p><b>조사 범위</b> &mdash; 영국&middot;프랑스&middot;독일&middot;이탈리아&middot;스페인&middot;네덜란드&middot;사우디아라비아&middot;아랍에미리트의 임직원 1,000명 이상 조직 임원 3,221명이 대상입니다<sub class="tgrade">[T2]</sub>. 국내 기업은 표본에 없으므로 숫자를 그대로 가져다 쓰기보다 같은 질문을 사내에 던지는 쪽이 맞습니다. 세부 수치 일부는 보도자료를 요약한 2차 페이지에서 가져왔습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 지난 1년간 경영진까지 보고된 AI 관련 건을 목록으로 만들고, 각 건이 정책&middot;통제 변경으로 끝났는지 한 줄씩 표시합니다. 80%와 40%의 간격이 우리 조직에서 몇 대 몇인지가 바로 나옵니다. &#9313; 에이전트가 낸 나쁜 결과의 1차 책임자를 직무 단위로 지정합니다. 이사회에 &lsquo;AI 리스크&rsquo;가 배정돼 있어도 에이전트 단위 책임자가 비어 있으면 사고 때 대응이 멈춥니다. &#9314; 협력사가 돌리는 에이전트를 계약 문서에서 찾습니다. 상시 점검 21%라는 숫자는 대부분 조직이 이 항목을 계약에 안 넣었다는 뜻입니다. &#9315; 거버넌스 공백의 재무 영향을 한 번은 금액으로 적어 봅니다. 숫자가 없으면 이사회 안건으로 올라가지 않고, 올라가도 다음 분기로 밀립니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 232" role="img" aria-label="세 쌍의 막대 비교: AI 사고가 이사회까지 보고된 비율 80퍼센트 대 거버넌스를 고친 비율 40퍼센트, 2027년 에이전트 자율성 기대 75퍼센트 대 거버넌스 확장 설계 37퍼센트, 공급망 AI 공백 인지 54퍼센트 대 제3자 리스크 상시 점검 21퍼센트">
+              <line x1="180" y1="22" x2="180" y2="166" class="s-axis"/>
+
+              <text x="170" y="40" text-anchor="end" class="s-tick">사고가 이사회까지</text>
+              <rect x="180" y="30" width="288" height="14" class="s-box"/>
+              <text x="476" y="41" class="s-lab" font-size="11">80%</text>
+
+              <text x="170" y="58" text-anchor="end" class="s-tick">거버넌스를 고침</text>
+              <rect x="180" y="48" width="144" height="14" class="s-box-accent"/>
+              <text x="332" y="59" class="s-lab t-acq" font-size="11">40%</text>
+
+              <text x="170" y="88" text-anchor="end" class="s-tick">2027년 자율성 기대</text>
+              <rect x="180" y="78" width="270" height="14" class="s-box"/>
+              <text x="458" y="89" class="s-lab" font-size="11">75%</text>
+
+              <text x="170" y="106" text-anchor="end" class="s-tick">거버넌스 확장 설계</text>
+              <rect x="180" y="96" width="133" height="14" class="s-box-accent"/>
+              <text x="321" y="107" class="s-lab t-acq" font-size="11">37%</text>
+
+              <text x="170" y="136" text-anchor="end" class="s-tick">공급망 공백 인지</text>
+              <rect x="180" y="126" width="194" height="14" class="s-box"/>
+              <text x="382" y="137" class="s-lab" font-size="11">54%</text>
+
+              <text x="170" y="154" text-anchor="end" class="s-tick">제3자 상시 점검</text>
+              <rect x="180" y="144" width="76" height="14" class="s-box-accent"/>
+              <text x="264" y="155" class="s-lab t-acq" font-size="11">21%</text>
+
+              <text x="310" y="190" text-anchor="middle" class="s-sub">위 막대는 인식·기대, 아래 막대는 실제 대응 — 세 쌍 모두 절반 이하로 떨어진다</text>
+              <text x="310" y="206" text-anchor="middle" class="s-sub">센서스와이드 수행 · 8개국 임원 3,221명 · 2026-09-14~24 조사</text>
+              <text x="310" y="222" text-anchor="middle" class="s-sub">표본은 유럽·중동 — 국내 기업은 포함되지 않음</text>
+            </svg>
+          </div>
+          <figcaption>막대 길이는 응답 비율에 비례하며, 쌍마다 위가 인식이고 아래가 실제 대응입니다. <span class="src">근거: <a href="https://newsroom.ibm.com/2026-10-14-ibm-study-eight-in-ten-emea-enterprises-escalate-ai-incidents-to-board-or-c-suite-as-ai-agents-test-governance">IBM 뉴스룸 &mdash; 조사 발표 원문</a> · <a href="https://www.prnewswire.com/news-releases/ibm-study-eight-in-ten-emea-enterprises-escalate-ai-incidents-to-board-or-c-suite-as-ai-agents-test-governance-302908550.html">PR Newswire &mdash; 세부 수치와 조사 방법</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#EU</span><span class="tag tag-country" data-type="country">#영국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-org" data-type="org">#리서치기관</span><span class="tag tag-security" data-type="security">#에이전트거버넌스</span><span class="tag tag-security" data-type="security">#제3자AI리스크</span><span class="tag tag-security" data-type="security">#사고보고</span></div>
+      </div>
+    </section>
+    <!-- ============ 3 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">3</span><h2>솔루션 동향 · 세미나 / 컨퍼런스</h2></div>
+      <div class="sub-h">오늘의 솔루션 픽</div>
+      <div class="sol">
+        <b>하모닉 시큐리티 &mdash; 직원의 AI 사용을 보는 플랫폼, 시리즈 B 5,000만 달러</b> <span class="m"><sub class="tgrade">[T2 · 2026-10-14 발표]</sub></span><br>
+        크로스포인트 캐피털 파트너스가 주도했고 누적 투자금은 7,600만 달러가 됐습니다. 밸류에이션과 기존 투자자 명단은 공개하지 않았습니다. 제품은 민감한 문자열을 찾는 방식이 아니라 맥락을 읽는 쪽입니다. 자체 소형 언어모델이 직원 입력을 AI 도구에 닿기 전에 검사해 밀리초 단위로 허용&middot;차단을 판단하고, 어떤 AI 사용이 실제로 성과로 이어지는지 집계하는 기능을 함께 둡니다. 창업자 알래스테어 패터슨은 디지털 셰도스를 공동 창업해 2022년 릴라퀘스트에 1억 6,000만 달러로 매각한 이력이 있습니다. 회사는 100개 이상 기업에서 수백만 명의 직원이 쓰고 있다고 밝혔습니다<sub class="tgrade">[T2]</sub>.
+      </div>
+      <div class="sol">
+        <b>플루토 시큐리티 &mdash; 직원이 직접 만든 에이전트를 찾아 런타임에서 막는 제품, 4,200만 달러로 스텔스 해제</b> <span class="m"><sub class="tgrade">[T2 · 2026-10-13 발표]</sub></span><br>
+        TLV 파트너스가 주도한 시드 850만 달러와 점프 캐피털이 주도한 시리즈 A 3,400만 달러를 합한 금액입니다. 제품은 직원이 들여온 AI 도구와 그 도구가 기대고 있는 스킬&middot;확장&middot;MCP 서버를 찾아내 위험한 부품을 표시하고, 런타임에서 에이전트의 행동을 막거나 바꿉니다. 회사는 탐지된 위험의 약 60%가 개발자가 아닌 직원이 만든 AI 앱에서 나왔고 재무&middot;마케팅&middot;법무 부서의 노출이 컸다고 밝혔습니다. 설치 전에 공개된 확장&middot;커넥터&middot;MCP 서버를 점검해 보는 무료 도구 플루토늄도 함께 내놨습니다. 고객 수는 30곳대와 40곳대로 출처가 갈립니다<sub class="tgrade">[T3]</sub>.
+      </div>
+
+      <div class="sub-h">등록 진행 중인 행사</div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-11-03 · 서울 한국과학기술회관 국제회의실</div>
+          <div class="name">AIS 2026 &mdash; 인공지능 보안 컨퍼런스</div>
+          <div class="where">공공·금융·기업 보안 실무자 약 600명 · AI 기반 위협 탐지, LLM 보안, AI 공급망 공격 대응 트랙 · 보안담당자 7시간 보안교육 이수 인정 · 사전등록 11-01 13:00 마감</div>
+        </div>
+        <a class="apply" href="https://www.dailysecu.com/form/register.html?form_id=1765523444">등록 →</a>
+      </div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-11-12~13 · 서울 더 웨스틴 서울 파르나스</div>
+          <div class="name">POC2026 &mdash; Power of Community</div>
+          <div class="where">공격 기법 중심 국제 해킹보안 컨퍼런스 · 표준 등록 90만원(해외 $900), 현장 등록 100만원 현금만 · 표준 등록 11-05까지(공지에 10-30·10-31 마감 표기도 병존해 확인 필요)</div>
+        </div>
+        <a class="apply" href="https://event.pocsec.com/event/POC2026">등록 →</a>
+      </div>
+    </section>
+
+    <footer class="rpt-foot">
+      <p><b>AI SEC Pulse</b> · 일일 발송 매일 오전 10:00 KST · No. 046 (2026-10-19)</p>
+      <div class="legend">
+        <span><b>T1</b> 원문·공식 확인</span><span><b>T2</b> 공신력 확인</span><span><b>T3</b> 재확인 필요</span>
+      </div>
+      <div class="legend"><span><b>중요도 높음</b> KEV 등재·CVSS9+ 또는 즉시조치·의사결정 필요한 확정 사안</span></div>
+      <div class="legend"><span><b>중요도 중간~높음</b> CVSS7~8.9(악용 미확인) 또는 벤더 대응 진행 중·초안 단계</span></div>
+      <div class="legend"><span><b>중요도 중간</b> CVSS4~6.9 또는 참고용 업계 동향, 직접 조치 없음</span></div>
+      <div class="legend"><span><b>중요도 낮음</b> CVSS4 미만 또는 배경 정보 성격</span></div>
+      <p>구독 관리 · 지난 호 · 제보: (수신자 안내에 따름)</p>
+    </footer>
+
+  </div>
+</div>
+<img src="https://elishajey.goatcounter.com/count?p=/pulse/2026-10-19" alt="" width="1" height="1" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
