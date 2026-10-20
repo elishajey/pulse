@@ -1,0 +1,550 @@
+<title>AI SEC Pulse</title>
+<meta name="description" content="법·컴플라이언스 모니터링, AI 보안·서비스 동향 3선(도해), 솔루션·컨퍼런스 안내를 담은 일일 브리핑 — 2026-10-21 호">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --bg: #e9edf1;
+    --paper: #ffffff;
+    --paper-2: #f5f7f9;
+    --ink: #17202c;
+    --ink-soft: #3c4858;
+    --muted: #62707f;
+    --line: #d7dee5;
+    --line-strong: #b6c0cb;
+    --accent: #0d7c86;
+    --accent-soft: #d2eaeb;
+    --acq: #ad5019;
+    --new: #2d7a4d;
+    --flag: #916b00;
+    --hi: #b4381f;        /* importance high */
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c1016;
+      --paper: #151c25;
+      --paper-2: #1a222d;
+      --ink: #e6ebf1;
+      --ink-soft: #b7c1cd;
+      --muted: #8a96a5;
+      --line: #29323d;
+      --line-strong: #3a4551;
+      --accent: #3cb8c3;
+      --accent-soft: #102f35;
+      --acq: #d9853f;
+      --new: #5bad7c;
+      --flag: #d5aa3d;
+      --hi: #e07a5f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c1016; --paper: #151c25; --paper-2: #1a222d;
+    --ink: #e6ebf1; --ink-soft: #b7c1cd; --muted: #8a96a5;
+    --line: #29323d; --line-strong: #3a4551;
+    --accent: #3cb8c3; --accent-soft: #102f35;
+    --acq: #d9853f; --new: #5bad7c; --flag: #d5aa3d; --hi: #e07a5f;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.62; -webkit-font-smoothing: antialiased;
+  }
+  .mail { max-width: 680px; margin: 0 auto; padding: 28px 16px 80px; }
+  .envelope {
+    background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 4px; padding: 10px 14px; margin-bottom: 14px;
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted);
+  }
+  .envelope b { color: var(--ink-soft); font-weight: 600; }
+
+  .sheet {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 1px 2px rgba(20,28,40,.05), 0 14px 40px -20px rgba(20,28,40,.22);
+  }
+
+  header.rpt {
+    padding: 30px 28px 22px; border-bottom: 3px solid var(--ink);
+  }
+  header.rpt .brandline {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--accent);
+  }
+  header.rpt h1 {
+    font-family: "Archivo", sans-serif; font-weight: 700;
+    font-size: 2rem; letter-spacing: -.02em; margin: 8px 0 6px;
+  }
+  header.rpt .date {
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink-soft);
+  }
+  header.rpt .cadence {
+    margin-top: 12px; font-size: 12.5px; color: var(--muted);
+  }
+  header.rpt .byline {
+    text-align: right; margin: 10px 0 0; font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted);
+  }
+
+  section.blk { padding: 26px 28px; border-top: 1px solid var(--line); }
+  section.blk:first-of-type { border-top: 0; }
+  .sec-tag {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;
+  }
+  .sec-no {
+    font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 12px;
+    color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 1px 6px;
+  }
+  .sec-tag h2 {
+    font-family: "Archivo", sans-serif; font-weight: 700; font-size: 1.2rem;
+    letter-spacing: -.01em; margin: 0;
+  }
+  .sec-lede { margin: 0 0 18px; font-size: .9rem; color: var(--muted); }
+  .board-link { margin: 0 0 16px; margin-left: 31.2px; font-size: .85rem; }
+  .board-link a {
+    color: var(--accent); font-weight: 600; text-decoration: none;
+    background: var(--accent-soft); padding: 3px 10px; border-radius: 4px; display: inline-block;
+  }
+  .board-link a::after { content: " ↗"; font-weight: 400; }
+  /* §1 카드가 0건인 날 — "오늘의 뉴스 없음"(2026-10-12 사용자 요청). */
+  .no-news { margin: 0 0 4px; margin-left: 31.2px; font-size: .9rem; color: var(--muted); }
+
+  /* ---- section 1 : compliance items ---- */
+  .item { padding: 14px 0; border-top: 1px dashed var(--line); }
+  .item:first-child { border-top: 0; padding-top: 0; }
+  .item .row1 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .badge {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .05em;
+    padding: 1px 6px; border-radius: 2px; border: 1px solid currentColor; white-space: nowrap;
+  }
+  .b-new { color: var(--new); }
+  .b-upd { color: var(--accent); }
+  .b-hold { color: var(--muted); }
+  .b-t1 { color: var(--accent); }
+  .b-t2 { color: var(--ink-soft); }
+  .b-t3 { color: var(--flag); }
+  .jur {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted);
+  }
+  .item h3 {
+    font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 1.05rem;
+    margin: 6px 0 4px;
+  }
+  .item p { margin: 0; font-size: .82rem; color: var(--ink-soft); }
+  .item .src {
+    margin-top: 5px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted);
+  }
+  .item .src a { color: var(--accent); word-break: break-all; }
+
+  /* ---- 자세히 보기 드롭다운 (§1·§2 공용) ---- */
+  .more { margin-top: 8px; }
+  .more > summary {
+    cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    font-weight: 600; color: var(--accent); list-style: revert;
+  }
+  .more > summary::marker { color: var(--accent); }
+  .more-body {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .82rem; color: var(--ink-soft);
+  }
+  .more-body p { margin: 0 0 8px; }
+  .more-body p:last-child { margin-bottom: 0; }
+
+  .quiet-note {
+    margin-top: 16px; padding: 10px 12px; background: var(--paper-2);
+    border-left: 3px solid var(--line-strong); font-size: .84rem; color: var(--muted);
+  }
+
+  /* ---- section 2 : trend cards with figures ---- */
+  .trend-card { padding: 20px 0; border-top: 1px solid var(--line); }
+  .trend-card:first-of-type { border-top: 0; padding-top: 4px; }
+  .tc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .imp {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .04em;
+    padding: 1px 6px; border-radius: 2px;
+  }
+  .imp-high { background: transparent; color: var(--hi); border: 2px solid var(--hi); font-weight: 700; }
+  .imp-mid { background: #0d7c86; color: #fff; }
+  .trend-card h3 {
+    font-family: "Archivo", sans-serif; font-weight: 600; font-size: 1.05rem;
+    letter-spacing: -.005em; margin: 0 0 6px;
+  }
+  .trend-card > p { margin: 0 0 14px; font-size: .89rem; color: var(--ink-soft); }
+  figure {
+    margin: 0; background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 3px; padding: 14px 12px 8px;
+  }
+  figure .scroll-x { overflow-x: auto; }
+  svg.dg { display: block; width: 100%; height: auto; color: var(--ink); min-width: 520px; }
+  figcaption {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .8rem; color: var(--muted);
+  }
+  figcaption .src { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+
+  .take { color: var(--accent); }
+
+  /* svg helpers */
+  .s-box { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-box-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+  .s-lab { fill: var(--ink); font-family: "IBM Plex Sans", sans-serif; font-size: 12px; }
+  .s-sub { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .02em; }
+  .s-arw { stroke: var(--muted); stroke-width: 1.4; fill: none; }
+  .s-axis { stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-tick { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .dot-acq { fill: var(--acq); }
+  .dot-new { fill: var(--new); }
+  .t-acq { fill: var(--acq); color: var(--acq); }
+  .t-new { fill: var(--new); color: var(--new); }
+  .t-accent { fill: var(--accent); color: var(--accent); }
+  .node-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+  .head-mut { fill: var(--muted); }
+  .head-acc { fill: var(--accent); }
+  .link-acc { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+
+  /* ---- section 3 : solutions + events ---- */
+  .sub-h {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); margin: 18px 0 8px;
+  }
+  .sub-h:first-child { margin-top: 0; }
+  .sol { padding: 10px 0; border-top: 1px dashed var(--line); font-size: .88rem; }
+  .sol:first-of-type { border-top: 0; }
+  .sol b { font-weight: 600; }
+  .sol .m { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10.5px; }
+
+  .evt {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px 14px; align-items: center;
+    padding: 12px 0; border-top: 1px dashed var(--line);
+  }
+  .evt:first-of-type { border-top: 0; }
+  .evt .when {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--accent);
+  }
+  .evt .name { font-weight: 600; font-size: .92rem; margin: 2px 0 2px; }
+  .evt .where { font-size: .82rem; color: var(--muted); }
+  .apply {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .04em;
+    text-decoration: none; color: var(--accent);
+    border: 1px solid var(--accent); border-radius: 3px; padding: 6px 12px; white-space: nowrap;
+  }
+  .apply:hover { background: var(--accent-soft); }
+
+  footer.rpt-foot {
+    padding: 20px 28px 26px; border-top: 3px solid var(--ink);
+    font-size: .8rem; color: var(--muted);
+  }
+  footer.rpt-foot p { margin: 0 0 6px; }
+  footer.rpt-foot code { font-family: "IBM Plex Mono", monospace; font-size: .76rem; color: var(--ink-soft); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 10px 0; }
+  .legend span { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .tgrade { color: var(--muted); font-size: 42%; }
+
+  /* ---- 해시태그(2026-09-17 사용자 요청) — 카드마다 근거 아래 국가·회사유형·법규명·AI사명/모델명·
+     보안용어를 인스타그램 스타일 해시태그로 노출. data-type 속성은 화면에 안 보이지만 나중에
+     이 데이터를 파싱해 체인으로 엮을 때 카테고리를 바로 구분하도록 남겨둔다. ---- */
+  .tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 9px; }
+  .tag { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; }
+  .tag-country { color: var(--accent); }
+  .tag-org { color: var(--flag); }
+  .tag-law { color: var(--acq); }
+  .tag-ai { color: var(--new); }
+  .tag-security { color: var(--hi); }
+
+  a { color: var(--accent); }
+  @media (max-width: 560px) {
+    .evt { grid-template-columns: 1fr; }
+    header.rpt h1 { font-size: 1.7rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="mail">
+
+  <div class="envelope">
+    <div>제목 &nbsp; <b>AI SEC Pulse (2026-10-21)</b></div>
+    <div>발송 &nbsp; 매일 오전 10:00 (KST) &nbsp;·&nbsp; 수신자: AI 보안·컴플라이언스 담당</div>
+  </div>
+
+  <div class="sheet">
+
+    <header class="rpt">
+      <div class="brandline">Daily Briefing</div>
+      <h1>AI SEC Pulse</h1>
+      <div class="date">2026년 10월 21일 수요일 · No. 048</div>
+      <p class="byline">reported by elishaJEY</p>
+    </header>
+    <!-- ============ 1 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">1</span><h2>법 · 컴플라이언스 모니터링</h2></div>
+      <p class="board-link"><a href="https://elishajey.github.io/ai-compliance-board/">AI SEC Compliance Dashboard</a></p>
+      <div class="item">
+        <div class="row1">
+          <span class="badge b-new">신규</span>
+          <span class="jur">미국</span>
+        </div>
+        <h3>캘리포니아가 SB 53 위에 외부 검증과 비상 정지를 얹으려 한다 &mdash; 권고안 기한은 11월 중순이고 특별회기 소집까지 거론됐다</h3>
+        <p>프런티어 AI를 누가 검증하고 급할 때 누가 멈출지를 캘리포니아가 주 차원에서 정하려 합니다. 개빈 뉴섬 주지사는 9월 18일 <b>행정명령 N-9-26</b>에 서명했습니다. 프런티어 AI 개발사의 안전계획을 독립 제3자가 쓰게 하고, 모델을 급히 멈추는 <b>비상 정지</b> 장치를 마련하라고 주 기관에 검토를 지시한 명령입니다<sub class="tgrade">[T2]</sub>. 9월 23일에는 두 달 안에 보강안을 내놓을 전문가 명단도 발표했습니다<sub class="tgrade">[T2]</sub>.<br><br>다음 분기점은 권고안 기한입니다. 주 정부운영국과 <b>주 비상서비스국</b>이 권고안을 제출하는 날짜를 11월 15일로 적은 보도와 11월 16일로 적은 보도가 갈립니다<sub class="tgrade">[T3]</sub>. 뉴섬 주지사는 그 권고를 받아 <b>특별회기</b>를 소집할 수 있다고 언급했습니다<sub class="tgrade">[T2]</sub>.<br><br>검증 쪽 조문은 이미 서명됐습니다. 9월 9일 서명된 <b>SB 813</b>은 주 정부운영국이 AI 감사 역량을 갖춘 <b>독립검증기관</b>을 지정하게 하고, 그 지정 기준을 2028년 1월 1일까지 만들게 했습니다<sub class="tgrade">[T2]</sub>. 같은 날 서명된 <b>AB 1405</b>는 2029년 1월 1일까지 <b>AI 감사인 등록부</b>를 세웁니다. 그날부터는 등록하지 않은 사람이 대상 AI 감사를 맡을 수 없습니다<sub class="tgrade">[T2]</sub>. 두 법 모두 개발사에게 외부 검증을 받으라고 강제하지는 않습니다<sub class="tgrade">[T2]</sub>.<br><br>국내 사업자에게 먼저 걸리는 대목은 주마다 갈리는 준수 목록입니다. 국내 법률 해설은 한국과 미국에서 함께 사업하는 기업이라면 캘리포니아·콜로라도·일리노이·뉴욕의 주법을 각각 계속 지켜야 한다고 짚었습니다<sub class="tgrade">[T2]</sub>. 같은 해설은 한국 AI 기본법이 해외 사업자에게 요구하는 국내 대리인 지정과 이 목록을 묶어 보라고 권했습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 지금 새로 생기는 의무는 없습니다. 바뀌는 쪽은 검증의 주체입니다. 감사인이 등록제로 묶이면 &lsquo;누구에게 받은 검증인가&rsquo;가 뒤에 증빙으로 남으니, 모델 평가 기록을 누가 썼는지부터 정리해 둘 일입니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>SB 53이 이미 요구하는 것</b> &mdash; 프런티어 개발사는 새 모델이나 크게 고친 모델을 내놓을 때 투명성 보고서를 먼저 공개해야 합니다<sub class="tgrade">[T2]</sub>. 중대 안전사고는 주 비상서비스국에 15일 안에 알리고, 급박한 위험이면 24시간 안에 수사기관에 알립니다<sub class="tgrade">[T2]</sub>. 집행은 주 법무장관만 할 수 있고 민사벌은 위반 1건당 최대 100만 달러입니다<sub class="tgrade">[T2]</sub>. 민간이 투명성 위반을 들어 직접 소송할 자격은 없습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>행정명령이 더하려는 것</b> &mdash; 행정명령은 안전계획을 개발사가 아니라 독립 제3자가 쓰게 하는 방안과 비상 정지 장치를 다룹니다<sub class="tgrade">[T2]</sub>. 두 가지 모두 아직 권고 단계이고, 적용 대상을 새로 정한 조문은 없습니다<sub class="tgrade">[T2]</sub>. 그래서 이번 소식은 확정된 조문 변경이 아니라 신호에 해당합니다.</p>
+          <p><b>등록제가 만드는 것</b> &mdash; SB 813의 독립검증기관 지정은 자발적 제도이고, 지정된 기관은 연차 보고서를 내야 합니다<sub class="tgrade">[T2]</sub>. 심의 과정에서 애초 안에 있던 주 AI 표준·안전위원회와 2단계 표준 체계는 빠졌습니다<sub class="tgrade">[T2]</sub>. AB 1405의 등록부는 2029년부터 사실상 자격 요건으로 작동합니다. 이 틀에서 감사를 받은 사실은 AI 피해 소송에서 책임 판단에 참고가 되지만 그것으로 책임이 결정되지는 않습니다<sub class="tgrade">[T2]</sub>. 앤스로픽은 8월에, 오픈AI는 서명 직전에 이 법안을 공개 지지했습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>지난 호와 이어지는 지점</b> &mdash; 10월 17일 호의 매사추세츠 수정안과 10월 20일 호의 뉴저지 A5275는 모두 캘리포니아가 먼저 만든 틀을 변형한 법안입니다<sub class="tgrade">[T2]</sub>. 두 법안이 다투는 쟁점은 평가 주체와 감사 권한이었습니다. 이번에는 그 원형인 캘리포니아가 자기 틀을 한 단계 더 올리려 한다는 쪽이 새 사실입니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>프레임워크로 보면</b> &mdash; 외부 검증과 비상 정지는 NIST AI RMF 1.0의 Measure 기능과 Manage 기능이 함께 걸리는 요구입니다. 위험을 누가 측정하고 그 결과로 무엇을 멈출 수 있는지를 나누는 구도입니다<sub class="tgrade">[T2]</sub>. 다만 행정명령과 두 법이 이 프레임워크를 인용한다는 근거는 찾지 못했으므로, 대응 설계에 쓸 수 있는 매핑 정도로 보는 것이 맞습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>확인하지 못한 대목</b> &mdash; 권고안 제출 날짜가 출처마다 11월 15일과 16일로 갈립니다<sub class="tgrade">[T3]</sub>. 특별회기 소집 여부와 일정은 아직 정해지지 않았습니다<sub class="tgrade">[T2]</sub>. 비상 정지 장치의 기술 요건도 공개되지 않았습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 모델 평가 기록마다 작성 주체를 적어 둡니다. 외부 검증이 제도화되면 &lsquo;우리가 썼다&rsquo;와 &lsquo;지정 기관이 썼다&rsquo;가 서로 다른 증빙이 되고, 그 구분은 사후에 만들 수 없습니다. &#9313; 비상 정지를 운영 절차로 먼저 적어 둡니다. 모델 서비스를 몇 분 안에 누가 어떤 권한으로 끊을 수 있는지가 정해져 있지 않으면 기술 요건이 나와도 붙일 자리가 없습니다. &#9314; 사고 보고 창구를 규범별로 분리해 관리합니다. 캘리포니아는 주 비상서비스국에 15일, 급박한 위험이면 24시간이고 EU AI법은 시장감시당국입니다. &#9315; 외부 감사 계약서 서식을 미리 봐 둡니다. 2029년부터 등록 여부가 자격 요건이 되므로, 지금 쓰는 감사업체가 그 등록 대상인지부터 물어 두는 편이 낫습니다.</p>
+        </div></details>
+        <div class="src">근거: <a href="https://www.gov.ca.gov/2026/09/18/governor-newsom-issues-executive-order-to-accelerate-independent-oversight-and-advance-the-creation-of-an-ai-kill-switch/">캘리포니아 주지사실 &mdash; 행정명령 발표문</a> · <a href="https://www.gov.ca.gov/2026/09/23/governor-newsom-announces-world-leading-experts-to-deliver-on-his-ai-executive-order-including-advancing-creation-of-a-kill-switch/">주지사실 &mdash; 전문가 명단 발표</a> · <a href="https://www.aljazeera.com/economy/2026/10/17/california-gov-newsom-boosts-ai-regulation-as-he-eyes-2028-presidential-run">Al Jazeera &mdash; 권고안 기한과 특별회기 언급</a> · <a href="https://calmatters.org/politics/2026/09/ai-rules-newsom-state-directive/">CalMatters &mdash; 소관 기관과 제출 기한</a> · 조문: <a href="https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260SB53">캘리포니아 SB 53 원문</a> · 해설: <a href="https://www.akingump.com/en/insights/ai-law-and-regulation-tracker/california-enacts-ai-auditor-registry-and-independent-verification-framework-sb-813-and-ab-1405">Akin Gump &mdash; SB 813·AB 1405 요건 정리</a> · <a href="https://www.crowell.com/en/insights/client-alerts/california-establishes-first-in-the-nation-framework-for-verifying-independent-ai-auditors">Crowell &mdash; 감사인 등록부 시행 시점</a> · 국내 관점: <a href="https://www.attorneyjun.com/ai-regulation-us-korea/">미국 연방-주 구도와 국내 AI 규제 비교 해설</a></div>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-law" data-type="law">#SB813</span><span class="tag tag-law" data-type="law">#AB1405</span><span class="tag tag-law" data-type="law">#SB53</span><span class="tag tag-ai" data-type="ai">#앤스로픽</span><span class="tag tag-security" data-type="security">#비상정지</span><span class="tag tag-security" data-type="security">#독립검증</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">2</span><h2>AI 보안 · 서비스 동향 3선</h2></div>
+      <!-- Trend A -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">CVE 공개 · 프로젝트 릴리스 노트</span>
+        </div>
+        <h3>vLLM 캐시 서버에 메시지 하나를 보내면 코드가 돌았다 &mdash; 패치는 나왔는데 예제 설정은 아직 0.0.0.0에 열려 있다</h3>
+        <p>LLM 추론 서버의 KV 캐시 계층인 <b>LMCache</b>에서 인증 없이 원격 코드 실행이 되는 결함이 공개됐습니다. 식별자는 <b>CVE-2026-105192</b>이고 CVSS는 <b>9.8</b>입니다<sub class="tgrade">[T2]</sub>. 원인은 <b>ZeroMQ</b>로 받은 메시지를 파이썬 <b>pickle</b>로 역직렬화하는 코드이고, 기본 포트는 5555입니다<sub class="tgrade">[T2]</sub>. 영향 범위는 0.3.9부터 0.5.5까지이며 <b>0.5.6</b>에서 고쳐졌습니다<sub class="tgrade">[T2]</sub>. 공식 컨테이너 이미지가 캐시 서버 프로세스를 <b>root</b>로 돌려서 성공하면 권한이 그대로 올라갑니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 버전만 올리고 끝내면 반쪽입니다. 0.5.6 태그에 들어 있는 예제 쿠버네티스 매니페스트가 여전히 0.0.0.0에 바인딩한다는 분석이 있어서, 노출 면을 끊는 작업은 설정 쪽에서 따로 해야 합니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>어떤 조건에서 터지나</b> &mdash; 캐시 서버를 다중프로세스 전송 모드로 띄우고 그 포트를 외부에서 닿는 주소에 열어 둔 경우입니다<sub class="tgrade">[T2]</sub>. 기본값인 localhost 바인딩이나 같은 프로세스 안에서 쓰는 모드는 노출되지 않습니다<sub class="tgrade">[T2]</sub>. 공개와 함께 검증코드가 나왔습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>패치 경과</b> &mdash; JFrog가 10월 7일 결함을 공개했을 때는 고친 판이 없었습니다<sub class="tgrade">[T2]</sub>. 수정은 장치 간 통신 서술자에서 pickle을 빼는 쪽이었고, 해당 변경이 10월 12일 개발 브랜치에 들어갔습니다<sub class="tgrade">[T2]</sub>. v0.5.6 태그는 10월 14일, 패키지는 10월 15일에 나왔고 권고문 번호는 GHSA-w5f2-9q9c-ff4h입니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>패치해도 남는 것</b> &mdash; 한 분석은 v0.5.6 태그에 포함된 예제 쿠버네티스 매니페스트가 여전히 0.0.0.0에 바인딩한다고 지적했습니다<sub class="tgrade">[T3]</sub>. localhost로 바꾸는 변경이 태그를 자른 뒤에 개발 브랜치로 들어갔다는 설명입니다<sub class="tgrade">[T3]</sub>. 컨테이너를 root로 돌리는 설정도 그대로 남아 있습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>프레임워크로 보면</b> &mdash; 이 결함은 모델이나 프롬프트를 거치지 않고 추론 인프라 계층에서 터집니다. MITRE SAFE-AI가 위협을 네 개 시스템 요소로 나눌 때 AI 플랫폼에 해당하는 자리입니다<sub class="tgrade">[T2]</sub>. 다만 이 CVE가 그 문서에 그렇게 분류돼 있다는 근거는 찾지 못했습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>확인하지 못한 대목</b> &mdash; 실제 악용이 확인됐다는 보고는 없습니다<sub class="tgrade">[T2]</sub>. vLLM 쪽이 별도 권고문을 냈는지는 확인하지 못했습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 사내 추론 서버에서 5555 포트가 어디에 바인딩돼 있는지 먼저 봅니다. 0.0.0.0이면 버전과 무관하게 지금 노출 상태입니다. &#9313; LMCache 버전을 0.5.6 이상으로 올리되, 배포에 쓰는 매니페스트는 손으로 다시 확인합니다. 태그에 들어 있는 예제를 그대로 가져다 썼다면 패치 뒤에도 열린 채로 남습니다. &#9314; 캐시 서버 프로세스의 실행 사용자를 root가 아닌 계정으로 내립니다. 이 결함에서 피해 크기를 결정한 것은 실행 권한이었습니다. &#9315; 추론 계층의 자산 목록을 모델 목록과 따로 관리합니다. 모델을 세어도 캐시·게이트웨이·큐는 빠지는데, 올해 터진 결함은 대부분 그 자리에 있었습니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 250" role="img" aria-label="공격자가 ZeroMQ 메시지 한 건을 외부 주소에 열린 캐시 서버 5555 포트로 보내 pickle 역직렬화를 거쳐 root 권한으로 코드를 실행하는 경로와, localhost 바인딩이나 같은 프로세스 모드에서는 외부에서 닿지 않아 영향이 없는 경로의 비교도, 그리고 10월 7일 공개부터 10월 15일 패키지 배포까지의 시간축">
+              <defs>
+                <marker id="lm1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head-mut"/></marker>
+              </defs>
+              <text x="12" y="18" class="s-sub">터지는 경로</text>
+              <rect x="12" y="26" width="150" height="46" rx="3" class="s-box"/>
+              <text x="87" y="46" text-anchor="middle" class="s-lab" font-size="11">공격자</text>
+              <text x="87" y="62" text-anchor="middle" class="s-lab" font-size="11">ZeroMQ 메시지 1건</text>
+              <line x1="162" y1="49" x2="188" y2="49" class="s-arw" marker-end="url(#lm1)"/>
+              <rect x="190" y="26" width="170" height="46" rx="3" class="s-box"/>
+              <text x="275" y="46" text-anchor="middle" class="s-lab" font-size="11">캐시 서버 :5555</text>
+              <text x="275" y="62" text-anchor="middle" class="s-lab" font-size="11">0.0.0.0 바인딩</text>
+              <line x1="360" y1="49" x2="386" y2="49" class="s-arw" marker-end="url(#lm1)"/>
+              <rect x="388" y="26" width="160" height="46" rx="3" class="s-box"/>
+              <text x="468" y="46" text-anchor="middle" class="s-lab" font-size="11">pickle 역직렬화</text>
+              <text x="468" y="62" text-anchor="middle" class="s-lab t-acq" font-size="11">root 권한 코드 실행</text>
+
+              <text x="12" y="98" class="s-sub">안 터지는 경로</text>
+              <rect x="12" y="106" width="150" height="46" rx="3" class="s-box-accent"/>
+              <text x="87" y="126" text-anchor="middle" class="s-lab" font-size="11">localhost 바인딩</text>
+              <text x="87" y="142" text-anchor="middle" class="s-lab" font-size="11">또는 같은 프로세스</text>
+              <line x1="162" y1="129" x2="188" y2="129" class="s-arw" marker-end="url(#lm1)"/>
+              <rect x="190" y="106" width="170" height="46" rx="3" class="s-box-accent"/>
+              <text x="275" y="134" text-anchor="middle" class="s-lab" font-size="11">외부에서 닿지 않음</text>
+              <line x1="360" y1="129" x2="386" y2="129" class="s-arw" marker-end="url(#lm1)"/>
+              <rect x="388" y="106" width="160" height="46" rx="3" class="s-box-accent"/>
+              <text x="468" y="134" text-anchor="middle" class="s-lab t-accent" font-size="11">영향 없음</text>
+
+              <line x1="40" y1="196" x2="590" y2="196" class="s-axis"/>
+              <circle cx="100" cy="196" r="3.5" class="head-acc"/>
+              <circle cx="250" cy="196" r="3.5" class="head-acc"/>
+              <circle cx="400" cy="196" r="3.5" class="head-acc"/>
+              <circle cx="530" cy="196" r="3.5" class="head-acc"/>
+              <text x="100" y="214" text-anchor="middle" class="s-tick">10-07</text>
+              <text x="100" y="228" text-anchor="middle" class="s-tick">공개 · 패치 없음</text>
+              <text x="250" y="214" text-anchor="middle" class="s-tick">10-12</text>
+              <text x="250" y="228" text-anchor="middle" class="s-tick">수정 머지</text>
+              <text x="400" y="214" text-anchor="middle" class="s-tick">10-14</text>
+              <text x="400" y="228" text-anchor="middle" class="s-tick">v0.5.6 태그</text>
+              <text x="530" y="214" text-anchor="middle" class="s-tick">10-15</text>
+              <text x="530" y="228" text-anchor="middle" class="s-tick">패키지 배포</text>
+              <text x="310" y="246" text-anchor="middle" class="s-sub">노출을 가른 것은 버전이 아니라 포트를 어디에 바인딩했는지였다</text>
+            </svg>
+          </div>
+          <figcaption>위가 터지는 경로, 아래가 노출되지 않는 설정이고 갈라지는 지점은 바인딩 주소입니다. <span class="src">근거: <a href="https://thehackernews.com/2026/10/unpatched-critical-lmcache-flaw-lets.html">The Hacker News &mdash; 공개와 영향 범위</a> · <a href="https://github.com/LMCache/LMCache/releases/tag/v0.5.6">LMCache v0.5.6 릴리스 노트</a> · <a href="https://blog.lmcache.ai/en/2026/10/13/an-update-on-cve-2026-105192/">수정 경과</a> · <a href="https://bex.co/blog/2026/10/15/one-zmq-message-to-root-lmcache-cve-2026-105192">bex.co &mdash; 남은 예제 설정</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-ai" data-type="ai">#vLLM</span><span class="tag tag-ai" data-type="ai">#LMCache</span><span class="tag tag-law" data-type="law">#MITRE_SAFE_AI</span><span class="tag tag-security" data-type="security">#역직렬화</span><span class="tag tag-security" data-type="security">#원격코드실행</span><span class="tag tag-security" data-type="security">#KV캐시</span></div>
+      </div>
+
+      <!-- Trend B -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-mid">중요도 중간~높음</span>
+          <span class="badge">업체 공지 · 전문매체 확인</span>
+        </div>
+        <h3>AI 코딩 도구의 클라우드에 맡긴 모델 API 키가 털렸다 &mdash; 내 컴퓨터에만 둔 키는 멀쩡했다</h3>
+        <p><b>오픈코드</b>는 10월 16일 밤 구형 시스템에 침입을 받았고, <b>오픈코드 콘솔</b>에 저장해 둔 외부 모델 제공사 API 키가 노출됐을 수 있다고 밝혔습니다<sub class="tgrade">[T2]</sub>. 영향 범위는 콘솔 이용자의 <b>1.4%</b>이고, 모두 외부 제공사를 연결해 둔 계정입니다<sub class="tgrade">[T2]</sub>. 회사는 10월 17일 해당 이용자에게 키를 폐기하고 새로 발급하라는 메일을 보냈습니다<sub class="tgrade">[T2]</sub>. 공동창업자 댁스 라드는 터진 곳이 콘솔이고 <b>CLI</b>에 둔 키는 회사 서버로 올라가지 않는다고 적었습니다<sub class="tgrade">[T2]</sub>. 앤스로픽과 구글은 노출로 판단한 키를 차단했고, 오픈AI는 공격에 쓰인 크레딧을 환불하고 있습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 같은 키인데 둔 자리가 달라서 결과가 갈렸습니다. 사내 코딩 도구가 모델 키를 어디에 보관하는지, 벤더 클라우드로 올라가는지부터 확인할 일입니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>피해가 돈으로 나타난 방식</b> &mdash; 노출된 키로 남의 계정에 요금이 붙었습니다. 1,000달러를 넘는 청구가 있었다는 보도와 1,700달러까지 올랐다는 보도가 갈립니다<sub class="tgrade">[T3]</sub>. 1.4%라는 수치는 콘솔 이용자 기준이고 오픈코드 전체 이용자 기준이 아닙니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>증류 공격이라는 설명</b> &mdash; 오픈코드는 이번 침입을 대규모 증류 공격과 연결지어 설명했습니다<sub class="tgrade">[T2]</sub>. 공격자를 지목하지 않았고, 침입이 그 증류 활동을 어떻게 뒷받침했는지 기술적 근거도 내놓지 않았습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>공개되지 않은 것</b> &mdash; 침입 경로와 체류 기간, 노출된 키의 개수가 모두 공개되지 않았습니다<sub class="tgrade">[T2]</sub>. 사후 분석 보고서도 아직 없고, 사건이 진행 중이라는 표기가 공식적으로 내려가지 않았습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>프레임워크로 보면</b> &mdash; 모델 제공사 키는 에이전트가 쓰는 자격증명이고, 그 보관 위치가 벤더 클라우드로 옮겨가면 공격면도 함께 옮겨갑니다. 2025년판 OWASP Top 10 for LLM Applications이 공급망과 민감정보 노출로 나눠 다루는 구도와 맞물립니다<sub class="tgrade">[T2]</sub>. 다만 오픈코드가 이 분류를 근거로 들었다는 자료는 없습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 사내에서 쓰는 코딩 에이전트별로 모델 키의 보관 위치를 표로 적습니다. 로컬 디스크와 벤더 클라우드 중 어디인지가 이번 사고에서 피해를 가른 선이었습니다. &#9313; 모델 제공사 콘솔에서 키별 사용량 알림을 켭니다. 노출을 먼저 알려 준 쪽은 공지가 아니라 요금이었습니다. &#9314; 키 교체 절차의 소요 시간을 재 둡니다. 폐기하고 새로 발급하는 데 반나절이 걸리면 그 반나절이 그대로 피해 구간이 됩니다. &#9315; 개발용 키와 운영용 키를 분리합니다. 코딩 도구에 넣는 키가 운영 호출과 같은 키면 차단 조치가 서비스 중단으로 번집니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 250" role="img" aria-label="오픈코드 콘솔에 저장한 모델 제공사 키는 벤더 클라우드에 올라가 침입 시 노출돼 타인 과금으로 이어졌고, 명령행 도구에 둔 키는 이용자 디스크에만 있어 영향이 없었다는 경로 비교도, 그리고 10월 16일 침입부터 10월 19일 보도까지의 시간축">
+              <defs>
+                <marker id="oc1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head-mut"/></marker>
+              </defs>
+              <text x="12" y="18" class="s-sub">노출된 자리 · 콘솔 이용자의 1.4%</text>
+              <rect x="12" y="26" width="150" height="46" rx="3" class="s-box"/>
+              <text x="87" y="46" text-anchor="middle" class="s-lab" font-size="11">콘솔에 저장한 키</text>
+              <text x="87" y="62" text-anchor="middle" class="s-lab" font-size="11">외부 제공사 연결</text>
+              <line x1="162" y1="49" x2="188" y2="49" class="s-arw" marker-end="url(#oc1)"/>
+              <rect x="190" y="26" width="170" height="46" rx="3" class="s-box"/>
+              <text x="275" y="46" text-anchor="middle" class="s-lab" font-size="11">벤더 클라우드 보관</text>
+              <text x="275" y="62" text-anchor="middle" class="s-lab" font-size="11">구형 시스템 침입</text>
+              <line x1="360" y1="49" x2="386" y2="49" class="s-arw" marker-end="url(#oc1)"/>
+              <rect x="388" y="26" width="160" height="46" rx="3" class="s-box"/>
+              <text x="468" y="46" text-anchor="middle" class="s-lab t-acq" font-size="11">키 노출</text>
+              <text x="468" y="62" text-anchor="middle" class="s-lab t-acq" font-size="11">타인 계정에 과금</text>
+
+              <text x="12" y="98" class="s-sub">멀쩡한 자리</text>
+              <rect x="12" y="106" width="150" height="46" rx="3" class="s-box-accent"/>
+              <text x="87" y="126" text-anchor="middle" class="s-lab" font-size="11">명령행 도구에</text>
+              <text x="87" y="142" text-anchor="middle" class="s-lab" font-size="11">둔 같은 키</text>
+              <line x1="162" y1="129" x2="188" y2="129" class="s-arw" marker-end="url(#oc1)"/>
+              <rect x="190" y="106" width="170" height="46" rx="3" class="s-box-accent"/>
+              <text x="275" y="134" text-anchor="middle" class="s-lab" font-size="11">이용자 디스크에만</text>
+              <line x1="360" y1="129" x2="386" y2="129" class="s-arw" marker-end="url(#oc1)"/>
+              <rect x="388" y="106" width="160" height="46" rx="3" class="s-box-accent"/>
+              <text x="468" y="134" text-anchor="middle" class="s-lab t-accent" font-size="11">영향 없음</text>
+
+              <line x1="60" y1="196" x2="560" y2="196" class="s-axis"/>
+              <circle cx="130" cy="196" r="3.5" class="head-acc"/>
+              <circle cx="310" cy="196" r="3.5" class="head-acc"/>
+              <circle cx="490" cy="196" r="3.5" class="head-acc"/>
+              <text x="130" y="214" text-anchor="middle" class="s-tick">10-16 밤</text>
+              <text x="130" y="228" text-anchor="middle" class="s-tick">구형 시스템 침입</text>
+              <text x="310" y="214" text-anchor="middle" class="s-tick">10-17</text>
+              <text x="310" y="228" text-anchor="middle" class="s-tick">대상자 통보 메일</text>
+              <text x="490" y="214" text-anchor="middle" class="s-tick">10-19</text>
+              <text x="490" y="228" text-anchor="middle" class="s-tick">전문매체 보도</text>
+              <text x="310" y="246" text-anchor="middle" class="s-sub">같은 키라도 벤더 클라우드로 올라간 쪽만 털렸다</text>
+            </svg>
+          </div>
+          <figcaption>위가 노출된 보관 경로, 아래가 영향이 없던 경로입니다. <span class="src">근거: <a href="https://thehackernews.com/2026/10/opencode-console-breach-may-have.html">The Hacker News &mdash; 침입과 통보</a> · <a href="https://cybersecuritynews.com/opencode-security-breach/">제공사 대응</a> · <a href="https://the420.in/opencode-security-breach-api-keys-console-users/">The420 &mdash; 영향 범위 1.4%</a> · <a href="https://www.rescana.com/post/opencode-console-breach-exposes-openai-anthropic-and-google-api-keys-in-credential-theft-and-distillation-attack-october">증류 공격 주장</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-ai" data-type="ai">#오픈코드</span><span class="tag tag-ai" data-type="ai">#앤스로픽</span><span class="tag tag-law" data-type="law">#OWASP_LLM_Top10</span><span class="tag tag-security" data-type="security">#API키탈취</span><span class="tag tag-security" data-type="security">#자격증명보관</span><span class="tag tag-security" data-type="security">#모델증류</span></div>
+      </div>
+
+      <!-- Trend C -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-mid">중요도 중간</span>
+          <span class="badge">벤더 공식 블로그</span>
+        </div>
+        <h3>마이크로소프트가 사내 AI 에이전트를 내부자로 취급하기 시작했다 &mdash; 탐지하는 로컬 에이전트 종류를 35개에서 60개로 늘렸다</h3>
+        <p>마이크로소프트는 10월 19일 기업 안에서 움직이는 AI 에이전트를 <b>에이전틱 내부자</b>로 규정한 보안 접근법을 내놨습니다<sub class="tgrade">[T2]</sub>. <b>Entra Agent ID</b>가 다루는 신원 종류를 넓혀, 직원 PC의 로컬 에이전트와 센서가 찾아낸 미등록 에이전트까지 신원으로 잡습니다<sub class="tgrade">[T2]</sub>. 신호는 센티넬·Entra·인튠·퍼뷰·Global Secure Access·디펜더 여섯 곳에서 모읍니다. 그 신호로 <b>Dynamic Agent Risk</b> 점수를 매기고, 점수가 오르면 에이전트가 할 수 있는 일을 좁힙니다<sub class="tgrade">[T2]</sub>. 탐지 대상 로컬 에이전트는 35종이 더해져 <b>60종</b>이 됐고 클로드 코드와 코덱스가 목록에 들어갔습니다<sub class="tgrade">[T2]</sub>. 이 발표가 일반 공개인지 예고인지는 공개 자료로 가르지 못했습니다<sub class="tgrade">[T3]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 사람 계정에만 걸어 둔 조건부 접근 정책은 에이전트에 그대로 적용되지 않습니다. 사내에서 이미 돌고 있는 코딩 에이전트의 목록을 먼저 뽑아 두면 신원 체계를 고를 때 비교 기준이 생깁니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>왜 내부자로 부르나</b> &mdash; 에이전트는 사람과 같은 권한으로 더 빠르게 움직이고, 그중에는 승인을 받지 않고 설치된 것도 섞여 있습니다<sub class="tgrade">[T2]</sub>. 그래서 외부 공격자 모델이 아니라 내부자 감시 모델을 가져다 쓴다는 것이 이번 접근법의 뼈대입니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>무엇이 새로 들어왔나</b> &mdash; Entra Agent ID는 2026년 4월에 일반 공개됐습니다<sub class="tgrade">[T2]</sub>. 6월에는 에이전트 계정에도 조건부 접근을 걸 수 있게 되면서 위험 점수 기반 정책이 들어갔습니다<sub class="tgrade">[T2]</sub>. 7월에는 클라우드 에이전트의 런타임 보호가 묶였고, 이번에는 로컬과 미등록 에이전트까지 범위가 넓어졌습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>점수로 권한을 좁히는 구조</b> &mdash; 신호원은 여섯 갈래이고 그 신호를 한데 모아 맥락을 분석한 뒤 위험 점수를 냅니다<sub class="tgrade">[T2]</sub>. 점수가 오르면 허용 동작을 줄이는 쪽으로 정책이 자동 조정됩니다<sub class="tgrade">[T2]</sub>. 사람 계정의 위험 기반 조건부 접근과 같은 구조를 에이전트에 옮긴 설계입니다.</p>
+          <p><b>프레임워크로 보면</b> &mdash; 권한을 위험 수준에 따라 줄이는 설계는 OWASP Top 10 for LLM Applications의 과도한 권한 위임이 다루는 문제에 대응합니다<sub class="tgrade">[T2]</sub>. NIST AI RMF 1.0으로 보면 Manage 기능에 해당합니다. 다만 마이크로소프트가 두 문서를 근거로 들었다는 자료는 찾지 못했습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>확인하지 못한 대목</b> &mdash; 60종 목록의 전체 구성은 공개되지 않았습니다<sub class="tgrade">[T3]</sub>. 가격과 제공 시점도 공개되지 않았습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 직원 PC에서 돌고 있는 코딩 에이전트를 먼저 셉니다. 목록이 없으면 승인된 것과 그렇지 않은 것을 가를 수 없고, 어떤 제품을 붙여도 범위가 비어 있습니다. &#9313; 에이전트에 발급한 토큰과 사람 계정 토큰을 로그에서 구분할 수 있는지 봅니다. 구분이 안 되면 위험 점수를 매길 신호 자체가 모이지 않습니다. &#9314; 되돌리기 어려운 동작을 위험 점수와 무관하게 사람 승인으로 묶어 둡니다. 점수 기반 축소는 평균적으로는 맞지만 단일 사고를 막는 장치가 아닙니다. &#9315; 에이전트 신원 체계를 고를 때 로컬 에이전트 탐지 범위를 비교 항목에 넣습니다. 클라우드 에이전트만 보는 제품은 이번에 늘어난 쪽을 못 봅니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 250" role="img" aria-label="센티넬과 Entra 인튠 퍼뷰 Global Secure Access 디펜더 여섯 신호원이 Dynamic Agent Risk 위험 점수로 모이고 점수에 따라 전체 권한에서 동작 제한, 차단으로 허용 범위가 좁아지는 흐름도, 그리고 탐지 대상 로컬 에이전트 종류가 35종에서 60종으로 늘어난 막대 비교">
+              <defs>
+                <marker id="ms1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head-mut"/></marker>
+              </defs>
+              <text x="12" y="18" class="s-sub">신호원 여섯 갈래</text>
+              <rect x="12" y="26" width="160" height="76" rx="3" class="s-box"/>
+              <text x="92" y="48" text-anchor="middle" class="s-lab" font-size="11">센티넬 · Entra · 인튠</text>
+              <text x="92" y="66" text-anchor="middle" class="s-lab" font-size="11">퍼뷰 · 디펜더</text>
+              <text x="92" y="84" text-anchor="middle" class="s-lab" font-size="11">Global Secure Access</text>
+              <line x1="172" y1="64" x2="198" y2="64" class="s-arw" marker-end="url(#ms1)"/>
+              <rect x="200" y="40" width="160" height="48" rx="3" class="s-box-accent"/>
+              <text x="280" y="60" text-anchor="middle" class="s-lab" font-size="11">Dynamic Agent Risk</text>
+              <text x="280" y="78" text-anchor="middle" class="s-lab t-accent" font-size="11">위험 점수</text>
+              <line x1="360" y1="64" x2="386" y2="64" class="s-arw" marker-end="url(#ms1)"/>
+              <rect x="388" y="26" width="170" height="24" rx="3" class="s-box"/>
+              <text x="473" y="42" text-anchor="middle" class="s-lab" font-size="11">낮음 · 전체 권한</text>
+              <rect x="388" y="54" width="170" height="24" rx="3" class="s-box"/>
+              <text x="473" y="70" text-anchor="middle" class="s-lab" font-size="11">상승 · 동작 제한</text>
+              <rect x="388" y="82" width="170" height="24" rx="3" class="s-box"/>
+              <text x="473" y="98" text-anchor="middle" class="s-lab t-acq" font-size="11">높음 · 차단</text>
+
+              <text x="12" y="138" class="s-sub">탐지 대상 로컬 에이전트 종류</text>
+              <text x="106" y="162" text-anchor="end" class="s-tick">이전</text>
+              <rect x="114" y="148" width="245" height="20" rx="2" class="s-box"/>
+              <text x="367" y="163" class="s-lab" font-size="11">35종</text>
+              <text x="106" y="192" text-anchor="end" class="s-tick">현재</text>
+              <rect x="114" y="178" width="420" height="20" rx="2" class="s-box-accent"/>
+              <text x="542" y="193" class="s-lab t-accent" font-size="11">60종</text>
+              <text x="310" y="222" text-anchor="middle" class="s-sub">클로드 코드와 코덱스가 이번에 목록에 들어갔다</text>
+              <text x="310" y="240" text-anchor="middle" class="s-sub">점수가 오르면 허용 동작이 줄어든다</text>
+            </svg>
+          </div>
+          <figcaption>왼쪽이 신호원, 가운데가 위험 점수, 오른쪽이 점수에 따른 허용 범위이고 아래는 탐지 범위 변화입니다. <span class="src">근거: <a href="https://www.microsoft.com/en-us/security/blog/2026/10/19/agents-are-your-newest-insiders-security-must-move-at-their-speed/">Microsoft &mdash; 신원 확장과 위험 점수</a> · <a href="https://siliconangle.com/2026/10/19/microsoft-targets-the-agentic-insider-with-new-controls-for-rogue-ai-agents/">35종에서 60종</a> · <a href="https://www.mt.co.kr/tech/2026/10/20/2026102015442538548">머니투데이 &mdash; 내부자 정의</a> · <a href="https://learn.microsoft.com/en-us/entra/fundamentals/whats-new">기능별 공개 시점</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-ai" data-type="ai">#마이크로소프트</span><span class="tag tag-ai" data-type="ai">#클로드코드</span><span class="tag tag-law" data-type="law">#OWASP_LLM_Top10</span><span class="tag tag-law" data-type="law">#NIST_AI_RMF</span><span class="tag tag-security" data-type="security">#에이전트신원</span><span class="tag tag-security" data-type="security">#권한축소</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">3</span><h2>솔루션 동향 · 세미나 / 컨퍼런스</h2></div>
+      <div class="sub-h">오늘의 솔루션 픽</div>
+      <div class="sol">
+        <b>퀄리스 &mdash; 트루리스크 일리미네이트 2.0, 패치 자동화를 사람 손 없이 돌리겠다는 판</b> <span class="m"><sub class="tgrade">[T2 · 2026-10-14 발표]</sub></span><br>
+        기존 제품에 트루컨피던스라는 조치 판단 엔진을 붙였습니다. 적용 범위가 에이전트를 올린 단말에서 경계 장비와 클라우드, 애플리케이션으로 넓어졌고 에이전트를 올릴 수 없는 자산은 스캐너로 처리합니다. 패치 뒤 시스템 상태를 지켜보고, 실패한 패치를 분석해 다음 조치를 제안하는 기능이 들어갔습니다. 회사는 지난 1년간 1억 7,800만 건을 패치했고 그중 4,000만 건이 완전 자동이었으며 되돌림 비율은 0.1% 미만이라고 밝혔습니다. 이 수치는 모두 자체 집계입니다<sub class="tgrade">[T3]</sub>. 이미 일반 공개됐고 기존 고객은 무료로 올릴 수 있습니다<sub class="tgrade">[T2]</sub>.
+      </div>
+      <div class="sol">
+        <b>솔라윈즈 &mdash; 아비오르, 운영 환경을 겨냥한 목표 지향 에이전트 시스템</b> <span class="m"><sub class="tgrade">[T2 · 2026-10-16 보도]</sub></span><br>
+        솔라윈즈 플랫폼 위에서 돌아가는 단독 제품입니다. 운영팀이 목표를 정하면 역할이 다른 에이전트들을 묶어 진행 상황을 추적하는 구조라고 밝혔습니다. 발표문이 앞세운 대목은 사람의 승인 절차와 감사 기록입니다<sub class="tgrade">[T2]</sub>. 가격과 제공 시점은 공개되지 않았습니다<sub class="tgrade">[T3]</sub>.
+      </div>
+      <div class="sol">
+        <b>사이테일 &mdash; 컴플라이언스 데이터를 AI 도구에 붙이는 MCP 서버</b> <span class="m"><sub class="tgrade">[T2 · 2026-10-16 보도]</sub></span><br>
+        클로드나 챗GPT에서 평문으로 물어 현재 준수 상태를 조회하고 반복 작업을 처리하게 합니다. 접근 권한은 범위를 좁힌 읽기 전용이라고 밝혔습니다<sub class="tgrade">[T2]</sub>. 컴플라이언스 데이터를 외부 모델에 연결하는 제품이라 어떤 항목까지 조회 범위에 들어가는지는 도입 전에 따로 확인할 대목입니다. 제공 시점과 가격은 공개되지 않았습니다<sub class="tgrade">[T3]</sub>.
+      </div>
+
+      <div class="sub-h">등록 진행 중인 행사</div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-11-03 · 서울 한국과학기술회관 국제회의실</div>
+          <div class="name">AIS 2026 &mdash; 인공지능 보안 컨퍼런스</div>
+          <div class="where">공공·금융·기업 보안 실무자 대상 · AI 기반 위협 탐지, LLM 보안, AI 공급망 공격 대응 트랙 · 최근 금융사 연쇄 해킹 분석 세션 포함 · 보안담당자 7시간 보안교육 이수 인정 · 09:00~17:00 · 사전등록 11-01 13:00 마감</div>
+        </div>
+        <a class="apply" href="https://www.dailysecu.com/form/register.html?form_id=1765523444">등록 →</a>
+      </div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-11-12~13 · 서울 더 웨스틴 서울 파르나스</div>
+          <div class="name">POC2026 &mdash; Power of Community</div>
+          <div class="where">공격 기법 중심 국제 해킹보안 컨퍼런스 · 표준 등록 90만원(해외 $900), 현장 등록 100만원 현금만 · 표준 등록 11-05까지(공지 일부에는 10-30·10-31 마감으로 적혀 있음)</div>
+        </div>
+        <a class="apply" href="https://event.pocsec.com/event/POC2026">등록 →</a>
+      </div>
+    </section>
+    <footer class="rpt-foot">
+      <p><b>AI SEC Pulse</b> · 일일 발송 매일 오전 10:00 KST · No. 048 (2026-10-21)</p>
+      <div class="legend">
+        <span><b>T1</b> 원문·공식 확인</span><span><b>T2</b> 공신력 확인</span><span><b>T3</b> 재확인 필요</span>
+      </div>
+      <div class="legend"><span><b>중요도 높음</b> KEV 등재·CVSS9+ 또는 즉시조치·의사결정 필요한 확정 사안</span></div>
+      <div class="legend"><span><b>중요도 중간~높음</b> CVSS7~8.9(악용 미확인) 또는 벤더 대응 진행 중·초안 단계</span></div>
+      <div class="legend"><span><b>중요도 중간</b> CVSS4~6.9 또는 참고용 업계 동향, 직접 조치 없음</span></div>
+      <div class="legend"><span><b>중요도 낮음</b> CVSS4 미만 또는 배경 정보 성격</span></div>
+      <p>구독 관리 · 지난 호 · 제보: (수신자 안내에 따름)</p>
+    </footer>
+
+  </div>
+</div>
+<img src="https://elishajey.goatcounter.com/count?p=/pulse/2026-10-21" alt="" width="1" height="1" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
