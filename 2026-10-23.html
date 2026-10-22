@@ -1,0 +1,513 @@
+<title>AI SEC Pulse</title>
+<meta name="description" content="법·컴플라이언스 모니터링, AI 보안·서비스 동향 3선(도해), 솔루션·컨퍼런스 안내를 담은 일일 브리핑 — 2026-10-23 호">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --bg: #e9edf1;
+    --paper: #ffffff;
+    --paper-2: #f5f7f9;
+    --ink: #17202c;
+    --ink-soft: #3c4858;
+    --muted: #62707f;
+    --line: #d7dee5;
+    --line-strong: #b6c0cb;
+    --accent: #0d7c86;
+    --accent-soft: #d2eaeb;
+    --acq: #ad5019;
+    --new: #2d7a4d;
+    --flag: #916b00;
+    --hi: #b4381f;        /* importance high */
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c1016;
+      --paper: #151c25;
+      --paper-2: #1a222d;
+      --ink: #e6ebf1;
+      --ink-soft: #b7c1cd;
+      --muted: #8a96a5;
+      --line: #29323d;
+      --line-strong: #3a4551;
+      --accent: #3cb8c3;
+      --accent-soft: #102f35;
+      --acq: #d9853f;
+      --new: #5bad7c;
+      --flag: #d5aa3d;
+      --hi: #e07a5f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c1016; --paper: #151c25; --paper-2: #1a222d;
+    --ink: #e6ebf1; --ink-soft: #b7c1cd; --muted: #8a96a5;
+    --line: #29323d; --line-strong: #3a4551;
+    --accent: #3cb8c3; --accent-soft: #102f35;
+    --acq: #d9853f; --new: #5bad7c; --flag: #d5aa3d; --hi: #e07a5f;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.62; -webkit-font-smoothing: antialiased;
+  }
+  .mail { max-width: 680px; margin: 0 auto; padding: 28px 16px 80px; }
+  .envelope {
+    background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 4px; padding: 10px 14px; margin-bottom: 14px;
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted);
+  }
+  .envelope b { color: var(--ink-soft); font-weight: 600; }
+
+  .sheet {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 1px 2px rgba(20,28,40,.05), 0 14px 40px -20px rgba(20,28,40,.22);
+  }
+
+  header.rpt {
+    padding: 30px 28px 22px; border-bottom: 3px solid var(--ink);
+  }
+  header.rpt .brandline {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--accent);
+  }
+  header.rpt h1 {
+    font-family: "Archivo", sans-serif; font-weight: 700;
+    font-size: 2rem; letter-spacing: -.02em; margin: 8px 0 6px;
+  }
+  header.rpt .date {
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink-soft);
+  }
+  header.rpt .cadence {
+    margin-top: 12px; font-size: 12.5px; color: var(--muted);
+  }
+  header.rpt .byline {
+    text-align: right; margin: 10px 0 0; font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted);
+  }
+
+  section.blk { padding: 26px 28px; border-top: 1px solid var(--line); }
+  section.blk:first-of-type { border-top: 0; }
+  .sec-tag {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;
+  }
+  .sec-no {
+    font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 12px;
+    color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 1px 6px;
+  }
+  .sec-tag h2 {
+    font-family: "Archivo", sans-serif; font-weight: 700; font-size: 1.2rem;
+    letter-spacing: -.01em; margin: 0;
+  }
+  .sec-lede { margin: 0 0 18px; font-size: .9rem; color: var(--muted); }
+  .board-link { margin: 0 0 16px; margin-left: 31.2px; font-size: .85rem; }
+  .board-link a {
+    color: var(--accent); font-weight: 600; text-decoration: none;
+    background: var(--accent-soft); padding: 3px 10px; border-radius: 4px; display: inline-block;
+  }
+  .board-link a::after { content: " ↗"; font-weight: 400; }
+  /* §1 카드가 0건인 날 — "오늘의 뉴스 없음"(2026-10-12 사용자 요청). */
+  .no-news { margin: 0 0 4px; margin-left: 31.2px; font-size: .9rem; color: var(--muted); }
+
+  /* ---- section 1 : compliance items ---- */
+  .item { padding: 14px 0; border-top: 1px dashed var(--line); }
+  .item:first-child { border-top: 0; padding-top: 0; }
+  .item .row1 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .badge {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .05em;
+    padding: 1px 6px; border-radius: 2px; border: 1px solid currentColor; white-space: nowrap;
+  }
+  .b-new { color: var(--new); }
+  .b-upd { color: var(--accent); }
+  .b-hold { color: var(--muted); }
+  .b-t1 { color: var(--accent); }
+  .b-t2 { color: var(--ink-soft); }
+  .b-t3 { color: var(--flag); }
+  .jur {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted);
+  }
+  .item h3 {
+    font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 1.05rem;
+    margin: 6px 0 4px;
+  }
+  .item p { margin: 0; font-size: .82rem; color: var(--ink-soft); }
+  .item .src {
+    margin-top: 5px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted);
+  }
+  .item .src a { color: var(--accent); word-break: break-all; }
+
+  /* ---- 자세히 보기 드롭다운 (§1·§2 공용) ---- */
+  .more { margin-top: 8px; }
+  .more > summary {
+    cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    font-weight: 600; color: var(--accent); list-style: revert;
+  }
+  .more > summary::marker { color: var(--accent); }
+  .more-body {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .82rem; color: var(--ink-soft);
+  }
+  .more-body p { margin: 0 0 8px; }
+  .more-body p:last-child { margin-bottom: 0; }
+
+  .quiet-note {
+    margin-top: 16px; padding: 10px 12px; background: var(--paper-2);
+    border-left: 3px solid var(--line-strong); font-size: .84rem; color: var(--muted);
+  }
+
+  /* ---- section 2 : trend cards with figures ---- */
+  .trend-card { padding: 20px 0; border-top: 1px solid var(--line); }
+  .trend-card:first-of-type { border-top: 0; padding-top: 4px; }
+  .tc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .imp {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .04em;
+    padding: 1px 6px; border-radius: 2px;
+  }
+  .imp-high { background: transparent; color: var(--hi); border: 2px solid var(--hi); font-weight: 700; }
+  .imp-mid { background: #0d7c86; color: #fff; }
+  .trend-card h3 {
+    font-family: "Archivo", sans-serif; font-weight: 600; font-size: 1.05rem;
+    letter-spacing: -.005em; margin: 0 0 6px;
+  }
+  .trend-card > p { margin: 0 0 14px; font-size: .89rem; color: var(--ink-soft); }
+  figure {
+    margin: 0; background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 3px; padding: 14px 12px 8px;
+  }
+  figure .scroll-x { overflow-x: auto; }
+  svg.dg { display: block; width: 100%; height: auto; color: var(--ink); min-width: 520px; }
+  figcaption {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .8rem; color: var(--muted);
+  }
+  figcaption .src { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+
+  .take { color: var(--accent); }
+
+  /* svg helpers */
+  .s-box { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-box-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+  .s-lab { fill: var(--ink); font-family: "IBM Plex Sans", sans-serif; font-size: 12px; }
+  .s-sub { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .02em; }
+  .s-arw { stroke: var(--muted); stroke-width: 1.4; fill: none; }
+  .s-axis { stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-tick { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .dot-acq { fill: var(--acq); }
+  .dot-new { fill: var(--new); }
+  .t-acq { fill: var(--acq); color: var(--acq); }
+  .t-new { fill: var(--new); color: var(--new); }
+  .t-accent { fill: var(--accent); color: var(--accent); }
+  .node-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+  .head-mut { fill: var(--muted); }
+  .head-acc { fill: var(--accent); }
+  .link-acc { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+
+  /* ---- section 3 : solutions + events ---- */
+  .sub-h {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); margin: 18px 0 8px;
+  }
+  .sub-h:first-child { margin-top: 0; }
+  .sol { padding: 10px 0; border-top: 1px dashed var(--line); font-size: .88rem; }
+  .sol:first-of-type { border-top: 0; }
+  .sol b { font-weight: 600; }
+  .sol .m { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10.5px; }
+
+  .evt {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px 14px; align-items: center;
+    padding: 12px 0; border-top: 1px dashed var(--line);
+  }
+  .evt:first-of-type { border-top: 0; }
+  .evt .when {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--accent);
+  }
+  .evt .name { font-weight: 600; font-size: .92rem; margin: 2px 0 2px; }
+  .evt .where { font-size: .82rem; color: var(--muted); }
+  .apply {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .04em;
+    text-decoration: none; color: var(--accent);
+    border: 1px solid var(--accent); border-radius: 3px; padding: 6px 12px; white-space: nowrap;
+  }
+  .apply:hover { background: var(--accent-soft); }
+
+  footer.rpt-foot {
+    padding: 20px 28px 26px; border-top: 3px solid var(--ink);
+    font-size: .8rem; color: var(--muted);
+  }
+  footer.rpt-foot p { margin: 0 0 6px; }
+  footer.rpt-foot code { font-family: "IBM Plex Mono", monospace; font-size: .76rem; color: var(--ink-soft); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 10px 0; }
+  .legend span { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .tgrade { color: var(--muted); font-size: 42%; }
+
+  /* ---- 해시태그(2026-09-17 사용자 요청) — 카드마다 근거 아래 국가·회사유형·법규명·AI사명/모델명·
+     보안용어를 인스타그램 스타일 해시태그로 노출. data-type 속성은 화면에 안 보이지만 나중에
+     이 데이터를 파싱해 체인으로 엮을 때 카테고리를 바로 구분하도록 남겨둔다. ---- */
+  .tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 9px; }
+  .tag { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; }
+  .tag-country { color: var(--accent); }
+  .tag-org { color: var(--flag); }
+  .tag-law { color: var(--acq); }
+  .tag-ai { color: var(--new); }
+  .tag-security { color: var(--hi); }
+
+  a { color: var(--accent); }
+  @media (max-width: 560px) {
+    .evt { grid-template-columns: 1fr; }
+    header.rpt h1 { font-size: 1.7rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="mail">
+
+  <div class="envelope">
+    <div>제목 &nbsp; <b>AI SEC Pulse (2026-10-23)</b></div>
+    <div>발송 &nbsp; 매일 오전 10:00 (KST) &nbsp;·&nbsp; 수신자: AI 보안·컴플라이언스 담당</div>
+  </div>
+
+  <div class="sheet">
+
+    <header class="rpt">
+      <div class="brandline">Daily Briefing</div>
+      <h1>AI SEC Pulse</h1>
+      <div class="date">2026년 10월 23일 금요일 · No. 050</div>
+      <p class="byline">reported by elishaJEY</p>
+    </header>
+
+    <!-- ============ 1 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">1</span><h2>법 · 컴플라이언스 모니터링</h2></div>
+      <p class="board-link"><a href="https://elishajey.github.io/ai-compliance-board/">AI SEC Compliance Dashboard</a></p>
+      <div class="item">
+        <div class="row1">
+          <span class="badge b-new">신규</span>
+          <span class="jur">미국</span>
+        </div>
+        <h3>뉴욕이 다음 달부터 프런티어 AI 개발사 등록을 받는다 &mdash; 중대 안전사고 보고 기한은 72시간이다</h3>
+        <p>뉴욕주가 11월부터 대형 프런티어 AI 개발사에게 주 등록을 요구합니다<sub class="tgrade">[T2]</sub>. 근거는 <b>RAISE법</b>이고, 감독은 주 금융서비스부(DFS) 안에 새로 만든 <b>DIGIT</b> 사무국이 맡습니다<sub class="tgrade">[T2]</sub>. 보안 담당자에게 걸리는 대목은 두 가지로 갈립니다. <b>안전·보안 프로토콜(배포 전):</b> 문서로 만들어 비공개본을 보관하고 공개본을 자사 웹사이트에 올려야 합니다<sub class="tgrade">[T2]</sub>. <b>중대 안전사고 보고(운영 중):</b> DIGIT에 <b>72시간</b> 안에 알려야 하고, 이는 캘리포니아 SB 53의 기본 15일보다 훨씬 짧습니다<sub class="tgrade">[T2]</sub>.<br><br>지금 조문이 바뀐 것은 아닙니다. 등록 서식과 사고 보고 양식을 정하는 하위 규칙은 아직 공개되지 않았습니다<sub class="tgrade">[T2]</sub>. 실질 의무 개시일도 자료마다 2027년 1월 1일과 7월 1일로 갈려 적혀 있습니다<sub class="tgrade">[T3]</sub>. 노턴로즈풀브라이트 해설은 뉴욕에서 모델을 개발하거나 배포·운영하는 접점만 있으면 주 밖 기업도 적용 대상이 될 수 있다고 짚었습니다<sub class="tgrade">[T2]</sub>. 미국에 생성형 기능을 실어 서비스하는 국내 사업자라면 적용 여부를 뉴욕 사업장 유무가 아니라 모델 학습 연산량과 서비스 제공 접점으로 따져야 한다는 뜻입니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 72시간이 실무에서 가장 먼저 깨집니다. 모델이 통제를 벗어난 일을 &lsquo;중대 안전사고&rsquo;로 분류하는 사람이 사내에 지정돼 있지 않으면 시계는 이미 돌고 있습니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>적용 대상을 가르는 기준</b> &mdash; 개정된 법은 프런티어 모델을 학습 연산량 10<sup>26</sup> 정수·부동소수점 연산 초과로 정의합니다<sub class="tgrade">[T2]</sub>. &lsquo;대형&rsquo; 개발사 요건은 원래 컴퓨팅 지출 1억 달러 기준이었으나 연매출 5억 달러 초과로 바뀌었다는 정리가 나왔습니다<sub class="tgrade">[T3]</sub>. 법률 해설 가운데 2025년 12월 원안을 설명한 것이 섞여 있어, 금액 기준은 2026년 3월 수정안 문언으로 확인해야 합니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>등록이 요구하는 내용</b> &mdash; 공개 자료는 소유 구조, 사업장 주소, 지정 연락처를 담은 공시서를 등록 내용으로 적습니다<sub class="tgrade">[T3]</sub>. 갱신 주기는 2년이고 중요한 사실이 바뀌면 그보다 먼저 고쳐야 한다는 설명도 있습니다<sub class="tgrade">[T3]</sub>. 등록 시점을 11월 개시로 적은 자료와 2027년 1월 1일까지로 적은 자료가 함께 있습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>캘리포니아와 묶어 읽을 때</b> &mdash; SB 53은 중대 안전사고 보고 기한을 기본 15일로 두고, RAISE법은 72시간으로 둡니다<sub class="tgrade">[T2]</sub>. 두 주에 함께 걸리는 개발사는 짧은 쪽에 맞춰 절차를 하나로 짜야 기한을 놓치지 않습니다. 과징금은 1차 위반 최대 100만 달러, 반복 시 최대 300만 달러로 정리된 자료와 각각 1,000만·3,000만 달러로 적은 자료가 갈립니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>프레임워크로 보면</b> &mdash; 배포 전 보안 프로토콜 문서화와 사고 보고 체계는 NIST AI RMF의 Govern 기능이 요구하는 거버넌스 문서·책임 배분과 맞닿습니다<sub class="tgrade">[T2]</sub>. 다만 RAISE법 문언이 그 프레임워크를 인용하고 있다는 근거는 확인하지 못했습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 자사 모델의 누적 학습 연산량을 숫자로 적어 둡니다. 적용 여부 판단이 여기서 시작하고, 나중에 증빙으로도 쓰입니다. &#9313; 중대 안전사고의 사내 정의를 72시간 기준으로 다시 씁니다. 모델이 통제를 벗어난 행동, 자율적 위험 행위, 가중치 유출을 각각 어느 등급으로 볼지 정해 둡니다. &#9314; 보고 경로를 한 줄로 만듭니다. 탐지에서 보고까지 사람이 셋을 거치면 72시간은 남지 않습니다. &#9315; 공개할 안전·보안 프로토콜과 비공개본을 나눠 둡니다. 공개본에 통제 설정값이 그대로 들어가면 그게 공격 설계도가 됩니다.</p>
+        </div></details>
+        <div class="src">근거: <a href="https://www.dfs.ny.gov/reports_and_publications/press_releases/pr20260921">뉴욕 금융서비스부 &mdash; 보도자료</a> · <a href="https://www.governor.ny.gov/news/ai-safety-governor-hochul-announces-next-steps-regulate-major-ai-developers-and-protect-new">주지사실 &mdash; 발표 전문</a> · 조문: <a href="https://www.wiley.law/alert-New-York-Finalizes-RAISE-Act-for-Frontier-AI-Models-Law-Takes-Effect-January-1-2027">Wiley &mdash; 최종 문언 정리</a> · 해설: <a href="https://consumer-protection-dispatch.pillsburylaw.com/new-york-raise-act-what-ai-developers-need-know/">Pillsbury &mdash; 이행 절차</a> · <a href="https://www.nortonrosefulbright.com/en/knowledge/publications/5b5742f4/the-new-york-responsible-ai-safety-and-education-raise-act-what-you-need-to-know">Norton Rose Fulbright &mdash; 적용 범위</a></div>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-law" data-type="law">#RAISE법</span><span class="tag tag-law" data-type="law">#SB53</span><span class="tag tag-security" data-type="security">#중대안전사고보고</span><span class="tag tag-security" data-type="security">#안전보안프로토콜</span><span class="tag tag-security" data-type="security">#프런티어모델</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">2</span><h2>AI 보안 · 서비스 동향 3선</h2></div>
+      <!-- Trend A -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">보안기업 조사 · 통신사 보도</span>
+        </div>
+        <h3>공격자가 열어 둔 AI 패널을 세어 보니 100개 넘는 회사가 이미 뚫려 있었다 &mdash; 성공률은 10%였다</h3>
+        <p>오픈소스 AI 플랫폼 <b>케언</b>을 공격 도구로 돌려 쓴 조직이 최소 세 갈래 확인됐습니다<sub class="tgrade">[T2]</sub>. 조사한 곳은 AI 보안업체 <b>노어포지</b>이고, 운영자가 인터넷에 열어 둔 관리 패널을 찾아 안을 들여다본 방식입니다<sub class="tgrade">[T2]</sub>. 로이터는 한 운영자가 100개가 넘는 회사를 침해했다고 보도하며 존 디어와 샤크닌자를 피해 기업으로 적었습니다<sub class="tgrade">[T2]</sub>. 시도 대비 성공률은 약 10%이고, 수백 건의 비밀값이 노출돼 일부는 유효한 값으로 확인됐습니다<sub class="tgrade">[T2]</sub>. 가장 큰 군집은 중국어를 쓰는 쪽으로, 패널 14개에 공격 프로젝트 1,100개 넘게 올려 두고 <b>웹셸</b>로 장기 접근을 노렸습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 이번 건은 에이전트가 공격자 손에서 돌아간 사례입니다. 사내 에이전트 관리 패널이 인증 없이 인터넷에 열려 있지 않은지부터 확인할 일입니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>세 군집이 노린 것</b> &mdash; <b>중국어 군집:</b> 미국·일본·호주의 전자상거래와 결제 기반시설을 겨냥했고, 웹셸로 길게 붙어 있다가 뒤에 수익화하는 것이 목표라고 노어포지는 봤습니다<sub class="tgrade">[T3]</sub>. <b>영어 군집:</b> 가맹점 결제 서비스와 회색시장 결제 사이트, 제약 플랫폼에서 카드 정보와 가상자산을 빼내는 데 집중했습니다<sub class="tgrade">[T2]</sub>. 표적 일부가 아프리카 상거래 사이트여서 노어포지는 운영자가 그 대륙에 있을 가능성을 적었습니다<sub class="tgrade">[T3]</sub>. <b>세 번째 군집:</b> 전자상거래 사이트에서 셸과 관리자 패널, 데이터베이스 접근을 노렸습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>어떻게 들여다봤나</b> &mdash; 노어포지는 실수로 외부에 노출된 케언 인스턴스를 스캔해 찾았습니다<sub class="tgrade">[T2]</sub>. 공격자 일부가 자기 관리 패널을 인증 없이 열어 둔 덕에 공격 프로젝트 목록과 결과가 그대로 보였습니다<sub class="tgrade">[T2]</sub>. 이 조사는 갬빗 시큐리티가 온라인 소매업체를 겨냥한 AI 하네스 악용을 보고한 뒤 이어졌습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>프레임워크로 보면</b> &mdash; 여기서 AI는 방어 대상이 아니라 공격 역량입니다. 침입을 사람이 손으로 하던 단계에서 에이전트가 반복 수행하는 단계로 넘어간 사례이고, MITRE ATLAS가 AI를 공격에 쓰는 기법을 따로 세는 흐름과 성격이 같습니다<sub class="tgrade">[T2]</sub>. 다만 이 캠페인이 그 매트릭스의 특정 기법으로 분류돼 있다는 근거는 없습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>확인하지 못한 대목</b> &mdash; 피해 기업 이름은 로이터 보도이고 노어포지가 직접 지목하지는 않았습니다<sub class="tgrade">[T3]</sub>. 침해 100개사라는 숫자와 군집별 귀속도 보고서를 옮긴 2차 보도에 근거하며, 독립 검증은 확인하지 못했습니다<sub class="tgrade">[T3]</sub>. 케언 프로젝트 측이 악용을 막는 변경을 냈는지도 확인하지 못했습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 사내에서 돌리는 에이전트 하네스와 그 관리 화면을 자산 목록에 올립니다. 이번 피해자 목록이 아니라 공격자 목록이 노출로 드러났다는 점이 이 조사의 요지입니다. &#9313; 외부에서 그 화면에 닿는지 직접 확인합니다. 인증 없는 대시보드는 그 자체로 침해 통로입니다. &#9314; 웹셸 탐지 기준을 다시 봅니다. 중국어 군집의 목표가 즉시 수익이 아니라 장기 접근이라 조용히 남아 있습니다. &#9315; 노출된 비밀값을 전제로 자격증명을 교체합니다. 유효한 값이 섞여 있었다는 대목이 보고의 결론입니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 230" role="img" aria-label="노출된 케언 관리 패널을 스캔해 중국어 군집, 영어 군집, 세 번째 군집 세 갈래를 찾아냈고, 그 결과 100개사 이상 침해와 성공률 10%, 비밀값 수백 건 노출이 확인됐다">
+              <defs>
+                <marker id="cn1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head-mut"/></marker>
+              </defs>
+              <text x="72" y="22" text-anchor="middle" class="s-sub">조사 방법</text>
+              <text x="294" y="22" text-anchor="middle" class="s-sub t-acq">확인된 세 갈래</text>
+              <text x="528" y="22" text-anchor="middle" class="s-sub">보고된 결과</text>
+
+              <rect x="16" y="96" width="112" height="48" rx="3" class="s-box-accent"/>
+              <text x="72" y="118" text-anchor="middle" class="s-lab" font-weight="600" font-size="11.5">노출된 패널</text>
+              <text x="72" y="133" text-anchor="middle" class="s-sub">스캔으로 발견</text>
+
+              <line x1="128" y1="120" x2="168" y2="120" class="s-arw" marker-end="url(#cn1)"/>
+
+              <rect x="168" y="36" width="252" height="52" rx="3" class="s-box"/>
+              <text x="178" y="56" class="s-lab t-acq" font-weight="600" font-size="11">중국어 군집 · 패널 14개</text>
+              <text x="178" y="74" class="s-sub">공격 프로젝트 1,100+ · 웹셸로 장기 접근</text>
+
+              <rect x="168" y="96" width="252" height="52" rx="3" class="s-box"/>
+              <text x="178" y="116" class="s-lab t-acq" font-weight="600" font-size="11">영어 군집</text>
+              <text x="178" y="134" class="s-sub">카드 정보 · 가상자산 탈취</text>
+
+              <rect x="168" y="156" width="252" height="52" rx="3" class="s-box"/>
+              <text x="178" y="176" class="s-lab t-acq" font-weight="600" font-size="11">세 번째 군집</text>
+              <text x="178" y="194" class="s-sub">셸 · 관리자 패널 · DB 접근</text>
+
+              <line x1="420" y1="62" x2="452" y2="104" class="s-arw" marker-end="url(#cn1)"/>
+              <line x1="420" y1="122" x2="452" y2="122" class="s-arw" marker-end="url(#cn1)"/>
+              <line x1="420" y1="182" x2="452" y2="140" class="s-arw" marker-end="url(#cn1)"/>
+
+              <rect x="452" y="88" width="152" height="68" rx="3" class="node-accent"/>
+              <text x="528" y="110" text-anchor="middle" class="s-lab" font-weight="600" font-size="11.5">침해 100개사 이상</text>
+              <text x="528" y="127" text-anchor="middle" class="s-sub">성공률 약 10%</text>
+              <text x="528" y="143" text-anchor="middle" class="s-sub">비밀값 수백 건 노출</text>
+            </svg>
+          </div>
+          <figcaption>조사는 공격자가 열어 둔 패널에서 시작했다. 군집별 귀속은 보고서를 옮긴 2차 보도 기준이다. <span class="src">근거: <a href="https://www.securityweek.com/ai-platform-cairn-abused-to-hack-over-100-organizations/">SecurityWeek &mdash; 조사 개요</a> · <a href="https://www.security.io/articles/2026/10/20/cairn-ai-agents-industrialise-web-intrusion">Security.io &mdash; 패널 분석</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-country" data-type="country">#중국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-ai" data-type="ai">#케언</span><span class="tag tag-security" data-type="security">#에이전트악용</span><span class="tag tag-security" data-type="security">#웹셸</span><span class="tag tag-security" data-type="security">#자격증명노출</span></div>
+      </div>
+
+      <!-- Trend B -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">당국 권고 · CDN 관측</span>
+        </div>
+        <h3>PHP 결함은 공개되기 10시간 전부터 공격받고 있었다 &mdash; FBI는 못 고치면 사이트를 내리라고 했다</h3>
+        <p>어제 호에서 악용 여부가 출처마다 갈린다고 적은 PHP 결함 두 건에서, 악용이 확인됐습니다<sub class="tgrade">[T2]</sub>. 클라우드플레어 매슈 프린스 대표는 공개 전 10시간 동안 수천 건의 악용 시도를 봤고 공개 뒤에는 <b>수백만 건</b>으로 늘었다고 밝혔습니다<sub class="tgrade">[T2]</sub>. <b>FBI</b> 사이버부서는 두 결함이 PHP 코어에서 원격 코드 실행을 허용한다고 경고하면서, 즉시 업데이트하거나 시스템을 오프라인으로 돌리라고 했습니다<sub class="tgrade">[T2]</sub>. NSA도 긴급 업데이트를 권고했고, EU 사이버보안 당국은 패치가 어려우면 사이트를 일시 중단하라고 안내했습니다<sub class="tgrade">[T2]</sub>. PHP 재단은 인력과 재원이 부족해 수정이 늦어졌다고 인정했습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 악용이 없다는 전제로 패치 일정을 잡았다면 지금 다시 잡아야 합니다. 공개 전부터 맞고 있던 결함입니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>지난 호에서 달라진 것</b> &mdash; 10월 22일 호에서는 php.net 릴리스가 악용 사례를 보고하지 않은 반면 클라우드플레어 등은 공격 트래픽을 봤다고 적어, 출처가 갈린다고 썼습니다<sub class="tgrade">[T2]</sub>. 이번에 바뀐 쪽은 셋입니다. 공개 전 10시간의 시도가 수치로 나왔고, FBI와 NSA가 공식 권고를 냈고, 유럽 당국이 사이트 중단까지 선택지로 적었습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>결함 분류가 정리됐다</b> &mdash; <b>CVE-2026-109618</b>은 예외 상황 처리 미흡, <b>CVE-2026-109619</b>는 해제 후 사용(Use After Free)으로 적혔습니다<sub class="tgrade">[T2]</sub>. 둘 다 메모리와 관련됩니다. 국내 보도는 원격 코드 실행 외에 <b>서비스 거부</b>로도 악용될 수 있다는 분석을 덧붙였습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>버전 경계가 그대로 위험 경계다</b> &mdash; PHP 정책상 보안 지원이 끝난 8.1 이하에는 공식 패치가 없어 버전 올리기가 유일한 해결입니다<sub class="tgrade">[T2]</sub>. W3Techs 자료를 인용한 보도는 서버 측 언어가 확인된 웹사이트의 약 69%가 PHP로 돌아간다고 적었습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>발견 경위</b> &mdash; 보안기업 캘리프의 라이언 오스틴이 8월에 GPT-5.6 솔로 PHP 소스코드를 점검하다 찾아냈다고 보도됐습니다<sub class="tgrade">[T3]</sub>. 구글 위즈와 오픈AI 연구진도 관련 공격 기법을 찾았으나 악용 가능성을 낮게 보고 넘겼다는 보도가 함께 나왔습니다<sub class="tgrade">[T3]</sub>. 이 대목이 사실이면 판단을 가른 것은 탐지 능력이 아니라 악용성 평가입니다.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 패치 완료 보고를 받은 자산도 로그로 다시 확인합니다. 공개 전 시도가 있었다면 패치 전 침해 흔적이 먼저 봐야 할 대상입니다. &#9313; 서비스 거부 쪽 완화책을 따로 챕니다. 원격 코드 실행만 막는 설정으로는 가용성 공격이 남습니다. &#9314; 8.1 이하 자산의 이전 계획에 날짜를 박습니다. 이번 패치 목록에 그 계열은 아예 없습니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 206" role="img" aria-label="PHP 결함 악용 시도의 시간 흐름: 공개 10시간 전 수천 건, 공개 직후 수백만 건으로 늘었고 그 뒤 FBI와 NSA, EU 당국이 권고를 냈다">
+              <defs>
+                <marker id="ph1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head-mut"/></marker>
+              </defs>
+              <line x1="30" y1="136" x2="596" y2="136" class="s-axis"/>
+
+              <rect x="40" y="36" width="170" height="52" rx="3" class="s-box"/>
+              <text x="125" y="56" text-anchor="middle" class="s-lab" font-weight="600" font-size="11.5">공개 전 10시간</text>
+              <text x="125" y="74" text-anchor="middle" class="s-sub">악용 시도 수천 건</text>
+              <line x1="125" y1="88" x2="125" y2="130" class="s-arw" marker-end="url(#ph1)"/>
+              <circle cx="125" cy="136" r="4" class="dot-acq"/>
+              <text x="125" y="158" text-anchor="middle" class="s-tick">10-21 이전</text>
+
+              <rect x="230" y="36" width="170" height="52" rx="3" class="node-accent"/>
+              <text x="315" y="56" text-anchor="middle" class="s-lab" font-weight="600" font-size="11.5">공개 직후</text>
+              <text x="315" y="74" text-anchor="middle" class="s-sub">시도 수백만 건</text>
+              <line x1="315" y1="88" x2="315" y2="130" class="s-arw" marker-end="url(#ph1)"/>
+              <circle cx="315" cy="136" r="6" class="dot-new"/>
+              <text x="315" y="158" text-anchor="middle" class="s-tick">10-21 공개 · 패치</text>
+
+              <rect x="420" y="36" width="170" height="52" rx="3" class="s-box"/>
+              <text x="505" y="56" text-anchor="middle" class="s-lab" font-weight="600" font-size="11.5">당국 권고</text>
+              <text x="505" y="74" text-anchor="middle" class="s-sub">FBI · NSA · EU</text>
+              <line x1="505" y1="88" x2="505" y2="130" class="s-arw" marker-end="url(#ph1)"/>
+              <circle cx="505" cy="136" r="4" class="dot-acq"/>
+              <text x="505" y="158" text-anchor="middle" class="s-tick">10-22</text>
+
+              <text x="30" y="186" class="s-sub">CVE-2026-109618 예외 처리 미흡 · CVE-2026-109619 해제 후 사용 · CVSS v4.0 9.2</text>
+            </svg>
+          </div>
+          <figcaption>주황 점은 관측된 공격, 파란 점은 공개와 패치 시점이다. 시도 건수는 CDN 사업자 관측값이다. <span class="src">근거: <a href="https://cointelegraph-kr.com/news/cloudflare-millions-exploit-attempts-php-vulnerability-disclosure">클라우드플레어 &mdash; 시도 건수</a> · <a href="https://www.voakorea.com/a/computer-vulnerability-ai-102226/8214170.html">VOA &mdash; FBI 경고</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-country" data-type="country">#EU</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-security" data-type="security">#원격코드실행</span><span class="tag tag-security" data-type="security">#해제후사용</span><span class="tag tag-security" data-type="security">#서비스거부</span></div>
+      </div>
+
+      <!-- Trend C -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-mid">중요도 중간~높음</span>
+          <span class="badge">벤더 연구 공개</span>
+        </div>
+        <h3>같은 모델에 미국 방산업체용이라고 적자 뚫리는 앱이 더 많이 나왔다 &mdash; 70% 대 59%다</h3>
+        <p>중국 알리바바의 코딩 모델 <b>큐원3-코더</b>로 같은 웹 서비스를 만들게 하고 의뢰자만 바꿔 봤습니다<sub class="tgrade">[T2]</sub>. 미국 방산업체용이라고 적으면 완성된 앱이 공격에 뚫린 비율이 <b>70%</b>였고, 중국 업체용이라고 적으면 <b>59%</b>였습니다<sub class="tgrade">[T2]</sub>. 조사한 곳은 AI 보안업체 <b>히룬도</b>이고, 시험 대상은 회원가입과 로그인, 비밀값 저장 기능입니다<sub class="tgrade">[T2]</sub>. 프롬프트에 보안 지시문을 더 넣어도 격차는 줄지 않았습니다<sub class="tgrade">[T2]</sub>. 히룬도는 모델 가중치에서 정치적 정렬을 걷어낸 판에서는 격차가 사라졌다고 밝혔습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 코딩 모델을 바꾸기 어렵다면 산출물 검사를 바꿔야 합니다. 생성된 코드에 자동 보안 검사를 걸지 않으면 이 격차가 그대로 배포됩니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>같은 방향의 앞선 조사</b> &mdash; 방산업체 부즈앨런해밀턴은 중국 모델 네 개를 2,800회 시험해, 미국 정부 페르소나를 주면 세 모델이 더 취약한 코드를 냈다고 보고했습니다<sub class="tgrade">[T2]</sub>. 큐원3-코더의 취약 비율은 약 130% 올랐고 키미 K2.5가 가장 나았습니다<sub class="tgrade">[T2]</sub>. 공개 시점은 5월과 6월 5일로 출처가 갈립니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>수치를 나란히 놓지 말 것</b> &mdash; 부즈앨런의 130%는 취약점 점수를 재는 평가이고, 히룬도의 19% 상승분은 실제로 돌아가는 앱을 공격해 본 결과입니다<sub class="tgrade">[T2]</sub>. 측정 대상이 달라 두 숫자를 직접 비교할 수 없습니다. 2025년 11월 크라우드스트라이크 조사도 같은 방향이었습니다. 딥시크-R1은 중립 프롬프트에서 취약 코드 비율이 19%였는데, 티베트 산업제어 시스템을 맡은 코딩 에이전트로 설정하자 27.2%로 올랐습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>프레임워크로 보면</b> &mdash; 모델이 맥락에 따라 품질을 달리 내놓는 문제이므로, 공급망에서 모델 자체를 신뢰 대상으로 평가해야 하는 쪽에 걸립니다<sub class="tgrade">[T2]</sub>. OWASP Top 10 for LLM Applications가 안전하지 않은 코드 생성을 별도 항목으로 올려 두었다는 근거는 확인하지 못했으므로, 분류는 단정하지 않습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>확인하지 못한 대목</b> &mdash; 히룬도는 벤더이고, 격차를 없앴다는 수정 가중치는 자사 제품 맥락에서 제시됐습니다<sub class="tgrade">[T3]</sub>. 시험 표본 수와 공격 성공 판정 기준도 2차 보도만으로는 확인하지 못했습니다<sub class="tgrade">[T3]</sub>. 알리바바 측 반박이 있었는지도 확인하지 못했습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 사내 코딩 도구가 어느 모델을 쓰는지 목록으로 만듭니다. 중국 모델이 하위 경로에 섞여 들어오는 경우가 많습니다. &#9313; 생성 코드에 정적 분석과 비밀값 탐지를 자동으로 겁니다. 프롬프트에 보안 지시문을 더 넣는 방식은 이 조사에서 효과가 없었습니다. &#9314; 인증과 비밀값 저장 코드는 사람이 따로 봅니다. 격차가 가장 크게 나온 기능이 그 셋입니다. &#9315; 모델 교체 기준에 맥락 민감도를 넣습니다. 벤치마크 점수만으로는 이 차이가 드러나지 않습니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 210" role="img" aria-label="큐원3-코더가 만든 앱이 공격에 뚫린 비율 비교: 미국 방산업체용이라고 적으면 70퍼센트, 중국 업체용이라고 적으면 59퍼센트">
+              <text x="30" y="24" class="s-sub">의뢰자만 바꾼 같은 과제 &mdash; 완성된 앱이 뚫린 비율</text>
+
+              <text x="190" y="62" text-anchor="end" class="s-lab" font-size="11.5">미국 방산업체용</text>
+              <rect x="200" y="44" width="224" height="26" rx="2" class="node-accent"/>
+              <text x="434" y="62" class="s-lab" font-weight="600" font-size="12">70%</text>
+
+              <text x="190" y="110" text-anchor="end" class="s-lab" font-size="11.5">중국 업체용</text>
+              <rect x="200" y="92" width="189" height="26" rx="2" class="s-box"/>
+              <text x="399" y="110" class="s-lab" font-size="12">59%</text>
+
+              <line x1="200" y1="130" x2="520" y2="130" class="s-axis"/>
+              <text x="200" y="146" class="s-tick">0%</text>
+              <text x="360" y="146" text-anchor="middle" class="s-tick">50%</text>
+              <text x="520" y="146" text-anchor="end" class="s-tick">100%</text>
+
+              <text x="30" y="176" class="s-sub">시험 기능: 회원가입 · 로그인 · 비밀값 저장</text>
+              <text x="30" y="194" class="s-sub">보안 지시문을 더 넣어도 격차는 그대로였다</text>
+            </svg>
+          </div>
+          <figcaption>채워진 막대가 더 뚫린 쪽이다. 부즈앨런의 130%는 측정 방식이 달라 이 수치와 나란히 놓을 수 없다. <span class="src">근거: <a href="https://www.securityweek.com/chinese-ai-model-writes-more-hackable-code-when-told-its-for-us-contractor/">SecurityWeek &mdash; 조사 요약</a> · <a href="https://www.hirundo.io/blog/qwen3-coder-vulnerabilities">Hirundo &mdash; 시험 설계</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#중국</span><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-ai" data-type="ai">#큐원3코더</span><span class="tag tag-ai" data-type="ai">#히룬도</span><span class="tag tag-security" data-type="security">#안전하지않은코드생성</span><span class="tag tag-security" data-type="security">#모델공급망</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">3</span><h2>솔루션 동향 · 세미나 / 컨퍼런스</h2></div>
+      <div class="sub-h">오늘의 솔루션 픽</div>
+      <div class="sol">
+        <b>어심토트 랩스 &mdash; 비컨, AI 에이전트 런타임만 보는 보안 제품</b> <span class="m"><sub class="tgrade">[T2 · 2026-10-21 공개]</sub></span><br>
+        시드 550만 달러를 타워 리서치 벤처스 주도로 조달해 제품 상용화에 들어갔습니다<sub class="tgrade">[T2]</sub>. 내세운 대목은 에이전트가 도는 동안의 행위를 런타임에서 보는 구조입니다<sub class="tgrade">[T2]</sub>. 배포 전 스캔 중심 제품과 겹치지 않는 자리를 노린 셈입니다. 일반 판매 시점과 가격은 공개되지 않았습니다<sub class="tgrade">[T3]</sub>.
+      </div>
+      <div class="sol">
+        <b>구글 코드멘더 &mdash; 취약점 탐색에서 심층 스캔이 기본값이 됐다</b> <span class="m"><sub class="tgrade">[T2 · 2026-10-21 공개]</sub></span><br>
+        `cm find` 명령이 파일별 병렬 심층 스캔을 기본으로 돌리도록 바뀌었습니다<sub class="tgrade">[T2]</sub>. 바꾼 이유로 저장소 전체에서 취약점을 더 많이 잡아내는 재현율을 들었습니다<sub class="tgrade">[T2]</sub>. 새 제품이 아니라 기존 도구의 기본 동작 변경입니다. 스캔 시간과 비용이 함께 늘어나는지는 공개되지 않았습니다<sub class="tgrade">[T3]</sub>.
+      </div>
+
+      <div class="sub-h">등록 진행 중인 행사</div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-11-03 · 서울 한국과학기술회관 국제회의실</div>
+          <div class="name">AIS 2026 &mdash; 인공지능 보안 컨퍼런스</div>
+          <div class="where">공공·금융·기업 보안 실무자 대상 · AI 기반 위협 탐지, LLM 보안, AI 공급망 공격 대응 트랙 · 보안담당자 7시간 보안교육 이수 인정 · 09:00~17:00 · 사전등록 11-01 13:00 마감</div>
+        </div>
+        <a class="apply" href="https://www.dailysecu.com/form/register.html?form_id=1765523444">등록 →</a>
+      </div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-11-12~13 · 서울 더 웨스틴 서울 파르나스</div>
+          <div class="name">POC2026 &mdash; Power of Community</div>
+          <div class="where">공격 기법 중심 국제 해킹보안 컨퍼런스 · 표준 등록 90만원(해외 $900), 현장 등록 100만원 현금만 · 표준 등록 11-05까지(공지 일부에는 10-30·10-31 마감으로 적혀 있음)</div>
+        </div>
+        <a class="apply" href="https://event.pocsec.com/event/POC2026">등록 →</a>
+      </div>
+    </section>
+
+    <footer class="rpt-foot">
+      <p><b>AI SEC Pulse</b> · 일일 발송 매일 오전 10:00 KST · No. 050 (2026-10-23)</p>
+      <div class="legend">
+        <span><b>T1</b> 원문·공식 확인</span><span><b>T2</b> 공신력 확인</span><span><b>T3</b> 재확인 필요</span>
+      </div>
+      <div class="legend"><span><b>중요도 높음</b> KEV 등재·CVSS9+ 또는 즉시조치·의사결정 필요한 확정 사안</span></div>
+      <div class="legend"><span><b>중요도 중간~높음</b> CVSS7~8.9(악용 미확인) 또는 벤더 대응 진행 중·초안 단계</span></div>
+      <div class="legend"><span><b>중요도 중간</b> CVSS4~6.9 또는 참고용 업계 동향, 직접 조치 없음</span></div>
+      <div class="legend"><span><b>중요도 낮음</b> CVSS4 미만 또는 배경 정보 성격</span></div>
+      <p>구독 관리 · 지난 호 · 제보: (수신자 안내에 따름)</p>
+    </footer>
+
+  </div>
+</div>
+<img src="https://elishajey.goatcounter.com/count?p=/pulse/2026-10-23" alt="" width="1" height="1" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
