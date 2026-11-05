@@ -396,57 +396,58 @@
 
       <div class="trend-card">
         <div class="tc-meta">
-          <span class="imp imp-mid">중요도 중간</span>
-          <span class="badge">연구 시제품 공개 · 오픈소스</span>
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">오픈소스 보안 권고 · 패치 배포</span>
         </div>
-        <h3>API 뒤에서 어떤 모델이 답했는지 증명하는 도구가 나왔다 &mdash; 비용은 일반 추론의 약 72배</h3>
-        <p>앤트로픽 Frontier Red Team이 EPFL·MIT·StarkWare와 함께 만든 <b>FlashProve</b>를 공개했습니다<sub class="tgrade">[T2]</sub>. 특정 답변을 특정 모델이 만들었다는 암호학적 증명을 답변마다 붙이는 시제품입니다<sub class="tgrade">[T1]</sub>. 공급자가 몰래 값싼 모델로 바꿔 답하거나, 추론 서버에 접근한 누군가가 출력을 고치는 위험을 막으려는 것입니다<sub class="tgrade">[T2]</sub>. 검증은 가중치 없이 일반 CPU에서 하고, 다른 모델의 출력이 통과하지 못한다는 성질은 Lean 4로 증명했습니다<sub class="tgrade">[T1]</sub>. 비용은 vLLM 대비 GPU당 약 72배이고, 유지보수 계획이 없는 연구용 공개본입니다<sub class="tgrade">[T2]</sub>.</p>
-        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 아직 운영에 쓸 단계는 아닙니다. 다만 외부 모델 API를 계약할 때 응답 모델을 바꾸면 알리게 하는 조항은 지금 넣어 둘 만합니다.</p>
+        <h3>AI가 찾은 Xen 결함으로 게스트 VM이 호스트 메모리를 읽고 쓴다 &mdash; 4.6 이후 전 버전, 우회책은 없다</h3>
+        <p>Xen 프로젝트가 11월 3일 보안 권고 <b>XSA-523</b>을 내고 결함 2건(CVE-2026-102703, CVE-2026-102704)을 공개했습니다<sub class="tgrade">[T1]</sub>. 악성 게스트 VM이 다른 VM과 관리 영역인 Dom0의 메모리를 마음대로 읽고 쓸 수 있습니다<sub class="tgrade">[T1]</sub>. Xen 4.6 이후 모든 버전이 영향을 받고, 알려진 우회책이 없어 패치만이 해법입니다<sub class="tgrade">[T1]</sub>. 결함은 앤트로픽이 Claude로 찾았고 Ada Logics의 Stephan Lipp가 검증했으며, CodeAnt AI 연구팀도 따로 보고했습니다<sub class="tgrade">[T1]</sub>. 권고문에는 CVSS 점수가 실리지 않았습니다<sub class="tgrade">[T1]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; Xen 기반 가상화를 쓴다면 외부 고객이나 신뢰할 수 없는 워크로드가 올라간 호스트부터 패치하십시오. 우회책이 없어 패치 전까지는 위험을 줄일 방법이 없습니다.</p>
         <details class="more"><summary>자세히 보기</summary><div class="more-body">
-          <p><b>무엇을 공개했나</b> &mdash; 증명 생성기와 C++ 검증기, Lean 참조 검증기, 형식 증명, 프로토콜 명세가 Apache 2.0 라이선스로 나왔습니다<sub class="tgrade">[T2]</sub>. 모델 가중치는 들어 있지 않습니다. 시험에는 Llama 4 Maverick(전체 파라미터 4,000억 개, 토큰당 활성 약 170억 개)을 썼습니다<sub class="tgrade">[T2]</sub>.</p>
-          <p><b>성능</b> &mdash; H100 1대에서 증명 생성 속도는 초당 약 110토큰이고, 1,024토큰 응답의 증명 크기는 약 18.78MB입니다<sub class="tgrade">[T2]</sub>. 검증에는 24스레드로 약 17초, 단일 스레드로 약 21초가 걸립니다<sub class="tgrade">[T2]</sub>. 모델마다 한 번 하는 가중치 약정에는 약 39분이 들고, 약정 하나로 약 1,600만 건을 처리할 수 있습니다<sub class="tgrade">[T2]</sub>.</p>
-          <p><b>한계</b> &mdash; 앤트로픽은 논문과 Lean 프로토콜, 실행 코드가 완전히 일치하지 않을 수 있어 Lean 명세를 사람이 직접 확인해야 한다고 밝혔습니다<sub class="tgrade">[T2]</sub>. 증명 생성기는 형식 검증을 거치지 않았습니다<sub class="tgrade">[T2]</sub>. 약정 ID는 검증 대상 서버가 아니라 사용자가 믿는 제3자에게서 받아야 합니다<sub class="tgrade">[T1]</sub>.</p>
-          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 외부 LLM API 계약서에 응답 모델 변경 통지 조항이 있는지 확인합니다. &#9313; 모델 평가 결과로 도입을 결정했다면, 평가한 모델과 실제 서비스 모델이 같은지 확인할 방법을 공급자에게 묻습니다. &#9314; 사내 추론 서버는 출력이 바뀌지 않도록 접근 권한과 무결성 로그부터 점검합니다.</p>
+          <p><b>결함의 구조</b> &mdash; Xen은 여러 건을 묶어 처리하는 grant copy 요청에서, 주소 범위가 이어지면 앞서 검증한 결과를 재사용합니다<sub class="tgrade">[T1]</sub>. 이 재검증이 잘못된 조건에서 이뤄져 두 가지 문제가 생깁니다<sub class="tgrade">[T1]</sub>. CVE-2026-102703은 프레임 번호와 grant 참조를 혼동하는 문제입니다. CVE-2026-102704는 자기 메모리만 복사하도록 막는 검사가 엉뚱한 위치에 있는 문제입니다<sub class="tgrade">[T1]</sub>.</p>
+          <p><b>패치 적용 시 주의</b> &mdash; xen-unstable과 4.19.x용, 4.18.x와 4.17.x용 패치가 따로 나왔습니다<sub class="tgrade">[T1]</sub>. 최신 릴리스 압축본에는 패치가 깨끗이 적용되지 않을 수 있어, Xen 측은 먼저 안정 브랜치의 최신 상태로 올리라고 권고했습니다<sub class="tgrade">[T1]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 사내와 고객용 가상화 플랫폼에서 Xen 4.6 이상으로 도는 호스트를 추립니다. Xen을 기반으로 한 상용 하이퍼바이저도 함께 확인합니다. &#9313; 외부 고객이나 신뢰할 수 없는 워크로드가 올라간 호스트부터 패치합니다. &#9314; 배포판·벤더 패키지에 패치가 언제 반영되는지 확인하고, 늦어지면 안정 브랜치 최신본으로 직접 빌드할지 판단합니다.</p>
         </div></details>
         <figure>
           <div class="scroll-x">
-            <svg class="dg" viewBox="0 0 620 200" role="img" aria-label="공급자가 가중치 약정을 한 번 만들고, 응답마다 1,024토큰당 약 18.78MB의 증명을 붙이면, 사용자가 가중치 없이 CPU에서 약 17초 만에 검증하는 흐름. 비용은 vLLM 대비 GPU당 약 72배">
+            <svg class="dg" viewBox="0 0 620 200" role="img" aria-label="악성 게스트 VM이 Xen 하이퍼바이저의 grant copy 재검증 오류를 거쳐 다른 VM과 Dom0의 메모리를 읽고 쓰는 흐름. Xen 4.5 이하는 안전하고 4.6 이후 전 버전이 취약하다">
               <defs>
-                <marker id="arC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <marker id="arX" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                   <path d="M0,0 L10,5 L0,10 z" class="head-mut"/>
                 </marker>
               </defs>
-              <text x="16" y="20" class="s-sub">답변 한 건을 검증하는 흐름 &mdash; Llama 4 Maverick 시험 기준</text>
+              <text x="16" y="20" class="s-sub">격리가 깨지는 경로 &mdash; XSA-523</text>
               <line x1="16" y1="28" x2="604" y2="28" class="s-axis"/>
 
-              <rect x="16" y="40" width="176" height="66" rx="3" class="s-box"/>
-              <text x="28" y="62" class="s-lab" font-size="11">공급자</text>
-              <text x="28" y="80" class="s-sub">가중치 약정 1회</text>
-              <text x="28" y="96" class="s-sub">모델당 약 39분</text>
+              <rect x="16" y="40" width="168" height="66" rx="3" class="s-box"/>
+              <text x="28" y="62" class="s-lab" font-size="11">악성 게스트 VM</text>
+              <text x="28" y="80" class="s-sub">grant copy 요청을</text>
+              <text x="28" y="96" class="s-sub">묶어서 보냄</text>
 
-              <line x1="196" y1="73" x2="222" y2="73" class="s-arw" marker-end="url(#arC)"/>
+              <line x1="188" y1="73" x2="218" y2="73" class="s-arw" marker-end="url(#arX)"/>
 
-              <rect x="228" y="40" width="176" height="66" rx="3" class="s-box"/>
-              <text x="240" y="62" class="s-lab" font-size="11">답변 + 증명</text>
-              <text x="240" y="80" class="s-sub">1,024토큰당 약 18.78MB</text>
-              <text x="240" y="96" class="s-sub">H100 1대 초당 110토큰</text>
+              <rect x="224" y="40" width="184" height="66" rx="3" class="s-box"/>
+              <text x="236" y="62" class="s-lab" font-size="11">Xen 하이퍼바이저</text>
+              <text x="236" y="80" class="s-sub">검증 결과를 재사용</text>
+              <text x="236" y="96" class="s-sub">재검증 조건 오류</text>
 
-              <line x1="408" y1="73" x2="434" y2="73" class="s-arw" marker-end="url(#arC)"/>
+              <line x1="412" y1="73" x2="442" y2="73" class="s-arw" marker-end="url(#arX)"/>
 
-              <rect x="440" y="40" width="164" height="66" rx="3" class="s-box-accent"/>
-              <text x="452" y="62" class="s-lab" font-size="11">사용자 검증</text>
-              <text x="452" y="80" class="s-sub t-accent">가중치 없이 CPU로</text>
-              <text x="452" y="96" class="s-sub t-accent">24스레드 약 17초</text>
+              <rect x="448" y="40" width="156" height="66" rx="3" class="s-box-accent"/>
+              <text x="460" y="62" class="s-lab" font-size="11">Dom0 · 다른 VM</text>
+              <text x="460" y="80" class="s-sub t-accent">메모리 임의 읽기</text>
+              <text x="460" y="96" class="s-sub t-accent">메모리 임의 쓰기</text>
 
-              <text x="16" y="140" class="s-sub">치르는 비용</text>
+              <text x="16" y="140" class="s-sub">영향 버전</text>
               <line x1="16" y1="148" x2="604" y2="148" class="s-axis"/>
-              <rect x="16" y="158" width="588" height="30" rx="3" class="s-box"/>
-              <text x="28" y="178" class="s-sub">vLLM(FP8, H100 8대) 대비 GPU당 약 72배 &middot; 최대 부하에서 약 94배</text>
+              <rect x="16" y="158" width="140" height="30" rx="3" class="s-box"/>
+              <text x="28" y="178" class="s-sub">4.5 이하 &middot; 안전</text>
+              <rect x="164" y="158" width="440" height="30" rx="3" class="s-box-accent"/>
+              <text x="176" y="178" class="s-sub t-accent">4.6 ~ 최신 &middot; 취약 &middot; 알려진 우회책 없음</text>
             </svg>
           </div>
-          <figcaption>청록색 칸이 사용자 쪽에서 일어나는 일이다. <span class="src">근거: <a href="https://github.com/anthropics/FlashProve">GitHub &mdash; anthropics/FlashProve</a> · <a href="https://www.helpnetsecurity.com/2026/11/04/anthropic-flashprove-provable-inference/">Help Net Security &mdash; FlashProve 공개</a></span></figcaption>
+          <figcaption>청록색 칸이 공격자가 닿는 영역과 취약한 버전이다. <span class="src">근거: <a href="https://xenbits.xen.org/xsa/advisory-523.html">Xen Project &mdash; XSA-523 보안 권고</a></span></figcaption>
         </figure>
-        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-ai" data-type="ai">#앤트로픽</span><span class="tag tag-ai" data-type="ai">#Llama4</span><span class="tag tag-security" data-type="security">#검증가능추론</span><span class="tag tag-security" data-type="security">#모델무결성</span></div>
+        <div class="tags"><span class="tag tag-ai" data-type="ai">#앤트로픽</span><span class="tag tag-ai" data-type="ai">#Claude</span><span class="tag tag-security" data-type="security">#VM탈출</span><span class="tag tag-security" data-type="security">#하이퍼바이저</span><span class="tag tag-security" data-type="security">#AI취약점발견</span></div>
       </div>
     </section>
 
@@ -471,6 +472,14 @@
           <div class="where">공격 기법 중심 국제 해킹보안 컨퍼런스 · Windows 커널, iOS, 브라우저, 하이퍼바이저, 컨테이너, AI 분야 연구 발표 · 표준 등록 900달러 · 좌석 한정</div>
         </div>
         <a class="apply" href="https://event.pocsec.com/event/POC2026">등록 →</a>
+      </div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-11-18~20 · 서울 SKY31 컨벤션</div>
+          <div class="name">ICISC 2026 &mdash; 제29회 국제 정보보호·암호학 학술대회</div>
+          <div class="where">한국정보보호학회 주관 국제 학술대회 · 정보보호·암호 연구 발표 · 국내 일반 75만 원 · 사전등록 11-09까지</div>
+        </div>
+        <a class="apply" href="https://kiisc.or.kr/pre-registration">등록 →</a>
       </div>
     </section>
 
