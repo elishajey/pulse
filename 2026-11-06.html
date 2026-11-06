@@ -1,0 +1,555 @@
+<title>AI SEC Pulse</title>
+<meta name="description" content="법·컴플라이언스 모니터링, AI 보안·서비스 동향 3선(도해), 솔루션·컨퍼런스 안내를 담은 일일 브리핑 — 2026-11-06 호">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --bg: #e9edf1;
+    --paper: #ffffff;
+    --paper-2: #f5f7f9;
+    --ink: #17202c;
+    --ink-soft: #3c4858;
+    --muted: #62707f;
+    --line: #d7dee5;
+    --line-strong: #b6c0cb;
+    --accent: #0d7c86;
+    --accent-soft: #d2eaeb;
+    --acq: #ad5019;
+    --new: #2d7a4d;
+    --flag: #916b00;
+    --hi: #b4381f;        /* importance high */
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c1016;
+      --paper: #151c25;
+      --paper-2: #1a222d;
+      --ink: #e6ebf1;
+      --ink-soft: #b7c1cd;
+      --muted: #8a96a5;
+      --line: #29323d;
+      --line-strong: #3a4551;
+      --accent: #3cb8c3;
+      --accent-soft: #102f35;
+      --acq: #d9853f;
+      --new: #5bad7c;
+      --flag: #d5aa3d;
+      --hi: #e07a5f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c1016; --paper: #151c25; --paper-2: #1a222d;
+    --ink: #e6ebf1; --ink-soft: #b7c1cd; --muted: #8a96a5;
+    --line: #29323d; --line-strong: #3a4551;
+    --accent: #3cb8c3; --accent-soft: #102f35;
+    --acq: #d9853f; --new: #5bad7c; --flag: #d5aa3d; --hi: #e07a5f;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.62; -webkit-font-smoothing: antialiased;
+  }
+  .mail { max-width: 680px; margin: 0 auto; padding: 28px 16px 80px; }
+  .envelope {
+    background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 4px; padding: 10px 14px; margin-bottom: 14px;
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted);
+  }
+  .envelope b { color: var(--ink-soft); font-weight: 600; }
+
+  .sheet {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 1px 2px rgba(20,28,40,.05), 0 14px 40px -20px rgba(20,28,40,.22);
+  }
+
+  header.rpt {
+    padding: 30px 28px 22px; border-bottom: 3px solid var(--ink);
+  }
+  header.rpt .brandline {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--accent);
+  }
+  header.rpt h1 {
+    font-family: "Archivo", sans-serif; font-weight: 700;
+    font-size: 2rem; letter-spacing: -.02em; margin: 8px 0 6px;
+  }
+  header.rpt .date {
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink-soft);
+  }
+  header.rpt .cadence {
+    margin-top: 12px; font-size: 12.5px; color: var(--muted);
+  }
+  header.rpt .byline {
+    text-align: right; margin: 10px 0 0; font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted);
+  }
+
+  section.blk { padding: 26px 28px; border-top: 1px solid var(--line); }
+  section.blk:first-of-type { border-top: 0; }
+  .sec-tag {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;
+  }
+  .sec-no {
+    font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 12px;
+    color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 1px 6px;
+  }
+  .sec-tag h2 {
+    font-family: "Archivo", sans-serif; font-weight: 700; font-size: 1.2rem;
+    letter-spacing: -.01em; margin: 0;
+  }
+  .sec-lede { margin: 0 0 18px; font-size: .9rem; color: var(--muted); }
+  .board-link { margin: 0 0 16px; margin-left: 31.2px; font-size: .85rem; }
+  .board-link a {
+    color: var(--accent); font-weight: 600; text-decoration: none;
+    background: var(--accent-soft); padding: 3px 10px; border-radius: 4px; display: inline-block;
+  }
+  .board-link a::after { content: " ↗"; font-weight: 400; }
+  /* §1 카드가 0건인 날 — "오늘의 뉴스 없음"(2026-10-12 사용자 요청). */
+  .no-news { margin: 0 0 4px; margin-left: 31.2px; font-size: .9rem; color: var(--muted); }
+
+  /* ---- section 1 : compliance items ---- */
+  .item { padding: 14px 0; border-top: 1px dashed var(--line); }
+  .item:first-child { border-top: 0; padding-top: 0; }
+  .item .row1 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .badge {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .05em;
+    padding: 1px 6px; border-radius: 2px; border: 1px solid currentColor; white-space: nowrap;
+  }
+  .b-new { color: var(--new); }
+  .b-upd { color: var(--accent); }
+  .b-hold { color: var(--muted); }
+  .b-t1 { color: var(--accent); }
+  .b-t2 { color: var(--ink-soft); }
+  .b-t3 { color: var(--flag); }
+  .jur {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted);
+  }
+  .item h3 {
+    font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 1.05rem;
+    margin: 6px 0 4px;
+  }
+  .item p { margin: 0; font-size: .82rem; color: var(--ink-soft); }
+  .item .src {
+    margin-top: 5px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted);
+  }
+  .item .src a { color: var(--accent); word-break: break-all; }
+
+  /* ---- 자세히 보기 드롭다운 (§1·§2 공용) ---- */
+  .more { margin-top: 8px; }
+  .more > summary {
+    cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    font-weight: 600; color: var(--accent); list-style: revert;
+  }
+  .more > summary::marker { color: var(--accent); }
+  .more-body {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .82rem; color: var(--ink-soft);
+  }
+  .more-body p { margin: 0 0 8px; }
+  .more-body p:last-child { margin-bottom: 0; }
+
+  .quiet-note {
+    margin-top: 16px; padding: 10px 12px; background: var(--paper-2);
+    border-left: 3px solid var(--line-strong); font-size: .84rem; color: var(--muted);
+  }
+
+  /* ---- section 2 : trend cards with figures ---- */
+  .trend-card { padding: 20px 0; border-top: 1px solid var(--line); }
+  .trend-card:first-of-type { border-top: 0; padding-top: 4px; }
+  .tc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .imp {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .04em;
+    padding: 1px 6px; border-radius: 2px;
+  }
+  .imp-high { background: transparent; color: var(--hi); border: 2px solid var(--hi); font-weight: 700; }
+  .imp-mid { background: #0d7c86; color: #fff; }
+  .trend-card h3 {
+    font-family: "Archivo", sans-serif; font-weight: 600; font-size: 1.05rem;
+    letter-spacing: -.005em; margin: 0 0 6px;
+  }
+  .trend-card > p { margin: 0 0 14px; font-size: .89rem; color: var(--ink-soft); }
+  figure {
+    margin: 0; background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 3px; padding: 14px 12px 8px;
+  }
+  figure .scroll-x { overflow-x: auto; }
+  svg.dg { display: block; width: 100%; height: auto; color: var(--ink); min-width: 520px; }
+  figcaption {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .8rem; color: var(--muted);
+  }
+  figcaption .src { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+
+  .take { color: var(--accent); }
+
+  /* svg helpers */
+  .s-box { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-box-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+  .s-lab { fill: var(--ink); font-family: "IBM Plex Sans", sans-serif; font-size: 12px; }
+  .s-sub { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .02em; }
+  .s-arw { stroke: var(--muted); stroke-width: 1.4; fill: none; }
+  .s-axis { stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-tick { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .dot-acq { fill: var(--acq); }
+  .dot-new { fill: var(--new); }
+  .t-acq { fill: var(--acq); color: var(--acq); }
+  .t-new { fill: var(--new); color: var(--new); }
+  .t-accent { fill: var(--accent); color: var(--accent); }
+  .node-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+  .head-mut { fill: var(--muted); }
+  .head-acc { fill: var(--accent); }
+  .link-acc { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+
+  /* ---- section 3 : solutions + events ---- */
+  .sub-h {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); margin: 18px 0 8px;
+  }
+  .sub-h:first-child { margin-top: 0; }
+  .sol { padding: 10px 0; border-top: 1px dashed var(--line); font-size: .88rem; }
+  .sol:first-of-type { border-top: 0; }
+  .sol b { font-weight: 600; }
+  .sol .m { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10.5px; }
+
+  .evt {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px 14px; align-items: center;
+    padding: 12px 0; border-top: 1px dashed var(--line);
+  }
+  .evt:first-of-type { border-top: 0; }
+  .evt .when {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--accent);
+  }
+  .evt .name { font-weight: 600; font-size: .92rem; margin: 2px 0 2px; }
+  .evt .where { font-size: .82rem; color: var(--muted); }
+  .apply {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .04em;
+    text-decoration: none; color: var(--accent);
+    border: 1px solid var(--accent); border-radius: 3px; padding: 6px 12px; white-space: nowrap;
+  }
+  .apply:hover { background: var(--accent-soft); }
+
+  footer.rpt-foot {
+    padding: 20px 28px 26px; border-top: 3px solid var(--ink);
+    font-size: .8rem; color: var(--muted);
+  }
+  footer.rpt-foot p { margin: 0 0 6px; }
+  footer.rpt-foot code { font-family: "IBM Plex Mono", monospace; font-size: .76rem; color: var(--ink-soft); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 10px 0; }
+  .legend span { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .tgrade { color: var(--muted); font-size: 42%; }
+
+  /* ---- 해시태그(2026-09-17 사용자 요청) — 카드마다 근거 아래 국가·회사유형·법규명·AI사명/모델명·
+     보안용어를 인스타그램 스타일 해시태그로 노출. data-type 속성은 화면에 안 보이지만 나중에
+     이 데이터를 파싱해 체인으로 엮을 때 카테고리를 바로 구분하도록 남겨둔다. ---- */
+  .tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 9px; }
+  .tag { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; }
+  .tag-country { color: var(--accent); }
+  .tag-org { color: var(--flag); }
+  .tag-law { color: var(--acq); }
+  .tag-ai { color: var(--new); }
+  .tag-security { color: var(--hi); }
+
+  a { color: var(--accent); }
+  @media (max-width: 560px) {
+    .evt { grid-template-columns: 1fr; }
+    header.rpt h1 { font-size: 1.7rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="mail">
+
+  <div class="envelope">
+    <div>제목 &nbsp; <b>AI SEC Pulse (2026-11-06)</b></div>
+    <div>발송 &nbsp; 매일 오전 10:00 (KST) &nbsp;·&nbsp; 수신자: AI 보안·컴플라이언스 담당</div>
+  </div>
+
+  <div class="sheet">
+
+    <header class="rpt">
+      <div class="brandline">Daily Briefing</div>
+      <h1>AI SEC Pulse</h1>
+      <div class="date">2026년 11월 6일 금요일 · No. 063</div>
+      <p class="byline">reported by elishaJEY</p>
+    </header>
+
+
+    <!-- ============ 1 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">1</span><h2>법 · 컴플라이언스 모니터링</h2></div>
+      <p class="board-link"><a href="https://elishajey.github.io/ai-compliance-board/">AI SEC Compliance Dashboard</a></p>
+      <div class="item">
+        <div class="row1">
+          <span class="badge b-new">신규</span>
+          <span class="jur">인도</span>
+        </div>
+        <h3>인도 사이버보안센터가 AI 감사 지침을 냈다 &mdash; 위험 4등급으로 감사 깊이가 갈리고 AI 사고는 6시간 안에 신고해야 한다</h3>
+        <p>AI 시스템을 감사할 때 무엇을 어디까지 봐야 하는지를 국가 기관이 문서로 정했습니다. 인도 침해사고대응센터(CERT-In)가 2026년 11월 4일 「AI 보안 감사 지침」 v1.0을 발표했습니다<sub class="tgrade">[T1]</sub>. 뼈대는 등급제여서 AI 시스템을 Low·Moderate·High·Critical 네 등급으로 나눕니다. 등급은 고장 났을 때의 피해와 자율성·데이터 민감도·규모·필수 서비스 비중으로 정합니다<sub class="tgrade">[T2]</sub>. 상위 등급은 등록된 제3자 감사를 받아야 하고, Critical 등급에는 상시 모니터링까지 요구됩니다<sub class="tgrade">[T2]</sub>.<br><br>운영 쪽 숫자도 함께 나왔습니다. 신고 대상 AI 보안 사고는 6시간 안에 알려야 하고 로그는 최소 180일 남겨야 합니다<sub class="tgrade">[T2]</sub>. 다만 이 수치는 언론 보도에 실린 내용입니다. 인도 리스크관리협회(RMAI)는 조항 단위로 대조할 전문을 확보하지 못했다고 적었습니다<sub class="tgrade">[T3]</sub>.<br><br>국내 통신사도 이미 같은 축을 건드리고 있습니다. SK텔레콤은 올해 10월 사내 AI 에이전트 관리체계까지 ISO/IEC 42001 인증 범위를 넓혔습니다<sub class="tgrade">[T2]</sub>. KT는 자체 통제 기술을, LG유플러스는 외부 협력 기반 안전성 평가 체계를 키우고 있습니다<sub class="tgrade">[T2]</sub>. 금융보안원이 내놓은 AI 에이전트 평가 기준도 6개 영역 17개 점검항목으로 권한 통제와 사람 승인, 킬 스위치를 묻습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; AI 감사 기준이 권한·사람 승인·중단·로그 네 축으로 모이고 있습니다. 사내 에이전트 점검표를 그 네 축으로 다시 묶어 두십시오.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>등급이 감사 주기를 정한다</b> &mdash; 지침은 등급마다 감사 깊이와 주기를 다르게 둡니다<sub class="tgrade">[T2]</sub>. 자율성도 등급을 가르는 기준에 들어갔습니다. 사람 승인 없이 외부 시스템을 호출하는 에이전트는 같은 데이터를 쓰더라도 더 높은 등급으로 올라갑니다<sub class="tgrade">[T2]</sub>. 이는 NIST AI RMF의 Govern 기능이 요구하는 거버넌스 체계와 맞닿아 있습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>같은 시기에 나온 공격 경보</b> &mdash; CERT-In은 AI 공격 도구를 쓰는 조직 Crafty Falcon이 인도 금융·보험 부문을 노린다고 경고했습니다<sub class="tgrade">[T2]</sub>. CSIRT-Fin 분석은 공개된 AI 공격 도구 네 가지를 지목했습니다. ARTEX, PentAGI, Cairn, CyberStrikeAI입니다<sub class="tgrade">[T2]</sub>. 공격자는 피해 기업의 결제·지급 API를 기계 속도로 호출했고, 지원 인프라는 몇 시간에서 며칠 단위로 IP를 바꿨습니다<sub class="tgrade">[T2]</sub>. 권고에는 주말·공휴일 인력 증원과 가상자산 출금 다중 서명이 들어갔습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>국내 기준은 어디까지 왔나</b> &mdash; 국내에서는 금융 부문이 AI 감사·검증 기준을 먼저 숫자로 내놨습니다. 금융보안원 기준은 올해 말까지 시범 검증을 돌리고 정식 검사 기준은 2027년부터 적용할 예정입니다<sub class="tgrade">[T2]</sub>. 신고 시한만 보면 국내 제도는 AI 전용 시한을 따로 두지 않았습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 사내 AI 시스템 목록에 자율성 항목을 추가합니다. 사람 승인 없이 외부를 호출하는 시스템부터 세어 둡니다. &#9313; 에이전트 로그 보관 기간을 확인합니다. 180일은 인도 기준이지만 사고 조사에 필요한 하한으로 쓸 만합니다. &#9314; 해외 법인이 인도 금융권과 연동돼 있으면 결제·지급 API 호출량의 급증 탐지를 먼저 켭니다. &#9315; ISO/IEC 42001 인증 범위에 에이전트 관리체계가 들어가 있는지 증빙으로 확인합니다. 인증서만으로는 범위가 드러나지 않습니다.</p>
+        </div></details>
+        <div class="src">근거: <a href="https://www.cert-in.org.in/s2cMainServlet?pageid=GUIDLNVIEW02&amp;refcode=CISG-2026-04">CERT-In &mdash; AI 보안 감사 지침 공고(2026-11-04)</a> · <a href="https://rmaindia.org/cert-in-releases-ai-security-auditing-guidelines-2026/">RMAI &mdash; 등급·신고 시한 정리</a> · 해설: <a href="https://www.medianama.com/2026/11/223-cert-in-ai-threat-actor-bfsi-payment-api/">Medianama &mdash; 결제 API를 노린 AI 공격 경보</a> · 국내 관점: <a href="https://www.sisaon.co.kr/news/articleView.html?idxno=205535">시사오늘 &mdash; 통신 3사 AI 에이전트 통제</a> · <a href="https://www.boannews.com/news/articleView.html?idxno=146243">보안뉴스 &mdash; 금융보안원 AI 에이전트 보안 지표</a></div>
+        <div class="tags"><span class="tag tag-country" data-type="country">#인도</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-org" data-type="org">#통신사</span><span class="tag tag-law" data-type="law">#AI보안감사지침</span><span class="tag tag-law" data-type="law">#ISO42001</span><span class="tag tag-security" data-type="security">#AI에이전트</span><span class="tag tag-security" data-type="security">#권한통제</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">2</span><h2>AI 보안 · 서비스 동향 3선</h2></div>
+
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">벤더 연구 공개</span>
+        </div>
+        <h3>오픈AI 파이프라인이 30시간 만에 리눅스 커널 권한상승 익스플로잇 948개를 만들었다 &mdash; 1개당 비용은 1,279달러였다</h3>
+        <p>오픈AI가 아직 공개하지 않은 사이버 모델로 리눅스 커널 결함을 찾고 익스플로잇까지 자동으로 만든 실험 결과를 내놨습니다<sub class="tgrade">[T1]</sub>. 10월 중순 실행에서 후보 2,308건을 찾아 30시간 안에 1,724건을 재현했고, 그중 948건이 동작하는 권한상승 익스플로잇이 됐습니다<sub class="tgrade">[T1]</sub>. 정보유출 취약점 291건의 PoC도 같은 실행에서 나왔습니다<sub class="tgrade">[T1]</sub>. 든 돈은 API 크레딧 1,213,430달러이고 익스플로잇 하나당 1,279달러입니다<sub class="tgrade">[T1]</sub>. 6월 GPT-5.5-Cyber가 권한상승 익스플로잇 24개를 찾았던 것에 비하면 40배에 가깝습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 미패치 서버에서는 저권한 계정 하나가 곧 root입니다. 커널 패치가 밀린 서버부터 순서를 다시 잡으십시오.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>어떻게 돌렸나</b> &mdash; 파이프라인은 발견·동적 검증·악용 가능성 평가·패치 생성·사람 검토 다섯 단계입니다<sub class="tgrade">[T1]</sub>. 익스플로잇과 패치, 심각도 제안은 연구자가 검토한 뒤에 메인테이너로 넘어갑니다<sub class="tgrade">[T1]</sub>. 이 과정에서 새로 쓰인 커널 공략 기법도 열 가지입니다. 지속 탄성 객체 스프레이 2종, 페이지 그루밍 2종, 데이터 전용 5종, 임의 타입 혼동 1종입니다<sub class="tgrade">[T1]</sub>.</p>
+          <p><b>패치는 아직 사람 손이 필요하다</b> &mdash; 오픈AI는 발견 속도에 패치 생성이 따라붙어야 한다고 적었습니다<sub class="tgrade">[T1]</sub>. AI가 만든 패치는 추가 지시와 반복, 전문가 지도를 거쳐야 쓸 만해졌습니다<sub class="tgrade">[T1]</sub>. VulnCheck는 AI를 활용한 취약점 발견을 위험이 커지는 영역으로 꼽았습니다<sub class="tgrade">[T2]</sub>. 실험 대상은 이름을 밝히지 않은 한 널리 쓰이는 리눅스 배포판이며, 커널 버전과 보호 기능 설정은 기사에 적히지 않았습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>공개 건수는 이미 늘었다</b> &mdash; Google Threat Intelligence Group 집계로 월간 취약점 공개는 1월 5,045건에서 8월 10,740건으로 늘었습니다<sub class="tgrade">[T2]</sub>. 고위험 공개는 같은 기간 131건에서 350건이 됐습니다<sub class="tgrade">[T2]</sub>. 영국 NCSC도 AI 도구가 제로데이 발견을 거의 확실히 늘렸다고 봤습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 리눅스 커널 패치 적용 지연일을 자산별로 뽑습니다. 권한상승은 내부 침입 뒤 단계라 외부 노출 여부로 우선순위를 가르면 놓칩니다. &#9313; 공용 호스트에서 일반 사용자 계정을 쓰는 서비스를 찾아 계정 분리를 먼저 끝냅니다. &#9314; 컨테이너 호스트의 커널은 이미지와 따로 관리되니 패치 주기를 별도로 확인합니다. &#9315; 취약점 공개량이 두 배가 된 상황을 전제로 월간 패치 처리량의 상한을 다시 계산합니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 214" role="img" aria-label="오픈AI 사이버 모델 파이프라인은 커널 결함 후보 2,308건에서 동적 재현 1,724건을 거쳐 동작하는 권한상승 익스플로잇 948개를 만들었고, 같은 실행에서 정보유출 PoC 291건과 새 기법 10종이 나왔으며 API 비용은 1,213,430달러였다">
+              <defs>
+                <marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="head-mut"/>
+                </marker>
+              </defs>
+              <text x="16" y="20" class="s-sub">10월 중순 실행 &mdash; 30시간</text>
+              <line x1="16" y1="28" x2="604" y2="28" class="s-axis"/>
+
+              <rect x="16" y="38" width="180" height="56" rx="3" class="s-box"/>
+              <text x="28" y="62" class="s-lab" font-size="11">후보 2,308건</text>
+              <text x="28" y="82" class="s-sub">커널 결함 자동 탐색</text>
+
+              <line x1="200" y1="66" x2="216" y2="66" class="s-arw" marker-end="url(#ar1)"/>
+
+              <rect x="220" y="38" width="180" height="56" rx="3" class="s-box"/>
+              <text x="232" y="62" class="s-lab" font-size="11">동적 재현 1,724건</text>
+              <text x="232" y="82" class="s-sub">실제로 재현된 결함</text>
+
+              <line x1="404" y1="66" x2="420" y2="66" class="s-arw" marker-end="url(#ar1)"/>
+
+              <rect x="424" y="38" width="180" height="56" rx="3" class="s-box-accent"/>
+              <text x="436" y="62" class="s-lab" font-size="11">LPE 948개</text>
+              <text x="436" y="82" class="s-sub t-accent">권한상승 동작 확인</text>
+
+              <text x="16" y="126" class="s-sub">같은 실행에서 나온 나머지</text>
+              <line x1="16" y1="134" x2="604" y2="134" class="s-axis"/>
+
+              <rect x="16" y="144" width="288" height="58" rx="3" class="s-box"/>
+              <text x="28" y="166" class="s-sub">정보유출 PoC 291건</text>
+              <text x="28" y="188" class="s-sub">새 공략 기법 10종</text>
+
+              <rect x="316" y="144" width="288" height="58" rx="3" class="s-box-accent"/>
+              <text x="328" y="166" class="s-sub t-accent">API 비용 1,213,430달러</text>
+              <text x="328" y="188" class="s-sub t-accent">익스플로잇 1개당 1,279달러</text>
+            </svg>
+          </div>
+          <figcaption>청록색 칸이 이번 실행에서 실제로 동작한 결과와 그 비용이다. <span class="src">근거: <a href="https://thehackernews.com/2026/11/openai-ai-pipeline-generates-948-linux.html">The Hacker News &mdash; 30시간 실행으로 권한상승 익스플로잇 948개</a> · <a href="https://securityweek.com/ai-agents-got-root-on-linux-via-948-kernel-flaws-in-openai-research">SecurityWeek &mdash; 커널 결함 948개로 root를 얻은 실험</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-ai" data-type="ai">#오픈AI</span><span class="tag tag-security" data-type="security">#권한상승</span><span class="tag tag-security" data-type="security">#익스플로잇자동생성</span><span class="tag tag-security" data-type="security">#제로데이</span></div>
+      </div>
+
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">공급망 침해 · 노출 확인</span>
+        </div>
+        <h3>ARTEX 복제판 도커 이미지에 백도어가 있었다 &mdash; 로그인 전에 root 명령이 돌고 그 상태로 열린 콘솔이 62대였다</h3>
+        <p>지난 10월 28일과 11월 5일 호에서 공격 도구로 다룬 AI 공격 프레임워크 <b>ARTEX</b>가 이번에는 공격 경로로 등장했습니다<sub class="tgrade">[T2]</sub>. GitHub 복제판 <b>trhhubsd/ARTEX</b>는 docker-compose.yml 한 줄을 바꿔 정식 빌드 대신 <b>tomicdd/artex</b> 이미지를 받게 해 뒀습니다<sub class="tgrade">[T2]</sub>. 그 이미지의 로그인 처리에는 verifyCaptcha() 함수가 숨어 있습니다<sub class="tgrade">[T2]</sub>. CAPTCHA 입력이 정해진 표식으로 시작하면 나머지 문자열이 root 권한 sh -c로 실행되고 결과가 돌아옵니다<sub class="tgrade">[T2]</sub>. 자격증명 확인보다 먼저 돌기 때문에 인증 없이 root 쉘이 열립니다<sub class="tgrade">[T2]</sub>. 11월 2일부터 4일 사이 이 백도어 빌드를 띄운 콘솔 62대가 발견됐습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; ARTEX를 레드팀 도구로 받아 둔 조직이 가장 급합니다. 이미지 출처와 compose 파일을 지금 대조하십시오.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>얼마나 퍼졌나</b> &mdash; tomicdd/artex 이미지는 Docker Hub에서 다운로드 약 9,000회를 기록했습니다<sub class="tgrade">[T2]</sub>. 백도어 콘솔 62대의 위치는 미국 26대, 홍콩 17대, 중국 7대입니다<sub class="tgrade">[T2]</sub>. 11월 4일 기준 ARTEX 콘솔 전체는 1,645대였습니다<sub class="tgrade">[T2]</sub>. 첫 노출 사례는 이미지가 올라간 뒤 12일 지난 10월 20일에 나왔습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>복제판이 하나가 아니다</b> &mdash; 원 개발자는 ARTEX가 실제 침입에 쓰인 뒤 GitHub 저장소를 내렸습니다<sub class="tgrade">[T2]</sub>. 그 뒤 복제본이 GitHub와 Docker Hub에 다시 올라왔습니다<sub class="tgrade">[T2]</sub>. trhhubsd/ARTEX는 스타 2,449개와 포크 600개를 넘겼습니다<sub class="tgrade">[T2]</sub>. congdonglinux/artex처럼 같은 백도어 이미지를 올린 다른 계정도 있습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>저장소 코드만 읽으면 안 보인다</b> &mdash; 독립 연구자 Badbyte가 이미지를 분석해 숨은 함수를 찾았습니다<sub class="tgrade">[T2]</sub>. 악성 코드가 실행 파일이 아니라 컨테이너 이미지를 가리키는 한 줄 교체로 들어왔기 때문에, 저장소 소스만 검토하는 절차로는 드러나지 않습니다<sub class="tgrade">[T2]</sub>. 이 위험은 OWASP LLM Top 10의 공급망 취약점에 해당합니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 사내에서 받아 쓴 AI 보안 도구의 compose·Dockerfile에서 이미지 이름과 레지스트리 계정을 전부 뽑아 대조합니다. &#9313; 이미지 다이제스트를 고정하지 않은 pull 설정을 찾아 해시 고정으로 바꿉니다. 태그만 믿으면 같은 사고가 반복됩니다. &#9314; ARTEX 콘솔을 띄운 적이 있으면 인터넷 노출 여부와 로그인 요청 본문에 표식 문자열이 있었는지 확인합니다. &#9315; 레드팀 도구는 별도 격리망에서만 돌리도록 승인 절차를 둡니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 214" role="img" aria-label="정식 ARTEX 빌드는 로그인 요청에서 CAPTCHA 검증과 자격증명 확인을 거쳐 콘솔에 접근하지만, 백도어 이미지는 CAPTCHA 입력의 표식을 감지하면 자격증명 확인 전에 root 권한으로 명령을 실행하고 출력을 돌려준다">
+              <defs>
+                <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="head-mut"/>
+                </marker>
+              </defs>
+              <text x="16" y="20" class="s-sub">정식 빌드 &mdash; 로그인 처리</text>
+              <line x1="16" y1="28" x2="604" y2="28" class="s-axis"/>
+
+              <rect x="16" y="38" width="130" height="52" rx="3" class="s-box"/>
+              <text x="28" y="62" class="s-sub">로그인 요청</text>
+              <text x="28" y="80" class="s-sub">CAPTCHA 포함</text>
+              <line x1="150" y1="64" x2="168" y2="64" class="s-arw" marker-end="url(#ar2)"/>
+
+              <rect x="172" y="38" width="130" height="52" rx="3" class="s-box"/>
+              <text x="184" y="62" class="s-sub">CAPTCHA 검증</text>
+              <text x="184" y="80" class="s-sub">정상 분기</text>
+              <line x1="306" y1="64" x2="324" y2="64" class="s-arw" marker-end="url(#ar2)"/>
+
+              <rect x="328" y="38" width="130" height="52" rx="3" class="s-box"/>
+              <text x="340" y="62" class="s-sub">자격증명 확인</text>
+              <text x="340" y="80" class="s-sub">아이디·비밀번호</text>
+              <line x1="462" y1="64" x2="480" y2="64" class="s-arw" marker-end="url(#ar2)"/>
+
+              <rect x="484" y="38" width="120" height="52" rx="3" class="s-box"/>
+              <text x="496" y="62" class="s-sub">콘솔 접근</text>
+              <text x="496" y="80" class="s-sub">인증된 사용자</text>
+
+              <text x="16" y="126" class="s-sub">백도어 이미지 &mdash; tomicdd/artex</text>
+              <line x1="16" y1="134" x2="604" y2="134" class="s-axis"/>
+
+              <rect x="16" y="144" width="130" height="52" rx="3" class="s-box"/>
+              <text x="28" y="168" class="s-sub">로그인 요청</text>
+              <text x="28" y="186" class="s-sub">표식 + 명령</text>
+              <line x1="150" y1="170" x2="168" y2="170" class="s-arw" marker-end="url(#ar2)"/>
+
+              <rect x="172" y="144" width="130" height="52" rx="3" class="s-box-accent"/>
+              <text x="184" y="168" class="s-sub t-accent">표식 감지</text>
+              <text x="184" y="186" class="s-sub t-accent">verifyCaptcha()</text>
+              <line x1="306" y1="170" x2="324" y2="170" class="s-arw" marker-end="url(#ar2)"/>
+
+              <rect x="328" y="144" width="130" height="52" rx="3" class="s-box-accent"/>
+              <text x="340" y="168" class="s-sub t-accent">sh -c 실행</text>
+              <text x="340" y="186" class="s-sub t-accent">root 권한</text>
+              <line x1="462" y1="170" x2="480" y2="170" class="s-arw" marker-end="url(#ar2)"/>
+
+              <rect x="484" y="144" width="120" height="52" rx="3" class="s-box-accent"/>
+              <text x="496" y="168" class="s-sub t-accent">출력 반환</text>
+              <text x="496" y="186" class="s-sub t-accent">인증 생략</text>
+            </svg>
+          </div>
+          <figcaption>이 백도어는 아래 줄에서 자격증명 확인을 아예 건너뛴다. <span class="src">근거: <a href="https://thehackernews.com/2026/11/backdoored-docker-image-for-artex-ai.html">The Hacker News &mdash; 백도어 ARTEX 이미지와 콘솔 62대</a> · <a href="https://www.cert-in.org.in/s2cMainServlet?pageid=GUIDLNVIEW02&amp;refcode=CISG-2026-04">CERT-In &mdash; AI 공격 도구 경보와 감사 지침</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-country" data-type="country">#중국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-ai" data-type="ai">#ARTEX</span><span class="tag tag-security" data-type="security">#공급망</span><span class="tag tag-security" data-type="security">#백도어</span><span class="tag tag-security" data-type="security">#컨테이너이미지</span></div>
+      </div>
+
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-mid">중요도 중간</span>
+          <span class="badge">벤더 수정 완료</span>
+        </div>
+        <h3>ChatGPT 잠금 모드가 팝업 하나로 풀렸다 &mdash; 클릭 없이 대화 내용이 빠져나갔다</h3>
+        <p>Check Point Research가 ChatGPT의 Lockdown Mode를 우회하는 방법을 찾았고, 오픈AI는 9월 18일 이를 고쳤습니다<sub class="tgrade">[T2]</sub>. Lockdown Mode는 프롬프트 인젝션으로 데이터가 빠져나가는 범위를 줄이려고 오픈AI가 올해 6월 넣은 선택 설정입니다<sub class="tgrade">[T2]</sub>. 약점은 코드 블록의 HTML 미리보기가 팝업 창을 다루는 방식에 있었습니다<sub class="tgrade">[T2]</sub>. 미리보기는 중첩 샌드박스 프레임 안에서 돌고 새 창 열기도 막혀 있었지만, 샌드박스 권한 자체는 팝업을 허용했습니다<sub class="tgrade">[T2]</sub>. 프레임을 한 번 더 겹치면 손대지 않은 팝업 함수에 닿았고, 그렇게 열린 창은 샌드박스 제약을 벗어났습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 잠금 모드를 켰다고 유출 대책을 끝내지 마십시오. 공유 대화와 외부 커스텀 GPT를 받는 경로부터 점검하십시오.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>어디까지 할 수 있었나</b> &mdash; 공격자는 조작한 프롬프트, 악성 커스텀 GPT, 공유된 대화로 이 경로를 열 수 있었습니다<sub class="tgrade">[T2]</sub>. 열린 창의 내용을 공격자가 정하므로 가짜 ChatGPT 업데이트 화면을 띄워 악성 파일을 받게 하는 수법도 가능했습니다<sub class="tgrade">[T2]</sub>. Check Point는 데스크톱 앱에서 클릭 없는 대화 유출이 성립한다고 적었습니다<sub class="tgrade">[T2]</sub>. 이는 OWASP LLM Top 10의 LLM01 프롬프트 인젝션에서 시작해 유출로 이어지는 경로입니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>데스크톱 앱만의 문제가 아니다</b> &mdash; 근본 약점은 Electron 기반 데스크톱 앱에만 한정되지 않습니다<sub class="tgrade">[T2]</sub>. CVE 번호와 심각도 점수는 공개되지 않았습니다<sub class="tgrade">[T3]</sub>. Check Point 연구 책임자 Eli Smadja가 결과를 설명했습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 사내 ChatGPT 데스크톱 앱 버전을 9월 18일 수정 이후 버전으로 올렸는지 확인합니다. &#9313; 외부에서 받은 커스텀 GPT와 공유 대화 링크는 업무 계정에서 열지 못하게 막습니다. &#9314; 업무용 LLM 계정에 연결된 커넥터 목록을 줄입니다. 유출 범위는 연결된 데이터 범위와 같습니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 214" role="img" aria-label="ChatGPT HTML 미리보기에서 새 창을 직접 열면 차단되지만, 프레임을 한 번 더 겹쳐 손대지 않은 팝업 함수를 호출하면 샌드박스를 벗어난 창이 열려 대화 내용이 빠져나간다">
+              <defs>
+                <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" class="head-mut"/>
+                </marker>
+              </defs>
+              <text x="16" y="20" class="s-sub">막힌 경로 &mdash; 새 창 직접 열기</text>
+              <line x1="16" y1="28" x2="604" y2="28" class="s-axis"/>
+
+              <rect x="16" y="38" width="180" height="52" rx="3" class="s-box"/>
+              <text x="28" y="62" class="s-sub">HTML 미리보기</text>
+              <text x="28" y="80" class="s-sub">중첩 샌드박스</text>
+              <line x1="200" y1="64" x2="216" y2="64" class="s-arw" marker-end="url(#ar3)"/>
+
+              <rect x="220" y="38" width="180" height="52" rx="3" class="s-box"/>
+              <text x="232" y="62" class="s-sub">새 창 열기 호출</text>
+              <text x="232" y="80" class="s-sub">덧씌운 함수</text>
+              <line x1="404" y1="64" x2="420" y2="64" class="s-arw" marker-end="url(#ar3)"/>
+
+              <rect x="424" y="38" width="180" height="52" rx="3" class="s-box"/>
+              <text x="436" y="62" class="s-sub">차단</text>
+              <text x="436" y="80" class="s-sub">잠금 모드 유지</text>
+
+              <text x="16" y="126" class="s-sub">열린 경로 &mdash; 프레임을 한 번 더 겹침</text>
+              <line x1="16" y1="134" x2="604" y2="134" class="s-axis"/>
+
+              <rect x="16" y="144" width="130" height="52" rx="3" class="s-box"/>
+              <text x="28" y="168" class="s-sub">HTML 미리보기</text>
+              <text x="28" y="186" class="s-sub">중첩 샌드박스</text>
+              <line x1="150" y1="170" x2="168" y2="170" class="s-arw" marker-end="url(#ar3)"/>
+
+              <rect x="172" y="144" width="130" height="52" rx="3" class="s-box-accent"/>
+              <text x="184" y="168" class="s-sub t-accent">프레임 추가</text>
+              <text x="184" y="186" class="s-sub t-accent">팝업 권한 허용</text>
+              <line x1="306" y1="170" x2="324" y2="170" class="s-arw" marker-end="url(#ar3)"/>
+
+              <rect x="328" y="144" width="130" height="52" rx="3" class="s-box-accent"/>
+              <text x="340" y="168" class="s-sub t-accent">원본 팝업 함수</text>
+              <text x="340" y="186" class="s-sub t-accent">제약 없이 호출</text>
+              <line x1="462" y1="170" x2="480" y2="170" class="s-arw" marker-end="url(#ar3)"/>
+
+              <rect x="484" y="144" width="120" height="52" rx="3" class="s-box-accent"/>
+              <text x="496" y="168" class="s-sub t-accent">샌드박스 밖</text>
+              <text x="496" y="186" class="s-sub t-accent">대화 유출</text>
+            </svg>
+          </div>
+          <figcaption>프레임을 한 겹 더 쌓았는지만 다르다. <span class="src">근거: <a href="https://thehackernews.com/2026/11/researchers-bypass-chatgpt-lockdown.html">The Hacker News &mdash; 잠금 모드 우회로 대화 유출</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-country" data-type="country">#이스라엘</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-ai" data-type="ai">#ChatGPT</span><span class="tag tag-law" data-type="law">#OWASP_LLM_Top10</span><span class="tag tag-security" data-type="security">#프롬프트인젝션</span><span class="tag tag-security" data-type="security">#샌드박스우회</span><span class="tag tag-security" data-type="security">#제로클릭</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">3</span><h2>솔루션 동향 · 세미나 / 컨퍼런스</h2></div>
+      <div class="sub-h">오늘의 솔루션 픽</div>
+      <div class="sol">
+        <b>CrowdStrike &mdash; AI 모델 감시 업체와 AI 레드팀 업체를 한꺼번에 사들였다</b> <span class="m"><sub class="tgrade">[T2 · 2026-11-03~04 공개]</sub></span><br>
+        CrowdStrike가 AI 보안 업체 두 곳을 약 4억 9,500만 달러에 인수한다고 밝혔습니다<sub class="tgrade">[T2]</sub>. AI 동작을 관측하는 Fiddler AI가 4억 달러, AI 시스템을 공격해 보는 Dreadnode가 9,500만 달러입니다<sub class="tgrade">[T2]</sub>. Dreadnode 도구는 탈옥과 프롬프트 인젝션을 포함해 100가지가 넘는 공격 전략으로 AI 시스템을 시험합니다<sub class="tgrade">[T2]</sub>. 같은 시기에 Falcon Guardian에는 통제를 벗어난 에이전트를 끊는 AI Kill Switch가 들어갔습니다<sub class="tgrade">[T2]</sub>. 인수 완료 시점은 공개되지 않았습니다<sub class="tgrade">[T3]</sub>.
+      </div>
+      <div class="sol">
+        <b>Sentra &mdash; 에이전트가 건드리는 데이터를 따라가는 플랫폼에 1억 5,000만 달러</b> <span class="m"><sub class="tgrade">[T2 · 2026-11-04 공개]</sub></span><br>
+        데이터 보안 업체 Sentra가 Capital One Ventures 주도로 1억 5,000만 달러를 투자받았습니다<sub class="tgrade">[T2]</sub>. 회사는 이 돈을 에이전틱 데이터 보안 플랫폼 확장과 해외 진출에 쓴다고 밝혔습니다<sub class="tgrade">[T2]</sub>. 이 플랫폼은 AI 에이전트가 어떤 데이터에 닿았는지를 찾아냅니다<sub class="tgrade">[T2]</sub>. 제품 기능의 세부 사항과 국내 공급 계획은 공개되지 않았습니다<sub class="tgrade">[T3]</sub>.
+      </div>
+
+      <div class="sub-h">등록 진행 중인 행사</div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-11-12~13 · 서울 더 웨스틴 서울 파르나스</div>
+          <div class="name">POC2026 &mdash; Power of Community</div>
+          <div class="where">공격 기법 중심 국제 해킹보안 컨퍼런스 · Windows 커널, iOS, 브라우저, 하이퍼바이저, 컨테이너, AI 분야 연구 발표 · 표준 등록 900달러 · 좌석 한정</div>
+        </div>
+        <a class="apply" href="https://event.pocsec.com/event/POC2026">등록 →</a>
+      </div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-11-18~20 · 서울 SKY31 컨벤션</div>
+          <div class="name">ICISC 2026 &mdash; 제29회 국제 정보보호·암호학 학술대회</div>
+          <div class="where">한국정보보호학회 주관 국제 학술대회 · 정보보호·암호 연구 발표 · 국내 일반 75만 원 · 사전등록 11-09까지</div>
+        </div>
+        <a class="apply" href="https://kiisc.or.kr/pre-registration">등록 →</a>
+      </div>
+    </section>
+
+    <footer class="rpt-foot">
+      <p><b>AI SEC Pulse</b> · 일일 발송 매일 오전 10:00 KST · No. 063 (2026-11-06)</p>
+      <div class="legend">
+        <span><b>T1</b> 원문·공식 확인</span><span><b>T2</b> 공신력 확인</span><span><b>T3</b> 재확인 필요</span>
+      </div>
+      <div class="legend"><span><b>중요도 높음</b> KEV 등재·CVSS9+ 또는 즉시조치·의사결정 필요한 확정 사안</span></div>
+      <div class="legend"><span><b>중요도 중간~높음</b> CVSS7~8.9(악용 미확인) 또는 벤더 대응 진행 중·초안 단계</span></div>
+      <div class="legend"><span><b>중요도 중간</b> CVSS4~6.9 또는 참고용 업계 동향, 직접 조치 없음</span></div>
+      <div class="legend"><span><b>중요도 낮음</b> CVSS4 미만 또는 배경 정보 성격</span></div>
+      <p>구독 관리 · 지난 호 · 제보: (수신자 안내에 따름)</p>
+    </footer>
+
+  </div>
+</div>
+<img src="https://elishajey.goatcounter.com/count?p=/pulse/2026-11-06" alt="" width="1" height="1" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
