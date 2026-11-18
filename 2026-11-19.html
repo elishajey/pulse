@@ -1,0 +1,521 @@
+<title>AI SEC Pulse</title>
+<meta name="description" content="법·컴플라이언스 모니터링, AI 보안·서비스 동향 3선(도해), 솔루션·컨퍼런스 안내를 담은 일일 브리핑 — 2026-09-04 호">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --bg: #e9edf1;
+    --paper: #ffffff;
+    --paper-2: #f5f7f9;
+    --ink: #17202c;
+    --ink-soft: #3c4858;
+    --muted: #62707f;
+    --line: #d7dee5;
+    --line-strong: #b6c0cb;
+    --accent: #0d7c86;
+    --accent-soft: #d2eaeb;
+    --acq: #ad5019;
+    --new: #2d7a4d;
+    --flag: #916b00;
+    --hi: #b4381f;        /* importance high */
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c1016;
+      --paper: #151c25;
+      --paper-2: #1a222d;
+      --ink: #e6ebf1;
+      --ink-soft: #b7c1cd;
+      --muted: #8a96a5;
+      --line: #29323d;
+      --line-strong: #3a4551;
+      --accent: #3cb8c3;
+      --accent-soft: #102f35;
+      --acq: #d9853f;
+      --new: #5bad7c;
+      --flag: #d5aa3d;
+      --hi: #e07a5f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c1016; --paper: #151c25; --paper-2: #1a222d;
+    --ink: #e6ebf1; --ink-soft: #b7c1cd; --muted: #8a96a5;
+    --line: #29323d; --line-strong: #3a4551;
+    --accent: #3cb8c3; --accent-soft: #102f35;
+    --acq: #d9853f; --new: #5bad7c; --flag: #d5aa3d; --hi: #e07a5f;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.62; -webkit-font-smoothing: antialiased;
+  }
+  .mail { max-width: 680px; margin: 0 auto; padding: 28px 16px 80px; }
+  .envelope {
+    background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 4px; padding: 10px 14px; margin-bottom: 14px;
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted);
+  }
+  .envelope b { color: var(--ink-soft); font-weight: 600; }
+
+  .sheet {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 1px 2px rgba(20,28,40,.05), 0 14px 40px -20px rgba(20,28,40,.22);
+  }
+
+  header.rpt {
+    padding: 30px 28px 22px; border-bottom: 3px solid var(--ink);
+  }
+  header.rpt .brandline {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--accent);
+  }
+  header.rpt h1 {
+    font-family: "Archivo", sans-serif; font-weight: 700;
+    font-size: 2rem; letter-spacing: -.02em; margin: 8px 0 6px;
+  }
+  header.rpt .date {
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink-soft);
+  }
+  header.rpt .cadence {
+    margin-top: 12px; font-size: 12.5px; color: var(--muted);
+  }
+  header.rpt .byline {
+    text-align: right; margin: 10px 0 0; font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted);
+  }
+
+  section.blk { padding: 26px 28px; border-top: 1px solid var(--line); }
+  section.blk:first-of-type { border-top: 0; }
+  .sec-tag {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;
+  }
+  .sec-no {
+    font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 12px;
+    color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 1px 6px;
+  }
+  .sec-tag h2 {
+    font-family: "Archivo", sans-serif; font-weight: 700; font-size: 1.2rem;
+    letter-spacing: -.01em; margin: 0;
+  }
+  .sec-lede { margin: 0 0 18px; font-size: .9rem; color: var(--muted); }
+  .board-link { margin: 0 0 16px; margin-left: 31.2px; font-size: .85rem; }
+  .board-link a {
+    color: var(--accent); font-weight: 600; text-decoration: none;
+    background: var(--accent-soft); padding: 3px 10px; border-radius: 4px; display: inline-block;
+  }
+  .board-link a::after { content: " ↗"; font-weight: 400; }
+  /* §1 카드가 0건인 날 — "오늘의 뉴스 없음"(2026-10-12 사용자 요청). */
+  .no-news { margin: 0 0 4px; margin-left: 31.2px; font-size: .9rem; color: var(--muted); }
+
+  /* ---- section 1 : compliance items ---- */
+  .item { padding: 14px 0; border-top: 1px dashed var(--line); }
+  .item:first-child { border-top: 0; padding-top: 0; }
+  .item .row1 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .badge {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .05em;
+    padding: 1px 6px; border-radius: 2px; border: 1px solid currentColor; white-space: nowrap;
+  }
+  .b-new { color: var(--new); }
+  .b-upd { color: var(--accent); }
+  .b-hold { color: var(--muted); }
+  .b-t1 { color: var(--accent); }
+  .b-t2 { color: var(--ink-soft); }
+  .b-t3 { color: var(--flag); }
+  .jur {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted);
+  }
+  .item h3 {
+    font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 1.05rem;
+    margin: 6px 0 4px;
+  }
+  .item p { margin: 0; font-size: .82rem; color: var(--ink-soft); }
+  .item .src {
+    margin-top: 5px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted);
+  }
+  .item .src a { color: var(--accent); word-break: break-all; }
+
+  /* ---- 자세히 보기 드롭다운 (§1·§2 공용) ---- */
+  .more { margin-top: 8px; }
+  .more > summary {
+    cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    font-weight: 600; color: var(--accent); list-style: revert;
+  }
+  .more > summary::marker { color: var(--accent); }
+  .more-body {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .82rem; color: var(--ink-soft);
+  }
+  .more-body p { margin: 0 0 8px; }
+  .more-body p:last-child { margin-bottom: 0; }
+
+  .quiet-note {
+    margin-top: 16px; padding: 10px 12px; background: var(--paper-2);
+    border-left: 3px solid var(--line-strong); font-size: .84rem; color: var(--muted);
+  }
+
+  /* ---- section 2 : trend cards with figures ---- */
+  .trend-card { padding: 20px 0; border-top: 1px solid var(--line); }
+  .trend-card:first-of-type { border-top: 0; padding-top: 4px; }
+  .tc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .imp {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .04em;
+    padding: 1px 6px; border-radius: 2px;
+  }
+  .imp-high { background: transparent; color: var(--hi); border: 2px solid var(--hi); font-weight: 700; }
+  .imp-mid { background: #0d7c86; color: #fff; }
+  .trend-card h3 {
+    font-family: "Archivo", sans-serif; font-weight: 600; font-size: 1.05rem;
+    letter-spacing: -.005em; margin: 0 0 6px;
+  }
+  .trend-card > p { margin: 0 0 14px; font-size: .89rem; color: var(--ink-soft); }
+  figure {
+    margin: 0; background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 3px; padding: 14px 12px 8px;
+  }
+  figure .scroll-x { overflow-x: auto; }
+  svg.dg { display: block; width: 100%; height: auto; color: var(--ink); min-width: 520px; }
+  figcaption {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .8rem; color: var(--muted);
+  }
+  figcaption .src { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+
+  .take { color: var(--accent); }
+
+  /* svg helpers */
+  .s-box { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-box-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+  .s-lab { fill: var(--ink); font-family: "IBM Plex Sans", sans-serif; font-size: 12px; }
+  .s-sub { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .02em; }
+  .s-arw { stroke: var(--muted); stroke-width: 1.4; fill: none; }
+  .s-axis { stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-tick { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .dot-acq { fill: var(--acq); }
+  .dot-new { fill: var(--new); }
+  .t-acq { fill: var(--acq); color: var(--acq); }
+  .t-new { fill: var(--new); color: var(--new); }
+  .t-accent { fill: var(--accent); color: var(--accent); }
+  .node-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+  .head-mut { fill: var(--muted); }
+  .head-acc { fill: var(--accent); }
+  .link-acc { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+
+  /* ---- section 3 : solutions + events ---- */
+  .sub-h {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); margin: 18px 0 8px;
+  }
+  .sub-h:first-child { margin-top: 0; }
+  .sol { padding: 10px 0; border-top: 1px dashed var(--line); font-size: .88rem; }
+  .sol:first-of-type { border-top: 0; }
+  .sol b { font-weight: 600; }
+  .sol .m { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10.5px; }
+
+  .evt {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px 14px; align-items: center;
+    padding: 12px 0; border-top: 1px dashed var(--line);
+  }
+  .evt:first-of-type { border-top: 0; }
+  .evt .when {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--accent);
+  }
+  .evt .name { font-weight: 600; font-size: .92rem; margin: 2px 0 2px; }
+  .evt .where { font-size: .82rem; color: var(--muted); }
+  .apply {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .04em;
+    text-decoration: none; color: var(--accent);
+    border: 1px solid var(--accent); border-radius: 3px; padding: 6px 12px; white-space: nowrap;
+  }
+  .apply:hover { background: var(--accent-soft); }
+
+  footer.rpt-foot {
+    padding: 20px 28px 26px; border-top: 3px solid var(--ink);
+    font-size: .8rem; color: var(--muted);
+  }
+  footer.rpt-foot p { margin: 0 0 6px; }
+  footer.rpt-foot code { font-family: "IBM Plex Mono", monospace; font-size: .76rem; color: var(--ink-soft); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 10px 0; }
+  .legend span { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .tgrade { color: var(--muted); font-size: 42%; }
+
+  /* ---- 해시태그(2026-09-17 사용자 요청) — 카드마다 근거 아래 국가·회사유형·법규명·AI사명/모델명·
+     보안용어를 인스타그램 스타일 해시태그로 노출. data-type 속성은 화면에 안 보이지만 나중에
+     이 데이터를 파싱해 체인으로 엮을 때 카테고리를 바로 구분하도록 남겨둔다. ---- */
+  .tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 9px; }
+  .tag { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; }
+  .tag-country { color: var(--accent); }
+  .tag-org { color: var(--flag); }
+  .tag-law { color: var(--acq); }
+  .tag-ai { color: var(--new); }
+  .tag-security { color: var(--hi); }
+
+  a { color: var(--accent); }
+  @media (max-width: 560px) {
+    .evt { grid-template-columns: 1fr; }
+    header.rpt h1 { font-size: 1.7rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="mail">
+
+  <div class="envelope">
+    <div>제목 &nbsp; <b>AI SEC Pulse (2026-11-19)</b></div>
+    <div>발송 &nbsp; 매일 오전 10:00 (KST) &nbsp;·&nbsp; 수신자: AI 보안·컴플라이언스 담당</div>
+  </div>
+
+  <div class="sheet">
+
+    <header class="rpt">
+      <div class="brandline">Daily Briefing</div>
+      <h1>AI SEC Pulse</h1>
+      <div class="date">2026년 11월 19일 목요일 · No. 076</div>
+      <p class="byline">reported by elishaJEY</p>
+    </header>
+
+    <!-- ============ 1 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">1</span><h2>법 &middot; 컴플라이언스 모니터링</h2></div>
+      <p class="board-link"><a href="https://elishajey.github.io/ai-compliance-board/">AI SEC Compliance Dashboard</a></p>
+      <div class="item">
+        <div class="row1">
+          <span class="badge b-upd">변동 확인</span>
+          <span class="jur">미국</span>
+        </div>
+        <h3>학습데이터를 공개하라는 의무가 항소법원 법정에 올랐다 &mdash; 제9연방항소법원이 11월 18일 변론을 열었다</h3>
+        <p>모델을 어떤 데이터로 학습했는지 공개하라는 캘리포니아법이 위헌 심사를 받습니다<sub class="tgrade">[T1]</sub>. 제9연방항소법원은 11월 18일 오전 9시 30분 패서디나 제1법정에서 xAI가 캘리포니아 법무장관을 상대로 낸 항소(사건번호 26-1591)의 변론을 열었습니다<sub class="tgrade">[T1]</sub>. 판결은 올해 안에 나올 예정입니다<sub class="tgrade">[T2]</sub>.<br><br>보안 조직은 공개 항목부터 봐야 합니다. <b>AB 2013</b>(생성형 AI 학습데이터 투명성법)은 2026년 1월 1일부터 시행 중입니다<sub class="tgrade">[T2]</sub>. 공개 항목은 <b>학습 데이터</b>의 출처와 대략적 규모입니다. 저작권·라이선스 자료와 개인정보·합성데이터를 썼는지도 함께 밝혀야 합니다<sub class="tgrade">[T2]</sub>. 2022년 1월 1일 이후 출시하거나 상당히 수정한 시스템이 대상이라 소급 범위가 넓습니다<sub class="tgrade">[T2]</sub>.<br><br>적용 기준은 회사가 어디 있느냐가 아니라 캘리포니아 주민에게 생성형 AI를 제공하느냐입니다. 그래서 국내 사업자도 같은 공개 의무를 집니다<sub class="tgrade">[T2]</sub>. Goodwin과 Crowell은 영업비밀을 비켜 갈 예외 조항이 없고 공개 서식도 정해지지 않았다고 지적했습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 판결이 어느 쪽으로 나든 학습데이터 출처 대장은 만들어 둬야 합니다. 2022년치까지 거슬러 복원하는 일은 뒤로 밀수록 비싸집니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>소송 경과</b> &mdash; xAI는 2025년 12월 29일 캘리포니아 중부연방지방법원에 소를 냈고, 2026년 1월 16일 가처분을 신청했습니다<sub class="tgrade">[T1]</sub>. 법원은 3월 4일 신청을 기각했습니다. 쟁점은 심사 기준이었습니다. xAI는 상업적 표시 의무에 느슨한 Zauderer 기준을 적용하라고 주장했지만, 법원은 더 엄격한 Central Hudson 중간심사를 적용해도 법이 통과한다고 판단했습니다<sub class="tgrade">[T2]</sub>. xAI는 3월 17일 항소했고(제9연방항소법원 26-1591), 지방법원은 3월 23일 항소심이 끝날 때까지 집행을 정지했습니다<sub class="tgrade">[T1]</sub>. 주 정부 답변서는 7월 15일, 의견서(amicus)는 7월 21일과 22일, xAI 반박서는 9월 4일에 제출됐습니다<sub class="tgrade">[T1]</sub>.</p>
+          <p><b>무엇을 다투는가</b> &mdash; xAI는 두 갈래로 공격합니다. 하나는 연방헌법 수정 제1조의 강제 표현(compelled speech) 법리이고, 다른 하나는 수용조항(Takings Clause)입니다<sub class="tgrade">[T2]</sub>. 주 정부는 변론에서 학습데이터 요약이 논쟁적 의견 표명이 아니라 영양성분표에 가깝다고 맞섰습니다<sub class="tgrade">[T2]</sub>. 캘리포니아는 7월 서면에서도 공개 요구가 대중에게 투명성을 준다는 중요한 정부 이익을 달성한다고 적었습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>공개 의무가 보안 업무로 넘어오는 지점</b> &mdash; 이 법에는 준수 절차나 서식이 없습니다<sub class="tgrade">[T2]</sub>. 그래서 실제 작업은 데이터 출처 대장을 만드는 일로 수렴합니다. 어떤 코퍼스를 어디서 받아 어느 라이선스로 썼는지, 개인정보와 합성데이터가 섞였는지를 모델 판본별로 끊어 기록해야 합니다. 이는 AI 공급망 문서화와 같은 작업이고, ISO/IEC 42001이 요구하는 데이터 거버넌스 기록과도 겹칩니다<sub class="tgrade">[T2]</sub>. 사적 소송 조항은 없지만 책임 노출은 남아 있다는 분석이 있습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 캘리포니아 이용자에게 열려 있는 생성형 기능을 먼저 셉니다. 무료 체험판과 API 재판매 경로가 빠지기 쉽습니다. &#9313; 모델 판본별 학습 코퍼스 목록을 만들고 라이선스 근거 문서를 같은 줄에 붙입니다. 출처를 못 적는 코퍼스는 그 자체가 위험 항목입니다. &#9314; 영업비밀 예외가 없으니 공개문에 넣을 수준과 사내에만 둘 수준을 미리 갈라 둡니다. 법무가 아니라 데이터 관리자가 1차 분류를 해야 합니다. &#9315; 판결이 뒤집히면 집행 정지가 풀립니다. 공개문 초안을 지금 써 두고 판결 뒤 공개까지 걸리는 시간을 재 둡니다.</p>
+        </div></details>
+        <div class="src">근거: <a href="https://www.caidp.org/cases/training-data-transparency/">CAIDP 사건 페이지(변론 공고)</a> &middot; <a href="https://law-ai.org/xais-challenge-to-californias-ai-training-data-transparency-law-ab2013/">Institute for Law &amp; AI 분석</a> &middot; 조문: <a href="https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202320240AB2013">AB 2013 전문</a> &middot; 해설: <a href="https://www.goodwinlaw.com/en/insights/publications/2025/06/alerts-ai-californias-ab-2013-generative-ai-developers-show-their-data">Goodwin</a> &middot; <a href="https://www.crowell.com/en/insights/client-alerts/californias-ab-2013-requires-generative-ai-data-disclosure-by-january-1-2026">Crowell</a></div>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-law" data-type="law">#AB2013</span><span class="tag tag-ai" data-type="ai">#xAI</span><span class="tag tag-security" data-type="security">#학습데이터</span><span class="tag tag-security" data-type="security">#데이터공급망</span></div>
+      </div>
+
+      <div class="item">
+        <div class="row1">
+          <span class="badge b-upd">변동 확인</span>
+          <span class="jur">EU</span>
+        </div>
+        <h3>나체 합성 앱 금지가 2주 뒤 적용된다 &mdash; 막을 장치가 없으면 범용 생성 모델도 금지 대상이 된다</h3>
+        <p>12월 2일부터 EU에서 금지됩니다. Digital Omnibus(Regulation (EU) 2026/1744)가 <b>AI법</b> 제5조 금지목록에 두 항목을 넣었습니다. 식별 가능한 사람의 신체나 성적 행위를 동의 없이 사실적으로 생성하거나 조작하는 시스템, 그리고 아동 성착취물을 생성하는 시스템입니다<sub class="tgrade">[T2]</sub>.<br><br>보안 관점에서 갈림길은 의도가 아니라 안전장치입니다. 공급자 금지는 두 경우에 적용됩니다. 첫째는 그런 생성을 시스템의 의도된 목적으로 삼은 경우입니다. 둘째는 설계·학습·구조·기능상 그런 결과가 합리적으로 예견되고 재현되는데도, 이를 확실히 막을 적절한 기술적 안전조치가 없는 경우입니다<sub class="tgrade">[T2]</sub>. 이용 사업자는 그 목적으로 썼을 때만 적용받아 범위가 좁습니다<sub class="tgrade">[T2]</sub>.<br><br>이미 시장에 나와 있는 시스템에도 경과 예외가 없습니다<sub class="tgrade">[T2]</sub>. 지난 13일 호에서 다룬 제50조 투명성 지침(C/2026/6005)은 이 두 금지를 다루지 않아 해석 공백이 남습니다<sub class="tgrade">[T2]</sub>. 과징금 상한은 3,500만 유로 또는 전 세계 연매출 7% 가운데 큰 금액입니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 범용 이미지 생성 기능을 EU에 열어 둔 서비스라면, 안전장치가 있다는 말이 아니라 <b>차단 기록</b>이 증빙이 됩니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>조문 위치와 적용 시점</b> &mdash; 금지는 Art.5(1)(l) 계열로 들어가고 적용일은 2026년 12월 2일입니다<sub class="tgrade">[T2]</sub>. 과징금 근거는 Art.99(1)이며 상한은 3,500만 유로 또는 전 세계 연매출 7% 가운데 큰 금액입니다<sub class="tgrade">[T2]</sub>. 같은 개정으로 부속서 III 고위험 의무는 2027년 12월 2일, 부속서 I 제품 내장형은 2028년 8월 2일로 밀렸는데, 금지목록만 먼저 적용됩니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>안전조치가 면죄부가 되는 범위</b> &mdash; 두 단계를 섞어 읽으면 안 됩니다. 애초에 그런 생성을 목적으로 설계한 시스템은 분류기를 붙이거나 연령 확인을 걸어도 금지에서 빠져나오지 못합니다<sub class="tgrade">[T2]</sub>. 안전조치는 범용 생성 모델에서만 의미가 있습니다. 실인물 판별과 성적 콘텐츠 판별을 추론 시점에 걸어 둘이 함께 잡히면 생성을 끊고, 그 판단을 요청 ID와 시각, 판별 결과, 차단 사유로 남기라는 권고가 나와 있습니다<sub class="tgrade">[T2]</sub>. 다만 분류기 정확도 기준이나 검증 방법은 아직 제시되지 않았습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>실제 사용 추이도 판단에 들어간다</b> &mdash; 공급자는 자기 시스템의 지배적 실사용이 그쪽으로 쏠리는지 지켜봐야 합니다. 쏠리면 금지 범위로 들어올 수 있습니다<sub class="tgrade">[T2]</sub>. 전문적 용례로 동의 기반 생성을 제공한다면 동의 기록을 암호학적으로 서명해 보관하고 시장감시당국이 요구할 때 제출할 수 있어야 합니다. 동의를 철회하면 생성물이 실제로 삭제되는 경로도 있어야 합니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 사내 서비스 가운데 이미지·영상 생성 기능을 EU 이용자에게 열어 둔 것을 골라 금지·위험·해당없음 세 칸으로 나눕니다. &#9313; 실인물 판별과 성적 콘텐츠 판별을 추론 단계에 걸고, 차단 로그를 보존 기간과 함께 설계합니다. 로그가 없으면 안전조치를 증명할 방법이 없습니다. &#9314; 탈옥 시험을 품질 항목에서 컴플라이언스 항목으로 옮깁니다. 재현 가능 여부가 금지 판단의 문언이라 시험 결과 자체가 증빙입니다. &#9315; 이용약관과 API 허용사용정책, 재판매 계약에 해당 금지 조항을 함께 넣습니다. 공급자 금지와 이용자 금지가 따로 걸리므로 계약으로 책임선을 그어 둡니다.</p>
+        </div></details>
+        <div class="src">근거: <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng">EUR-Lex AI Act 조문</a> &middot; <a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai">EC 규제프레임워크 페이지</a> &middot; 해설: <a href="https://cdp.cooley.com/digital-ai-omnibus-delays-key-deadlines-introduces-new-rules/">Cooley</a> &middot; <a href="https://www.orrick.com/en/Insights/2026/07/EU-AI-Act-Update-Digital-Omnibus-Finalizes-8-Compliance-Changes">Orrick</a> &middot; 실무: <a href="https://sota.io/blog/eu-ai-act-digital-omnibus-art-5-1-l-non-consensual-synthetic-intimate-imagery-prohibition-developer">sota.io 개발자 체크리스트</a></div>
+        <div class="tags"><span class="tag tag-country" data-type="country">#EU</span><span class="tag tag-org" data-type="org">#플랫폼사</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-law" data-type="law">#AI법</span><span class="tag tag-security" data-type="security">#차단기록</span><span class="tag tag-security" data-type="security">#탈옥시험</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">2</span><h2>AI 보안 &middot; 서비스 동향 3선</h2></div>
+
+      <!-- Trend A -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">CISA 권고 &middot; 과기정통부 공지</span>
+        </div>
+        <h3>AI가 한 시간에 찾은 Java 결함에 CISA와 과기정통부가 잇따라 패치 공지를 냈다 &mdash; 국내 공공 정보시스템 72%가 Java다</h3>
+        <p>Java 실행환경 안쪽에서 인증 없는 원격 코드 실행이 열렸습니다. OpenJDK의 Base64 디코더에 있는 메모리 손상 결함(<b>CVE-2026-114938</b>)입니다<sub class="tgrade">[T2]</sub>. 보안기업 Calif가 11월 17일 공개하며 Java4Shell이라고 이름 붙였습니다<sub class="tgrade">[T2]</sub>. 등급은 엇갈립니다. Oracle은 공격 난도가 높다며 CVSS 3.1 기준 8.1을 줬고, 보고자인 Calif는 CVSS 4.0 기준 9.2로 매겼습니다<sub class="tgrade">[T2]</sub>.<br><br>이번 사건에서는 속도가 두드러집니다. Calif 연구원 한 명이 결함을 찾는 데 한 시간, 작동하는 익스플로잇을 만드는 데 두 시간을 더 썼고 토큰 비용은 200달러에 못 미쳤습니다<sub class="tgrade">[T2]</sub>. Jira와 Jenkins, Keycloak, Confluence에서 코드 실행을 재현했다고 밝혔습니다<sub class="tgrade">[T2]</sub>.<br><br>대응은 하루 사이에 국내로 넘어왔습니다. Oracle이 11월 17일 정기 패치로 수정판을 냈고 같은 날 CISA가 즉시 패치를 권고했으며, 과기정통부와 KISA는 공공기관과 민간기업에 긴급 업데이트를 당부했습니다<sub class="tgrade">[T2]</sub>. 국내 노출 폭이 유독 넓습니다. JetBrains 2021년 조사에서 한국의 Java 사용률은 53%로 세계 평균 30%를 크게 웃돌았고, 정부 조사에서 공공 정보시스템의 언어 비중은 72%였습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 자산 목록을 JDK 배포판과 판번호까지 끊어 두지 않은 조직은, 패치 대상을 세는 일부터 며칠을 씁니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>어디까지 영향을 받는가</b> &mdash; 영향 범위는 OpenJDK 17.0.6 이상입니다<sub class="tgrade">[T2]</sub>. Amazon Corretto와 Eclipse Temurin, Azul Zulu, Oracle Java SE 등 주요 배포판이 모두 들어갑니다. Microsoft Build of OpenJDK도 포함됩니다<sub class="tgrade">[T2]</sub>. 수정 판번호는 17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1입니다<sub class="tgrade">[T2]</sub>. 표준 Java 8과 11은 대체로 비켜 가지만 Oracle Java SE 8 Enterprise Performance Pack은 영향을 받습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>모든 환경에서 터지지는 않는다</b> &mdash; VulnCheck 연구팀은 취약한 코드 경로가 AVX-512 VBMI와 BW 명령어를 지원하는 CPU에서만 돈다고 밝혔습니다<sub class="tgrade">[T2]</sub>. Calif도 조직이 Base64를 어디에 쓰는지에 따라 달라져 보편적 익스플로잇은 없다고 적었습니다<sub class="tgrade">[T2]</sub>. 11월 17일 기준으로 Qualys와 Upwind는 실제 악용 사례를 확인하지 못했고 CISA KEV 목록에도 올라 있지 않습니다<sub class="tgrade">[T2]</sub>. 그래도 즉시 조치 등급으로 분류했습니다. CISA 권고와 국내 당국 공지가 이미 나왔고 인증 없이 터지는 경로이기 때문입니다.</p>
+          <p><b>Base64가 왜 문제인가</b> &mdash; Base64 디코딩은 입구에 있습니다. JWT 복호, 쿠키와 헤더 파싱, 멀티파트 업로드, 직렬화 데이터 처리처럼 인증 전에 도는 경로에서 쓰입니다. 그래서 공격면이 로그인 뒤가 아니라 로그인 앞에 놓입니다. 이번 결함은 라이브러리가 아니라 런타임 자체에 있어 성격이 다릅니다. 애플리케이션 의존성 목록을 뒤져도 안 나오고, 호스트의 JDK 판번호를 봐야 합니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>같은 흐름의 두 번째 사례</b> &mdash; Calif는 한 달 전인 10월 21일 PHP에서 같은 방식으로 찾은 결함(PHP2Shell)을 공개했습니다<sub class="tgrade">[T2]</sub>. 지난 17일 호에서는 구글 위협인텔리전스그룹이 패치 비교로 공격코드를 만드는 자동화를 공격 측에서 확인한 사례를 다뤘습니다. 이번 건에서는 같은 속도가 방어 측 연구에서도 나왔습니다.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 호스트 단위로 JDK 배포판과 판번호를 뽑습니다. 애플리케이션 의존성 스캔으로는 런타임 결함이 안 잡힙니다. &#9313; 인증 전 Base64 디코딩이 도는 경로를 먼저 골라 패치 순서를 정합니다. 외부 공개 API 게이트웨이와 SSO 끝단이 앞순위입니다. &#9314; AVX-512 지원 CPU 여부로 우선순위를 나눌 수는 있지만 제외 근거로 쓰지는 않습니다. 가상화 환경에서 명령어 노출 설정이 바뀌면 전제가 깨집니다. &#9315; 컨테이너 베이스 이미지의 JDK를 함께 올립니다. 호스트만 패치하고 이미지를 그대로 두면 재배포 때 되돌아갑니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 252" role="img" aria-label="Java4Shell 대응 경과: Calif 연구원이 OpenJDK Base64 디코더의 메모리 손상 결함을 한 시간에 발견하고, 두 시간을 더 써서 인증 없는 원격 코드 실행 익스플로잇을 만들었다. 11월 17일 Oracle 정기 패치와 CISA 즉시 패치 권고가 나왔고, 11월 18일 과기정통부와 KISA가 공공기관과 민간기업에 긴급 업데이트를 당부했다. CVE-2026-114938의 등급은 Oracle 8.1, Calif 9.2이며 토큰 비용은 200달러 미만, 취약 코드 경로는 AVX-512 VBMI와 BW를 지원하는 CPU에서만 동작한다">
+              <text x="14" y="20" class="s-sub t-acq">Java4Shell 발견에서 국내 공지까지</text>
+
+              <rect x="14" y="32" width="452" height="32" rx="3" class="s-box"/>
+              <text x="26" y="52" class="s-lab" font-size="12">OpenJDK Base64 디코더 메모리 손상 발견</text>
+              <text x="478" y="52" class="s-sub t-acq">1시간</text>
+              <line x1="240" y1="64" x2="240" y2="76" class="s-arw"/>
+
+              <rect x="14" y="76" width="452" height="32" rx="3" class="s-box"/>
+              <text x="26" y="96" class="s-lab" font-size="12">인증 없는 원격 코드 실행 익스플로잇 완성</text>
+              <text x="478" y="96" class="s-sub t-acq">+2시간</text>
+              <line x1="240" y1="108" x2="240" y2="120" class="s-arw"/>
+
+              <rect x="14" y="120" width="452" height="32" rx="3" class="node-accent"/>
+              <text x="26" y="140" class="s-lab" font-size="12">Oracle 정기 패치 &middot; CISA 즉시 패치 권고</text>
+              <text x="478" y="140" class="s-sub">11-17</text>
+              <line x1="240" y1="152" x2="240" y2="164" class="s-arw"/>
+
+              <rect x="14" y="164" width="452" height="32" rx="3" class="s-box"/>
+              <text x="26" y="184" class="s-lab" font-size="12">과기정통부&middot;KISA 긴급 업데이트 공지</text>
+              <text x="478" y="184" class="s-sub">11-18</text>
+
+              <line x1="14" y1="208" x2="606" y2="208" class="s-axis"/>
+              <text x="14" y="226" class="s-lab" font-size="11">CVE-2026-114938 &middot; CVSS 8.1(Oracle) / 9.2(Calif)</text>
+              <text x="14" y="242" class="s-sub">토큰 비용 200달러 미만 &middot; AVX-512 VBMI&middot;BW 지원 CPU에서만 동작</text>
+            </svg>
+          </div>
+          <figcaption>주황 글씨는 공격 준비에 실제로 든 시간, 청록 상자는 공식 대응이 시작된 지점입니다. 발견부터 국내 공지까지 이틀이 걸렸습니다. <span class="src">근거: <a href="https://www.tenable.com/blog/java4shell-cve-2026-114938-frequently-asked-questions-about-openjdk-rce-vulnerability">Tenable FAQ</a> &middot; <a href="https://www.techtarget.com/news/java4shell-critical-java-runtime-bug-discovered-in-one-hour-with-ai/875115/">TechTarget</a> &middot; <a href="https://www.helpnetsecurity.com/2026/11/18/java4shell-openjdk-vulnerability-cve-2026-114938/">Help Net Security</a> &middot; <a href="https://therecord.media/cisa-issues-java4shell-alert">The Record</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#한국</span><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-law" data-type="law">#CVE</span><span class="tag tag-security" data-type="security">#원격코드실행</span><span class="tag tag-security" data-type="security">#런타임취약점</span></div>
+      </div>
+
+      <!-- Trend B -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">벤더 비정기 패치 &middot; PoC 공개</span>
+        </div>
+        <h3>F5가 NGINX 결함 10건을 비정기 패치했다 &mdash; AI로 찾은 치명 2건이 모두 CVSS 9.2다</h3>
+        <p>F5는 11월 18일 오픈소스 NGINX의 결함 10건을 담은 비정기 보안 공지를 내고 안정판 1.30.7, 메인라인 1.31.9로 올리라고 권고했습니다<sub class="tgrade">[T2]</sub>. 치명 등급은 두 건입니다. <b>CVE-2026-123633</b>은 요청이 아직 쓰고 있는 메모리를 연결 종료 시 해제하는 use-after-free입니다<sub class="tgrade">[T2]</sub>. <b>CVE-2026-123007</b>은 흐름제어 계산이 틀려 잘못된 메모리 복사가 일어납니다. F5는 이를 힙 버퍼 오버플로로 분류했습니다<sub class="tgrade">[T2]</sub>. 둘 다 HTTP/2를 켠 서버에서 인증 없이 코드 실행으로 이어지고 CVSS는 각각 9.2입니다<sub class="tgrade">[T2]</sub>.<br><br>이번 건은 발견 경로가 특이합니다. Wiz와 Ikotas Labs, Metnir, Rapid7, Xint가 서로 모르게 같은 결함을 따로 찾아냈고 대부분 AI 도구를 썼습니다<sub class="tgrade">[T2]</sub>. Rapid7은 CVE-2026-123007의 인증 없는 원격 코드 실행 PoC를 공개했습니다<sub class="tgrade">[T2]</sub>. Xint는 NGINX 결함 3건과 리눅스 커널 결함 1건을 더 찾았고, 호스트 root까지 올라가는 6단 연쇄를 nginx2root로 이름 붙였습니다<sub class="tgrade">[T2]</sub>.<br><br>노출 규모가 큽니다. NGINX는 Netcraft 2026년 9월 조사에서 전체 웹사이트의 약 3분의 1, 약 2억 2,500만 곳에서 쓰입니다<sub class="tgrade">[T2]</sub>. CVE-2026-123007은 2015년 1.9.5판까지 거슬러 올라갑니다<sub class="tgrade">[T2]</sub>. F5는 실제 악용 증거를 찾지 못했다고 밝혔습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 패치 적용이 늦어진다면 HTTP/2를 먼저 꺼야 합니다. 두 치명 결함 모두 HTTP/2가 전제 조건입니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>다섯 팀이 같은 결함을 동시에 찾아냈다</b> &mdash; Wiz의 Tomer Schwartz와 Nir Ohfeld가 두 치명 결함을 정리한 글을 냈고, 나머지 네 팀도 적어도 한 건씩 독립적으로 찾아 F5에 신고했습니다<sub class="tgrade">[T2]</sub>. Xint의 경과가 특히 뚜렷합니다. 한 연구원이 ZeroDay Cloud 2026을 준비하다 CVE-2026-123007을 찾았고, 며칠 뒤 완전 자동 스캔이 사람 지시 없이 나머지를 찾아냈습니다<sub class="tgrade">[T2]</sub>. 결함 하나는 코드에 10년 넘게 남아 있었습니다<sub class="tgrade">[T2]</sub>. 사람이 20년을 봐도 못 찾은 결함을 자동 분석이 몇 번 만에 찾아냈습니다.</p>
+          <p><b>nginx2root 연쇄</b> &mdash; Xint는 NGINX 결함과 커널 결함을 이어 붙여 웹서버 프로세스에서 호스트 root 권한까지 올라가는 경로를 만들었습니다. 시연 영상은 AWS와 Azure, 구글 클라우드, 베어메탈 서버에서 돌렸습니다<sub class="tgrade">[T2]</sub>. Rapid7의 PoC는 Linux/amd64 도커 이미지에서 nginx 1.31.8에서 동작했습니다<sub class="tgrade">[T2]</sub>. PoC는 CVE-2026-123007에만 공개됐으니 이 결함이 먼저 스캔 대상이 됩니다.</p>
+          <p><b>왜 리버스 프록시가 먼저 뚫리는가</b> &mdash; NGINX는 보통 인터넷과 내부망 사이 첫 홉에 놓입니다. 그래서 인증 전 요청을 가장 많이 받고, 뚫리면 내부 서비스로 가는 경로가 함께 열립니다. HTTP/2를 켜 둬야 터진다는 전제도 함께 봐야 합니다. TLS 종단을 NGINX에서 하면서 HTTP/2를 기본으로 켜 둔 구성이 흔하고, 그 설정을 바꾸는 주체는 애플리케이션팀이 아니라 인프라팀입니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>지난 호와 이어지는 흐름</b> &mdash; 지난 17일 호에서 AI가 TCP/IP 스택 10개에서 결함 99개를 찾은 사례를 다뤘습니다. 그때는 연구 단계였고 이번에는 치명 등급 CVE와 공개 PoC, 벤더 비정기 패치까지 이어졌습니다. 같은 주에 Java 런타임과 웹서버가 연달아 나온 흐름이라, 패치 주기를 주 단위로 잡아 둔 조직은 일정을 다시 봐야 합니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; HTTP/2를 켠 NGINX를 먼저 셉니다. 1.9.5 이후 전 판본이 대상이라 판번호로 거르는 일이 의미가 없습니다. &#9313; 패치 적용 전까지 HTTP/2를 끄는 임시 조치를 승인 절차에 올립니다. 성능 영향은 있지만 인증 없는 코드 실행보다 작습니다. &#9314; 컨테이너와 Kubernetes 인그레스에 들어간 NGINX를 따로 셉니다. 호스트 패키지만 올리면 인그레스가 남습니다. &#9315; 커널까지 이어지는 연쇄가 공개됐으니 웹서버 프로세스의 권한과 네임스페이스 격리를 함께 점검합니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 252" role="img" aria-label="NGINX 결함 공개 경과: 다섯 팀이 서로 모르게 같은 결함을 따로 찾아냈고 대부분 AI 도구를 썼다. 치명 결함은 CVE-2026-123633 use-after-free와 CVE-2026-123007 흐름제어 계산 오류이며 각각 CVSS 9.2이고 HTTP/2를 켠 서버가 전제다. CVE-2026-123007은 2015년 1.9.5판까지 거슬러 올라가고 Rapid7이 PoC를 공개했다. Xint는 여섯 단계를 이어 호스트 root까지 올라가는 nginx2root 연쇄를 시연했다. 수정판은 1.31.9이고 F5는 실제 악용 증거를 찾지 못했다. NGINX는 전체 웹사이트의 약 3분의 1, 약 2억 2,500만 곳에서 쓰인다">
+              <text x="14" y="20" class="s-sub t-acq">AI 지원 발견에서 호스트 root까지</text>
+
+              <rect x="14" y="32" width="452" height="32" rx="3" class="s-box"/>
+              <text x="26" y="52" class="s-lab" font-size="12">5개 팀 독립 발견 &middot; 대부분 AI 도구 사용</text>
+              <text x="478" y="52" class="s-sub">11-18 공지</text>
+              <line x1="240" y1="64" x2="240" y2="76" class="s-arw"/>
+
+              <rect x="14" y="76" width="452" height="32" rx="3" class="s-box"/>
+              <text x="26" y="96" class="s-lab" font-size="12">CVE-2026-123633 use-after-free &middot; 9.2</text>
+              <text x="478" y="96" class="s-sub">HTTP/2 전제</text>
+              <line x1="240" y1="108" x2="240" y2="120" class="s-arw"/>
+
+              <rect x="14" y="120" width="452" height="32" rx="3" class="s-box"/>
+              <text x="26" y="140" class="s-lab" font-size="12">CVE-2026-123007 흐름제어 오류 &middot; 9.2</text>
+              <text x="478" y="140" class="s-sub t-acq">PoC 공개</text>
+              <line x1="240" y1="152" x2="240" y2="164" class="s-arw"/>
+
+              <rect x="14" y="164" width="452" height="32" rx="3" class="node-accent"/>
+              <text x="26" y="184" class="s-lab" font-size="12">nginx2root 6단 연쇄 &middot; 호스트 root 상승</text>
+              <text x="478" y="184" class="s-sub">Xint 시연</text>
+
+              <line x1="14" y1="208" x2="606" y2="208" class="s-axis"/>
+              <text x="14" y="226" class="s-lab" font-size="11">수정판 1.30.7 / 1.31.9 &middot; 1.9.5판부터 영향 &middot; 실제 악용 증거 없음</text>
+              <text x="14" y="242" class="s-sub">전체 웹사이트 약 3분의 1 &middot; 약 2억 2,500만 곳(Netcraft 2026-09)</text>
+            </svg>
+          </div>
+          <figcaption>주황 글씨는 공격 코드가 이미 공개된 지점, 청록 상자는 권한 상승이 끝나는 지점입니다. 두 치명 결함 모두 HTTP/2를 끄면 경로가 닫힙니다. <span class="src">근거: <a href="https://www.theregister.com/security/2026/11/18/ai-found-more-critical-bugs-in-another-widely-used-technology-running-225m-websites/5310887">The Register</a> &middot; <a href="https://www.csoonline.com/article/4250460/ai-unearths-internet-breaker-flaws-in-nginx-web-server.html">CSO Online</a> &middot; <a href="https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities">Wiz 기술 분석</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-law" data-type="law">#CVE</span><span class="tag tag-security" data-type="security">#원격코드실행</span><span class="tag tag-security" data-type="security">#권한상승</span><span class="tag tag-security" data-type="security">#리버스프록시</span></div>
+      </div>
+
+      <!-- Trend C -->
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-mid">중요도 중간~높음</span>
+          <span class="badge">연구팀 공개 &middot; 플랫폼 대응 중</span>
+        </div>
+        <h3>만료된 도메인 하나로 다운로드 1억 8,000만 회를 기록한 모델의 배포 계정이 넘어갔다 &mdash; 가중치만 바꾸면 검사기가 못 잡는다</h3>
+        <p>Alon Hertz 연구팀이 Hugging Face에서 음성합성 모델 Kokoro의 배포자 계정을 탈취했습니다<sub class="tgrade">[T2]</sub>. 방법은 단순합니다. Kokoro 공개 문서에 적힌 도메인 hexgrad.com이 등록 가능한 상태였고, 팀이 그 도메인을 등록해 계정 비밀번호를 재설정했습니다<sub class="tgrade">[T2]</sub>. 피싱도 소프트웨어 결함도 플랫폼 침입도 없었습니다. 이력과 평판이 쌓인 배포자 신분을 그대로 넘겨받았을 뿐입니다<sub class="tgrade">[T2]</sub>.<br><br>영향 범위가 작지 않습니다. Kokoro-82M은 파라미터 8,200만 규모에 음성 50종 이상을 담은 모델이고, Hertz는 누적 다운로드를 약 1억 8,000만 회로 추산했습니다<sub class="tgrade">[T2]</sub>. 구글 AI Edge Gallery와 엔비디아 NeMo, AMD GAIA, 인텔 OpenVINO 생태계에서 쓰이거나 지원됩니다. 이들 기업이 침해됐다는 뜻은 아닙니다<sub class="tgrade">[T2]</sub>. 주 저장소는 2025년 4월 이후 갱신이 없습니다<sub class="tgrade">[T2]</sub>.<br><br>검사기가 못 잡는 이유는 바꾼 대상이 코드가 아니라 <b>가중치</b>이기 때문입니다. 팀은 게이밍 GPU로 87초 만에 가중치를 손봤고, 같은 입력에 케이크 대신 오믈렛 조리법을 답하게 만들었습니다<sub class="tgrade">[T2]</sub>. 악성코드도 애플리케이션 코드 변경도 없어 파일 검사로는 아무 신호가 나오지 않습니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 모델을 받아 쓰는 조직이 지금 가진 통제는 대개 파일 검사입니다. 가중치가 바뀌는 공격에는 해시 고정과 거동 회귀시험만 남습니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>연구팀이 하지 않은 일</b> &mdash; 팀은 변조한 가중치를 Hugging Face에 올리지 않았고, 오염된 모델을 배포하지도 않았습니다<sub class="tgrade">[T2]</sub>. Hertz의 공개문에 따르면 플랫폼과 협의해 계정을 정상화했고 유출된 데이터는 없습니다<sub class="tgrade">[T2]</sub>. 다만 BleepingComputer는 Hugging Face가 제보에 응답하지 않았다고 전해 설명이 엇갈립니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>가중치 조작이 얼마나 안정적으로 먹히는가</b> &mdash; 팀은 Qwen2.5-0.5B-Instruct로 같은 실험을 다시 했습니다. 미세조정판은 케이크를 묻는 81건 가운데 80건에서 오믈렛 조리법을 돌려줬고, 원본은 기준 시험 30건에서 한 번도 그러지 않았습니다<sub class="tgrade">[T2]</sub>. 특정 입력에만 반응하는 거동을 가중치에 심을 수 있고 재현도 된다는 뜻입니다. 이는 MITRE ATLAS가 공급망 침해 전술로 분류하는 ML 공급품 조작(AML.T0010)과 성격이 같습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>버려진 도메인이 신분이 되는 구조</b> &mdash; 이번 경로의 출발점은 모델이 아니라 계정 복구 절차입니다. 배포자 계정에 연결된 메일 도메인이 만료되면 그 도메인을 사는 사람이 계정을 되찾을 수 있습니다. 모델 저장소가 오래 방치될수록 위험이 커집니다. 관리자가 떠나고 도메인 갱신이 끊기는 일이 함께 일어나기 때문입니다. Hugging Face가 배포자 소유권을 검증하지 않고 업로드 모델을 심사하지도 않는다는 지적도 나왔습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 사내에서 쓰는 공개 모델 목록을 뽑고 파일 해시를 고정합니다. 받을 때마다 해시를 맞춰 보지 않으면 가중치 교체를 알 방법이 없습니다. &#9313; 최종 갱신일이 1년 넘은 모델을 따로 표시합니다. 방치 기간이 길면 계정 탈취 위험이 함께 올라갑니다. &#9314; 모델별로 짧은 거동 회귀시험을 둡니다. 정해진 입력 몇 개에 기대 출력을 적어 두면 가중치 변조를 배포 전에 잡을 수 있습니다. &#9315; 모델을 사내 레지스트리에 미러링하고 외부 저장소를 직접 당겨 쓰는 경로를 막습니다. 업스트림이 바뀌어도 운영에 바로 들어오지 않습니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 252" role="img" aria-label="Kokoro 배포자 계정 탈취 경로: Kokoro 공개 문서에 적힌 도메인 hexgrad.com이 등록 가능한 상태였고, 연구팀이 그 도메인을 등록해 Hugging Face 계정 비밀번호를 재설정했다. 피싱과 취약점, 플랫폼 침입은 없었다. 누적 다운로드 약 1억 8천만 회 모델의 배포자 신분을 넘겨받았고, 게이밍 GPU로 87초 만에 가중치만 바꿔 같은 입력에 케이크 대신 오믈렛 조리법을 답하게 만들었다. 악성코드와 코드 변경이 없어 파일 검사로는 신호가 나오지 않는다. Qwen2.5-0.5B-Instruct 시험에서는 81건 중 80건이 재현됐고 원본 30건에서는 0건이었다">
+              <text x="14" y="20" class="s-sub t-acq">배포 계정 탈취에서 가중치 교체까지</text>
+
+              <rect x="14" y="32" width="452" height="32" rx="3" class="s-box"/>
+              <text x="26" y="52" class="s-lab" font-size="12">공개 문서에 적힌 도메인이 등록 가능 상태</text>
+              <text x="478" y="52" class="s-sub">hexgrad.com</text>
+              <line x1="240" y1="64" x2="240" y2="76" class="s-arw"/>
+
+              <rect x="14" y="76" width="452" height="32" rx="3" class="s-box"/>
+              <text x="26" y="96" class="s-lab" font-size="12">도메인 재등록 후 비밀번호 재설정</text>
+              <text x="478" y="96" class="s-sub">침입 없음</text>
+              <line x1="240" y1="108" x2="240" y2="120" class="s-arw"/>
+
+              <rect x="14" y="120" width="452" height="32" rx="3" class="node-accent"/>
+              <text x="26" y="140" class="s-lab" font-size="12">배포자 계정 장악 &middot; 누적 다운로드 약 1억 8,000만 회</text>
+              <text x="478" y="140" class="s-sub">Kokoro-82M</text>
+              <line x1="240" y1="152" x2="240" y2="164" class="s-arw"/>
+
+              <rect x="14" y="164" width="452" height="32" rx="3" class="s-box"/>
+              <text x="26" y="184" class="s-lab" font-size="12">가중치만 교체 &middot; 악성코드 없음</text>
+              <text x="478" y="184" class="s-sub t-acq">87초</text>
+
+              <line x1="14" y1="208" x2="606" y2="208" class="s-axis"/>
+              <text x="14" y="226" class="s-lab" font-size="11">같은 입력에 케이크 대신 오믈렛 조리법 &middot; 코드 변경 0건</text>
+              <text x="14" y="242" class="s-sub">Qwen2.5-0.5B-Instruct 시험 81건 중 80건 재현 &middot; 원본 30건은 0건</text>
+            </svg>
+          </div>
+          <figcaption>주황 글씨는 공격에 든 시간과 비용, 청록 상자는 공격자가 손에 넣은 지위입니다. 파일 검사 통제가 비는 구간은 세 번째와 네 번째 상자 사이입니다. <span class="src">근거: <a href="https://securityboulevard.com/2026/11/hugging-face-account-hijack-exposes-ai-model-supply-chain-risks/">Security Boulevard</a> &middot; <a href="https://www.bleepingcomputer.com/news/security/researchers-hijack-hugging-face-account-for-popular-kokoro-ai-model/">BleepingComputer</a> &middot; <a href="https://atlas.mitre.org/techniques/AML.T0010">MITRE ATLAS AML.T0010</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-org" data-type="org">#플랫폼사</span><span class="tag tag-ai" data-type="ai">#Kokoro</span><span class="tag tag-law" data-type="law">#MITRE_ATLAS</span><span class="tag tag-security" data-type="security">#모델공급망</span><span class="tag tag-security" data-type="security">#가중치변조</span><span class="tag tag-security" data-type="security">#계정탈취</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">3</span><h2>솔루션 동향 &middot; 세미나 / 컨퍼런스</h2></div>
+      <div class="sub-h">오늘의 솔루션 픽</div>
+      <div class="sol">
+        <b>TapMap &mdash; 지금 내 PC가 어디로 연결돼 있는지 지도에 찍어 주는 무료 오픈소스</b> <span class="m"><sub class="tgrade">[T2 &middot; 2026-11-18 공개]</sub></span><br>
+        개발자 Ola Lie가 만든 데스크톱 앱으로, 열린 소켓을 읽어 원격 IP를 뽑고 로컬 GeoIP 데이터베이스로 위치를 찾아 브라우저 지도에 그립니다<sub class="tgrade">[T2]</sub>. 연결을 누르면 그 뒤에 있는 애플리케이션 이름이 나오고, ASN 단위로 묶어 어느 사업자 망인지 보여 줍니다<sub class="tgrade">[T2]</sub>. 경보 기능도 있습니다. 새 애플리케이션과 새 국가, 새 통신사업자, 새 포트, 애플리케이션 검증 실패를 알리고 최근 이벤트 500건을 로그로 남깁니다<sub class="tgrade">[T2]</sub>. Windows와 Linux, macOS에서 데스크톱 알림이 기본으로 켜지며 MQTT로 다른 시스템에 이벤트를 넘길 수 있습니다<sub class="tgrade">[T2]</sub>. 알림은 기본 7일치 학습 기간을 채운 뒤부터 나옵니다<sub class="tgrade">[T2]</sub>. 한계도 분명합니다. 위치는 IP 지리정보 추정치라 Anycast와 CDN, 프록시, VPN에서는 실제 처리 지점과 다를 수 있고, ASN은 서비스 소유자가 아니라 망 운영자를 가리킵니다<sub class="tgrade">[T2]</sub>. 가장 믿을 만한 항목은 운영체제에서 받아 오는 애플리케이션 이름입니다<sub class="tgrade">[T2]</sub>. <span class="src">근거: <a href="https://www.helpnetsecurity.com/2026/11/18/tapmap-network-map-open-source/">Help Net Security</a> &middot; <a href="https://github.com/olalie/tapmap">GitHub 저장소</a></span>
+      </div>
+      <div class="sol">
+        <b>AppGate Optimizer &mdash; 실제 접속 기록으로 과도한 ZTNA 권한을 깎아 준다</b> <span class="m"><sub class="tgrade">[T2 &middot; 2026-11-17 정식 출시]</sub></span><br>
+        VPN에서 ZTNA로 옮기면서 넓게 열어 둔 권한을 다시 손대지 못하는 조직을 겨냥한 제품입니다<sub class="tgrade">[T2]</sub>. 권한별로 실제 쓰인 호스트와 포트를 계속 분석해 세 가지를 권고합니다. 쓰이지 않는 호스트·포트 줄이기, VPN식 광범위 접근을 애플리케이션 단위 권한으로 바꾸기, 쓰이지 않거나 정책과 끊긴 권한 폐기입니다<sub class="tgrade">[T2]</sub>. 관리자는 권고마다 근거 데이터를 보고 한 번 눌러 적용하며, 역할과 사용 패턴이 바뀌면 다시 스캔해 권한이 슬금슬금 넓어지는 흐름을 막습니다<sub class="tgrade">[T2]</sub>. 회사는 최소권한을 실제로 좁혔다는 증거를 감사와 이사회에 내놓을 수 있다고 앞세웁니다<sub class="tgrade">[T2]</sub>. 가격은 공개되지 않았습니다<sub class="tgrade">[T3]</sub>. <span class="src">근거: <a href="https://www.helpnetsecurity.com/2026/11/17/appgate-optimizer/">Help Net Security</a></span>
+      </div>
+      <div class="sol">
+        <b>iVerify Basic &mdash; 개인 단말의 침해 흔적과 보안 설정을 스스로 점검하게 한다</b> <span class="m"><sub class="tgrade">[T2 &middot; 2026-11-18 소개]</sub></span><br>
+        iOS와 Android 휴대폰·태블릿에서 쓰는 모바일 보안 앱입니다<sub class="tgrade">[T2]</sub>. 검사를 돌려 단말 무결성을 확인하고 마지막 점검 시각을 기록합니다<sub class="tgrade">[T2]</sub>. Device Health 화면에서는 Face ID와 화면 잠금 설정 여부, iOS와 앱 업데이트 상태를 보여 줍니다<sub class="tgrade">[T2]</sub>. 안내 항목은 도난 대응&middot;소프트웨어 취약점 악용&middot;침해 징후&middot;무선 데이터&middot;통신&middot;광고 데이터 유출 여섯 갈래로 나뉩니다<sub class="tgrade">[T2]</sub>. 각 항목은 기능 설명과 설정 절차를 함께 담고, 끝낸 항목을 완료로 표시해 진행 상황을 남깁니다<sub class="tgrade">[T2]</sub>. 업무용 단말 관리 도구를 대신하는 제품은 아니고, 임원·개발자처럼 표적이 되기 쉬운 개인 단말의 보안 수준을 올리는 데 맞습니다<sub class="tgrade">[T2]</sub>. 가격 정책은 공개되지 않았습니다<sub class="tgrade">[T3]</sub>. <span class="src">근거: <a href="https://www.helpnetsecurity.com/2026/11/18/product-showcase-iverify-basic/">Help Net Security</a></span>
+      </div>
+
+      <div class="sub-h">등록 진행 중인 행사</div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-12-03~04 &middot; 강릉 스카이베이 호텔</div>
+          <div class="name">2026년 양자보안연구회 하반기 워크숍</div>
+          <div class="where">한국정보보호학회 연구회 워크숍 &middot; 양자내성암호&middot;양자보안 주제 &middot; 등록 마감 11월 29일 &middot; 숙박 별도 예약</div>
+        </div>
+        <a class="apply" href="https://kiisc.or.kr/pre-registration">등록 &rarr;</a>
+      </div>
+    </section>
+
+    <footer class="rpt-foot">
+      <p><b>AI SEC Pulse</b> · 일일 발송 매일 오전 10:00 KST · No. 076 (2026-11-19)</p>
+      <div class="legend">
+        <span><b>T1</b> 원문·공식 확인</span><span><b>T2</b> 공신력 확인</span><span><b>T3</b> 재확인 필요</span>
+      </div>
+      <div class="legend"><span><b>중요도 높음</b> KEV 등재·CVSS9+ 또는 즉시조치·의사결정 필요한 확정 사안</span></div>
+      <div class="legend"><span><b>중요도 중간~높음</b> CVSS7~8.9(악용 미확인) 또는 벤더 대응 진행 중·초안 단계</span></div>
+      <div class="legend"><span><b>중요도 중간</b> CVSS4~6.9 또는 참고용 업계 동향, 직접 조치 없음</span></div>
+      <div class="legend"><span><b>중요도 낮음</b> CVSS4 미만 또는 배경 정보 성격</span></div>
+      <p>구독 관리 · 지난 호 · 제보: (수신자 안내에 따름)</p>
+    </footer>
+
+  </div>
+</div>
+<img src="https://elishajey.goatcounter.com/count?p=/pulse/2026-11-19" alt="" width="1" height="1" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
