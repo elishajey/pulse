@@ -1,0 +1,581 @@
+<title>AI SEC Pulse</title>
+<meta name="description" content="법·컴플라이언스 모니터링, AI 보안·서비스 동향 3선(도해), 솔루션·컨퍼런스 안내를 담은 일일 브리핑 — 2026-09-04 호">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --bg: #e9edf1;
+    --paper: #ffffff;
+    --paper-2: #f5f7f9;
+    --ink: #17202c;
+    --ink-soft: #3c4858;
+    --muted: #62707f;
+    --line: #d7dee5;
+    --line-strong: #b6c0cb;
+    --accent: #0d7c86;
+    --accent-soft: #d2eaeb;
+    --acq: #ad5019;
+    --new: #2d7a4d;
+    --flag: #916b00;
+    --hi: #b4381f;        /* importance high */
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c1016;
+      --paper: #151c25;
+      --paper-2: #1a222d;
+      --ink: #e6ebf1;
+      --ink-soft: #b7c1cd;
+      --muted: #8a96a5;
+      --line: #29323d;
+      --line-strong: #3a4551;
+      --accent: #3cb8c3;
+      --accent-soft: #102f35;
+      --acq: #d9853f;
+      --new: #5bad7c;
+      --flag: #d5aa3d;
+      --hi: #e07a5f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c1016; --paper: #151c25; --paper-2: #1a222d;
+    --ink: #e6ebf1; --ink-soft: #b7c1cd; --muted: #8a96a5;
+    --line: #29323d; --line-strong: #3a4551;
+    --accent: #3cb8c3; --accent-soft: #102f35;
+    --acq: #d9853f; --new: #5bad7c; --flag: #d5aa3d; --hi: #e07a5f;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.62; -webkit-font-smoothing: antialiased;
+  }
+  .mail { max-width: 680px; margin: 0 auto; padding: 28px 16px 80px; }
+  .envelope {
+    background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 4px; padding: 10px 14px; margin-bottom: 14px;
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted);
+  }
+  .envelope b { color: var(--ink-soft); font-weight: 600; }
+
+  .sheet {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 1px 2px rgba(20,28,40,.05), 0 14px 40px -20px rgba(20,28,40,.22);
+  }
+
+  header.rpt {
+    padding: 30px 28px 22px; border-bottom: 3px solid var(--ink);
+  }
+  header.rpt .brandline {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--accent);
+  }
+  header.rpt h1 {
+    font-family: "Archivo", sans-serif; font-weight: 700;
+    font-size: 2rem; letter-spacing: -.02em; margin: 8px 0 6px;
+  }
+  header.rpt .date {
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink-soft);
+  }
+  header.rpt .cadence {
+    margin-top: 12px; font-size: 12.5px; color: var(--muted);
+  }
+  header.rpt .byline {
+    text-align: right; margin: 10px 0 0; font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted);
+  }
+
+  section.blk { padding: 26px 28px; border-top: 1px solid var(--line); }
+  section.blk:first-of-type { border-top: 0; }
+  .sec-tag {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;
+  }
+  .sec-no {
+    font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 12px;
+    color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 1px 6px;
+  }
+  .sec-tag h2 {
+    font-family: "Archivo", sans-serif; font-weight: 700; font-size: 1.2rem;
+    letter-spacing: -.01em; margin: 0;
+  }
+  .sec-lede { margin: 0 0 18px; font-size: .9rem; color: var(--muted); }
+  .board-link { margin: 0 0 16px; margin-left: 31.2px; font-size: .85rem; }
+  .board-link a {
+    color: var(--accent); font-weight: 600; text-decoration: none;
+    background: var(--accent-soft); padding: 3px 10px; border-radius: 4px; display: inline-block;
+  }
+  .board-link a::after { content: " ↗"; font-weight: 400; }
+  /* §1 카드가 0건인 날 — "오늘의 뉴스 없음"(2026-10-12 사용자 요청). */
+  .no-news { margin: 0 0 4px; margin-left: 31.2px; font-size: .9rem; color: var(--muted); }
+
+  /* ---- section 1 : compliance items ---- */
+  .item { padding: 14px 0; border-top: 1px dashed var(--line); }
+  .item:first-child { border-top: 0; padding-top: 0; }
+  .item .row1 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .badge {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .05em;
+    padding: 1px 6px; border-radius: 2px; border: 1px solid currentColor; white-space: nowrap;
+  }
+  .b-new { color: var(--new); }
+  .b-upd { color: var(--accent); }
+  .b-hold { color: var(--muted); }
+  .b-t1 { color: var(--accent); }
+  .b-t2 { color: var(--ink-soft); }
+  .b-t3 { color: var(--flag); }
+  .jur {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted);
+  }
+  .item h3 {
+    font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 1.05rem;
+    margin: 6px 0 4px;
+  }
+  .item p { margin: 0; font-size: .82rem; color: var(--ink-soft); }
+  .item .src {
+    margin-top: 5px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted);
+  }
+  .item .src a { color: var(--accent); word-break: break-all; }
+
+  /* ---- 자세히 보기 드롭다운 (§1·§2 공용) ---- */
+  .more { margin-top: 8px; }
+  .more > summary {
+    cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    font-weight: 600; color: var(--accent); list-style: revert;
+  }
+  .more > summary::marker { color: var(--accent); }
+  .more-body {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .82rem; color: var(--ink-soft);
+  }
+  .more-body p { margin: 0 0 8px; }
+  .more-body p:last-child { margin-bottom: 0; }
+
+  .quiet-note {
+    margin-top: 16px; padding: 10px 12px; background: var(--paper-2);
+    border-left: 3px solid var(--line-strong); font-size: .84rem; color: var(--muted);
+  }
+
+  /* ---- section 2 : trend cards with figures ---- */
+  .trend-card { padding: 20px 0; border-top: 1px solid var(--line); }
+  .trend-card:first-of-type { border-top: 0; padding-top: 4px; }
+  .tc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .imp {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .04em;
+    padding: 1px 6px; border-radius: 2px;
+  }
+  .imp-high { background: transparent; color: var(--hi); border: 2px solid var(--hi); font-weight: 700; }
+  .imp-mid { background: #0d7c86; color: #fff; }
+  .trend-card h3 {
+    font-family: "Archivo", sans-serif; font-weight: 600; font-size: 1.05rem;
+    letter-spacing: -.005em; margin: 0 0 6px;
+  }
+  .trend-card > p { margin: 0 0 14px; font-size: .89rem; color: var(--ink-soft); }
+  figure {
+    margin: 0; background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 3px; padding: 14px 12px 8px;
+  }
+  figure .scroll-x { overflow-x: auto; }
+  svg.dg { display: block; width: 100%; height: auto; color: var(--ink); min-width: 520px; }
+  figcaption {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-size: .8rem; color: var(--muted);
+  }
+  figcaption .src { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+
+  .take { color: var(--accent); }
+
+  /* svg helpers */
+  .s-box { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-box-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+  .s-lab { fill: var(--ink); font-family: "IBM Plex Sans", sans-serif; font-size: 12px; }
+  .s-sub { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .02em; }
+  .s-arw { stroke: var(--muted); stroke-width: 1.4; fill: none; }
+  .s-axis { stroke: var(--line-strong); stroke-width: 1.4; }
+  .s-tick { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .dot-acq { fill: var(--acq); }
+  .dot-new { fill: var(--new); }
+  .t-acq { fill: var(--acq); color: var(--acq); }
+  .t-new { fill: var(--new); color: var(--new); }
+  .t-accent { fill: var(--accent); color: var(--accent); }
+  .node-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+  .head-mut { fill: var(--muted); }
+  .head-acc { fill: var(--accent); }
+  .link-acc { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+
+  /* ---- section 3 : solutions + events ---- */
+  .sub-h {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); margin: 18px 0 8px;
+  }
+  .sub-h:first-child { margin-top: 0; }
+  .sol { padding: 10px 0; border-top: 1px dashed var(--line); font-size: .88rem; }
+  .sol:first-of-type { border-top: 0; }
+  .sol b { font-weight: 600; }
+  .sol .m { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10.5px; }
+
+  .evt {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px 14px; align-items: center;
+    padding: 12px 0; border-top: 1px dashed var(--line);
+  }
+  .evt:first-of-type { border-top: 0; }
+  .evt .when {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--accent);
+  }
+  .evt .name { font-weight: 600; font-size: .92rem; margin: 2px 0 2px; }
+  .evt .where { font-size: .82rem; color: var(--muted); }
+  .apply {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .04em;
+    text-decoration: none; color: var(--accent);
+    border: 1px solid var(--accent); border-radius: 3px; padding: 6px 12px; white-space: nowrap;
+  }
+  .apply:hover { background: var(--accent-soft); }
+
+  footer.rpt-foot {
+    padding: 20px 28px 26px; border-top: 3px solid var(--ink);
+    font-size: .8rem; color: var(--muted);
+  }
+  footer.rpt-foot p { margin: 0 0 6px; }
+  footer.rpt-foot code { font-family: "IBM Plex Mono", monospace; font-size: .76rem; color: var(--ink-soft); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 10px 0; }
+  .legend span { font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .tgrade { color: var(--muted); font-size: 42%; }
+
+  /* ---- 해시태그(2026-09-17 사용자 요청) — 카드마다 근거 아래 국가·회사유형·법규명·AI사명/모델명·
+     보안용어를 인스타그램 스타일 해시태그로 노출. data-type 속성은 화면에 안 보이지만 나중에
+     이 데이터를 파싱해 체인으로 엮을 때 카테고리를 바로 구분하도록 남겨둔다. ---- */
+  .tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 9px; }
+  .tag { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; }
+  .tag-country { color: var(--accent); }
+  .tag-org { color: var(--flag); }
+  .tag-law { color: var(--acq); }
+  .tag-ai { color: var(--new); }
+  .tag-security { color: var(--hi); }
+
+  a { color: var(--accent); }
+  @media (max-width: 560px) {
+    .evt { grid-template-columns: 1fr; }
+    header.rpt h1 { font-size: 1.7rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="mail">
+
+  <div class="envelope">
+    <div>제목 &nbsp; <b>AI SEC Pulse (2026-11-28)</b></div>
+    <div>발송 &nbsp; 매일 오전 10:00 (KST) &nbsp;·&nbsp; 수신자: AI 보안·컴플라이언스 담당</div>
+  </div>
+
+  <div class="sheet">
+
+    <header class="rpt">
+      <div class="brandline">Daily Briefing</div>
+      <h1>AI SEC Pulse</h1>
+      <div class="date">2026년 11월 28일 토요일 · No. 085</div>
+      <p class="byline">reported by elishaJEY</p>
+    </header>
+
+    <!-- ============ 1 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">1</span><h2>법 &middot; 컴플라이언스 모니터링</h2></div>
+      <p class="board-link"><a href="https://elishajey.github.io/ai-compliance-board/">AI SEC Compliance Dashboard</a></p>
+      <div class="item">
+        <div class="row1">
+          <span class="badge b-new">신규</span>
+          <span class="jur">중국</span>
+        </div>
+        <h3>중국이 AI 학습데이터 규칙에 데이터 오염 방어를 명시한 의견안을 냈다 &mdash; 의견수렴은 12월 6일까지다</h3>
+        <p>AI 학습에 쓰는 데이터를 오염시키거나 바꿔치기하는 행위를 규칙으로 막겠다는 안이 나왔습니다<sub class="tgrade">[T2]</sub>. 중국 국가데이터국이 11월 26일 「데이터 규칙 정비로 AI 혁신 발전을 뒷받침하는 의견」 공개 의견수렴안을 올렸고, 기한은 12월 6일입니다<sub class="tgrade">[T2]</sub>. 제12항은 데이터 오염과 개변, 위조, 규정 위반 캐싱, 무단 국외이전을 악의적 파괴 행위로 규정하고 방어 대상에 넣었습니다<sub class="tgrade">[T2]</sub>. 제7항은 AI 기업이 산출물 리스크 방지 체계를 갖추고 비상대응 절차와 이용자 민원 창구를 함께 두도록 요구합니다<sub class="tgrade">[T2]</sub>.<br><br>제9항은 데이터 유통에서 책임을 가릴 때 <b>데이터 재산권 등기증서</b>를 매수인의 주의의무 판단 요소로 쓰겠다고 밝혔습니다<sub class="tgrade">[T2]</sub>. 중국에 AI 서비스를 내보내는 국내 통신사와 플랫폼사는 학습데이터 구매 계약에 등기 여부를 확인하는 조항을 넣어야 합니다<sub class="tgrade">[T2]</sub>. 국내에서도 개인정보보호위원회가 AI 개발 특례의 강화된 안전조치를 정하는 「개인정보 보호법 시행령」 개정안을 2027년 1월 4일까지 입법예고해 둔 상태입니다<sub class="tgrade">[T1]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 학습데이터 구매 계약서에 출처 증빙과 변조 방지 기록 의무를 적어 두면, 두 나라 규칙을 한 번에 맞출 수 있습니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>세 갈래 열두 항목</b> &mdash; 의견안은 열두 항목을 세 갈래로 나눠 짰습니다<sub class="tgrade">[T2]</sub>. 첫 갈래는 데이터 재산권을 AI 이용에 적용하는 내용입니다. 사용권자와 경영권자가 법령과 계약을 어기지 않는 범위에서 데이터를 학습과 추론에 쓰거나 남에게 줄 수 있도록 했습니다<sub class="tgrade">[T2]</sub>. 기기나 클라우드 서비스에서 생긴 데이터, 실질적 가공으로 가치를 더한 파생 데이터도 학습과 추론에 쓸 수 있습니다<sub class="tgrade">[T2]</sub>.<br><br>둘째 갈래는 위탁 관계와 리스크 방지입니다. 수탁 처리자는 법령이나 계약에 달리 정하지 않으면 데이터에 권리가 없고, 명시적 위임이 있을 때만 쓸 수 있습니다<sub class="tgrade">[T2]</sub>. 고품질 데이터에 값을 치르는 거래와 모델 제공 대가로 데이터를 받는 방식도 장려 대상에 들어갔습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>보안과 직접 맞물리는 항목</b> &mdash; 제12항이 가장 분명합니다. 국가안전과 사생활, 데이터 보호 관련 법령을 엄격히 지키고, 「데이터안전법」과 「개인정보보호법」을 그대로 적용하라고 못 박았습니다<sub class="tgrade">[T2]</sub>. 그 위에 데이터 오염과 개변, 위조, 규정 위반 캐싱, 무단 국외이전을 막으라는 문구를 두었습니다<sub class="tgrade">[T2]</sub>.<br><br>제7항은 AI 기업을 기술 제공자로 놓고, 국가안전과 공공이익을 해치는 금지 내용이 생성되지 않도록 합리적이고 필요한 조치를 먼저 취하라고 요구합니다<sub class="tgrade">[T2]</sub>. 조치를 했다는 사실은 책임을 줄이거나 면하는 근거가 되고, 하지 않으면 법에 따라 책임을 집니다<sub class="tgrade">[T2]</sub>. 제8항은 업종과 상황별로 데이터 품질 평가·인증 체계를 세우겠다고 명시했습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>표준 체계와의 연결</b> &mdash; 제12항이 막겠다고 적은 데이터 오염은 OWASP가 이미 분류해 둔 위험입니다. Top 10 for LLM Applications 2025의 <b>LLM04 Data and Model Poisoning</b> 항목이 같은 내용입니다<sub class="tgrade">[T2]</sub>. MITRE ATLAS도 학습데이터 오염을 별도 기법으로 올려 두고 있습니다<sub class="tgrade">[T2]</sub>. 규범이 표준의 분류를 따라간 드문 사례이고, 그래서 사내 통제 항목을 새로 만들지 않고도 매핑할 수 있습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>남은 공백</b> &mdash; 공개된 보도에는 열두 항목의 조문 전문이 실리지 않았고, 국가데이터국 누리집의 의견 제출 창구도 확인되지 않았습니다<sub class="tgrade">[T3]</sub>. 의견수렴 종료일을 12월 6일로 적은 보도와 종료일을 밝히지 않은 보도가 함께 있습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 학습·추론에 쓰는 데이터셋을 출처별로 나눠 적고, 구매분은 계약서와 등기 증빙을 함께 보관합니다. &#9313; 데이터 수집에서 학습까지의 구간에 해시 기록을 남겨 개변 여부를 뒤에서 확인할 수 있게 만듭니다. &#9314; 모델 산출물의 금지 내용 차단 로그와 민원 접수 창구를 한 화면에 모읍니다. &#9315; 중국향 서비스가 있으면 데이터 국외이전 경로를 다시 그려 캐싱 지점을 모두 적어 둡니다.</p>
+        </div></details>
+        <div class="src">근거: <a href="https://tech.ifeng.com/c/8yNAHsvR1Ph">펑황망</a> &middot; <a href="https://www.thepaper.cn/newsDetail_forward_34572294">더페이퍼</a> &middot; <a href="https://m.21jingji.com/article/20261126/herald/49c4baeae3eac94dcf77cee78a441ecf.html">21세기경제보도</a> &middot; 국내 관점: <a href="https://www.pipc.go.kr/np/cop/bbs/selectBoardArticle.do?bbsId=BS074&amp;mCode=C020010000&amp;nttId=12663">개인정보보호위원회 입법예고</a> &middot; 감시: <a href="https://zqyj.chinalaw.gov.cn/">중국 입법 의견수렴 목록</a> &middot; <a href="https://www.cac.gov.cn/wxb_hdjl/index.htm">국가인터넷정보판공실 의견수렴</a></div>
+        <div class="tags"><span class="tag tag-country" data-type="country">#중국</span><span class="tag tag-country" data-type="country">#한국</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-org" data-type="org">#표준기구</span><span class="tag tag-law" data-type="law">#데이터규칙의견안</span><span class="tag tag-law" data-type="law">#OWASP_LLM_Top10</span><span class="tag tag-security" data-type="security">#데이터오염</span><span class="tag tag-security" data-type="security">#학습데이터</span></div>
+      </div>
+
+      <div class="item">
+        <div class="row1">
+          <span class="badge b-upd">변동 확인</span>
+          <span class="jur">한국</span>
+        </div>
+        <h3>AI 데이터센터 시행령안 공청회가 12월 9일 열린다 &mdash; 인정 기준을 AI 장비전력으로 가른다</h3>
+        <p>어떤 시설을 AI 데이터센터로 인정할지 정하는 기준이 공청회에 올라갑니다<sub class="tgrade">[T2]</sub>. 지난 11월 20일 호에서 다룬 시행령·시행규칙 제정안 입법예고와 같은 날, 과학기술정보통신부가 공청회 개최 공고도 제2026-1108호로 함께 냈습니다<sub class="tgrade">[T1]</sub>. 공청회는 12월 9일 서울 마포 누리꿈스퀘어에서 열리고, 제정안 의견 제출은 12월 30일까지입니다<sub class="tgrade">[T2]</sub>.<br><br>제정안은 AI 장비전력이 250kW 이상이면서 전체 IT 장비전력의 50% 이상을 차지하거나, AI 장비전력이 5MW 이상인 시설을 AI 데이터센터로 봅니다<sub class="tgrade">[T2]</sub>. 이 범위에 들어가면 비수도권 신축·증축에서 전력계통영향평가 면제를 받을 수 있어, 통신사와 플랫폼사의 증설 계획이 이 수치에 따라 갈립니다<sub class="tgrade">[T2]</sub>. 특별법은 6월 9일 공포됐고 2027년 3월 10일 시행됩니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 자사 센터의 AI 장비전력 비중을 지금 집계해 두면, 공청회 의견 제출과 내년 3월 시행 대비를 같은 자료로 끝낼 수 있습니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>절차 경과</b> &mdash; 시행령 제정안은 공고 제2026-1094호, 시행규칙 제정안은 공고 제2026-1095호로 11월 20일 입법예고에 들어갔습니다<sub class="tgrade">[T1]</sub>. 예고 기간은 40일이고 마감은 12월 30일입니다<sub class="tgrade">[T2]</sub>. 공청회 공고도 같은 2026년 11월 20일에 났고, 근거는 행정절차법 제38조와 제45조입니다<sub class="tgrade">[T1]</sub>.<br><br>의견은 국민참여입법센터나 과학기술정보통신부 인공지능데이터진흥과 전자우편으로 냅니다<sub class="tgrade">[T1]</sub>. 9월 9일 열린 공개토론회는 조문 초안 없이 쟁점만 다룬 자리였고, 이번 공청회는 조문을 올려 두고 여는 자리라 성격이 다릅니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>쟁점</b> &mdash; 인정 범위와 전력 특례에서 이견이 가장 큽니다<sub class="tgrade">[T2]</sub>. 인정 기준의 두 갈래는 적용 대상이 다릅니다. <b>비중 기준(250kW 이상 + 50% 이상):</b> 기존 상업용 데이터센터 가운데 AI 랙을 일부만 들인 시설이 여기에 해당합니다. <b>절대규모 기준(5MW 이상):</b> 처음부터 AI 전용으로 짓는 신규 센터가 여기에 들어갑니다<sub class="tgrade">[T2]</sub>. 어느 쪽으로 분류되는지에 따라 인허가 간소화와 전력계통영향평가 면제의 적용 여부가 달라집니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>보안 담당자의 점검 사항</b> &mdash; 이 특별법은 진흥법이고, 공개된 보도에서 제정안의 물리보안이나 망분리 요건은 확인되지 않았습니다<sub class="tgrade">[T3]</sub>. AI 데이터센터가 인허가 특례를 받아 늘어나면 국가 핵심 시설의 집중도가 올라가므로, 보안 요건을 시행령이 어디까지 적을지 공청회에서 확인해야 합니다<sub class="tgrade">[T3]</sub>. 첨부파일의 조문 전문은 공고 화면에서 내려받아야 확인됩니다<sub class="tgrade">[T1]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &#9312; 보유·임차 센터별로 AI 장비전력과 전체 IT 장비전력을 집계해 두 기준 어느 쪽에 해당하는지 표로 정리합니다. &#9313; 비수도권 증설 계획이 있으면 전력계통영향평가 면제 적용 가능성을 이 표로 먼저 따져 봅니다. &#9314; 공고 첨부에서 조문 전문을 받아 보안·회복 관련 조항이 있는지 확인하고, 없으면 12월 30일까지 의견으로 제출합니다. &#9315; 2027년 3월 시행에 맞춰 인허가 담당과 보안 담당이 같이 볼 체크리스트를 만듭니다.</p>
+        </div></details>
+        <div class="src">근거: <a href="https://www.digitaltoday.co.kr/news/articleView.html?idxno=716914">디지털투데이</a> &middot; <a href="https://www.news1.kr/it-science/cc-newmedia/6281401">뉴스1</a> &middot; 조문: <a href="https://www.moleg.go.kr/lawinfo/makingInfo.mo?mid=a10104010000&amp;lawSeq=89548&amp;lawCd=0&amp;lawType=TYPE5">시행령 제정안 입법예고</a> &middot; 감시: <a href="https://www.msit.go.kr/bbs/list.do?sCode=user&amp;mId=109&amp;mPid=103&amp;bbsSeqNo=84">과학기술정보통신부 입법행정예고</a></div>
+        <div class="tags"><span class="tag tag-country" data-type="country">#한국</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-org" data-type="org">#통신사</span><span class="tag tag-law" data-type="law">#AI데이터센터특별법</span><span class="tag tag-security" data-type="security">#전력계통영향평가</span><span class="tag tag-security" data-type="security">#핵심인프라</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">2</span><h2>AI 보안 &middot; 서비스 동향 3선</h2></div>
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">당국 권고</span>
+        </div>
+        <h3>스위스가 AI 에이전트 공격의 첫 확인 사례를 공개했다 &mdash; 5건 가운데 4건이 침입까지 갔다</h3>
+        <p>스위스 국가사이버보안센터가 AI 에이전트를 쓴 공격 5건을 확인했고, 그중 4건은 시스템 침입까지 갔습니다<sub class="tgrade">[T2]</sub>. 3건이 중요 인프라 운영자를 노려 2건이 성공했지만 큰 장애는 없었습니다<sub class="tgrade">[T2]</sub>. 센터는 11월 24일 권고문에서 <b>ARTEX</b>와 <b>CyberStrikeAI</b>를 인터넷에서 바로 쓸 수 있는 공격 에이전트로 지목했습니다<sub class="tgrade">[T1]</sub>. 플로리안 쉬츠 센터장은 공개된 AI 공격 도구 수가 10월 이후 거의 두 배가 됐다고 공영방송 SRF에 밝혔습니다<sub class="tgrade">[T2]</sub>. 권고문은 인터넷에 드러난 시스템에 중요 업데이트를 24시간 안에 적용하라고 요구했습니다<sub class="tgrade">[T1]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 인터넷에 드러난 자산을 24시간 안에 패치할 수 있는 것과 그렇지 못한 것으로 나누고, 뒤쪽은 먼저 격리합니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>무엇이 달라졌나</b> &mdash; 권고문은 이 도구들을 <b>에이전틱 공격 프레임워크</b>라고 적었습니다. 사람이 단계마다 지시하지 않아도 약점을 찾아 공격까지 스스로 끌고 갑니다<sub class="tgrade">[T1]</sub>. 알려진 미패치 취약점을 자동으로 찾아 여러 공격을 동시에 돌리고, 방어 쪽이 반응하면 수법을 바꿔 탐지와 대응에 쓸 시간을 줄입니다<sub class="tgrade">[T1]</sub>.<br><br>개별 행위 하나하나는 평범한 사용자나 API 트래픽처럼 보입니다<sub class="tgrade">[T1]</sub>. 그래서 요청이 어디서 오는지, 얼마나 자주 오는지, 데이터량과 순서가 어떤지를 함께 봐야 걸러집니다<sub class="tgrade">[T1]</sub>. MITRE ATLAS 전술로 읽으면 정찰에서 초기 접근까지가 한 흐름으로 붙은 모습입니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b>악용된 약점</b> &mdash; 새 취약점이 아니라 오래된 것들이었습니다. 코드 저장소에 남은 자격증명, 잘못 설정된 코드형 인프라, 기본값이거나 아예 빠진 인증, API 약점이 꼽혔습니다<sub class="tgrade">[T2]</sub>. 다섯 건 가운데 특정 CVE와 연관된 사례는 공개되지 않았습니다<sub class="tgrade">[T2]</sub>. 피해자에는 중소기업이 들어 있고 신고는 자발적으로 들어왔습니다<sub class="tgrade">[T2]</sub>. 전기와 상수도, 통신 공급자가 중요 인프라 예시로 거론됐습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>다른 나라 상황</b> &mdash; 이탈리아 CSIRT는 같은 공보에서 ARTEX와 CyberStrikeAI에 PentAGI, DeepSeek Harness를 더해 네 개를 들었습니다<sub class="tgrade">[T2]</sub>. DeepSeek Harness는 공개 소스이고, 레드팀 모드가 내장 프롬프트로 기반 모델의 안전장치를 넘어갑니다<sub class="tgrade">[T2]</sub>. 영국 NCSC는 9월 이후 AI를 쓴 공격이 뚜렷이 늘었다고 밝혔고, 속도와 지속성이 올라가고 비용이 낮아진 점을 변화로 꼽았습니다<sub class="tgrade">[T2]</sub>.<br><br>지난 11월 21일 호에서 다룬 EU 집행위 침해가 같은 흐름의 시작이었습니다. 그때는 ARTEX로 인사·의료비·번역 시스템이 뚫렸고 탐지는 10월 22일이었습니다. 이번은 국가 단위 침해대응센터가 자국 사례를 숫자로 확인한 첫 발표입니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>권고문의 요구 사항</b> &mdash; 인터넷에 드러난 시스템을 줄이고, 지역 차단이나 IP 허용목록으로 접근 범위를 좁히라고 권고했습니다<sub class="tgrade">[T1]</sub>. 웹메일과 VPN처럼 외부에서 닿는 내부 자원에는 다중인증이나 패스키를 요구합니다<sub class="tgrade">[T1]</sub>. 권한은 최소로 주라고 했습니다. 계정·애플리케이션·워크로드·인프라의 행위 이탈은 데이터량까지 포함해 감시하라고 적었습니다<sub class="tgrade">[T1]</sub>. 정기 침투시험도 권고 목록에 들어 있습니다<sub class="tgrade">[T1]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 외부에 드러난 자산 목록을 다시 뽑아 24시간 패치 가능 여부로 두 갈래로 나누고, 불가능한 쪽은 지역 차단과 허용목록으로 먼저 가립니다. &#9313; 코드 저장소와 코드형 인프라 설정에서 평문 자격증명을 찾아 단기 토큰으로 바꿉니다. &#9314; 탐지 규칙을 개별 요청에서 맥락 기반으로 옮겨, 같은 출처에서 오는 요청 빈도와 데이터량, 순서를 함께 봅니다. &#9315; 중요 인프라 계열 시스템은 다중인증을 먼저 적용하고 정기 침투시험 일정에 넣습니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 248" role="img" aria-label="스위스 국가사이버보안센터 권고문이 적은 에이전틱 공격 프레임워크의 동작 순서는 공개 도구 입수, 미패치 약점 자동 탐색, 병렬 공격 실행, 방어 반응 시 수법 전환이다. 아래 막대는 확인 사례 5건, 에이전트 침입 성공 4건, 중요 인프라 표적 3건, 그중 침입 성공 2건을 나타낸다">
+              <defs>
+                <marker id="d1h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head-mut"/></marker>
+              </defs>
+              <text x="16" y="24" class="s-sub">권고문이 적은 동작 순서</text>
+
+              <rect x="16" y="36" width="128" height="52" rx="3" class="s-box"/>
+              <text x="80" y="58" text-anchor="middle" class="s-lab" font-size="11">공개된</text>
+              <text x="80" y="75" text-anchor="middle" class="s-lab" font-size="11">공격 도구 입수</text>
+
+              <line x1="144" y1="62" x2="164" y2="62" class="s-arw" marker-end="url(#d1h)"/>
+
+              <rect x="166" y="36" width="128" height="52" rx="3" class="s-box"/>
+              <text x="230" y="58" text-anchor="middle" class="s-lab" font-size="11">미패치 약점</text>
+              <text x="230" y="75" text-anchor="middle" class="s-lab" font-size="11">자동 탐색</text>
+
+              <line x1="294" y1="62" x2="314" y2="62" class="s-arw" marker-end="url(#d1h)"/>
+
+              <rect x="316" y="36" width="128" height="52" rx="3" class="s-box"/>
+              <text x="380" y="58" text-anchor="middle" class="s-lab" font-size="11">여러 공격을</text>
+              <text x="380" y="75" text-anchor="middle" class="s-lab" font-size="11">동시 실행</text>
+
+              <line x1="444" y1="62" x2="464" y2="62" class="s-arw" marker-end="url(#d1h)"/>
+
+              <rect x="466" y="36" width="128" height="52" rx="3" class="node-accent"/>
+              <text x="530" y="58" text-anchor="middle" class="s-lab t-accent" font-size="11">방어 반응 시</text>
+              <text x="530" y="75" text-anchor="middle" class="s-lab t-accent" font-size="11">수법 전환</text>
+
+              <text x="16" y="112" class="s-sub">개별 행위는 정상 사용자·API 트래픽처럼 보인다</text>
+
+              <text x="16" y="140" class="s-sub">SRF 인터뷰로 공개된 건수</text>
+
+              <text x="16" y="164" class="s-lab" font-size="11">확인 사례</text>
+              <rect x="150" y="153" width="300" height="14" rx="2" class="s-box"/>
+              <text x="462" y="164" class="s-tick">5건</text>
+
+              <text x="16" y="188" class="s-lab" font-size="11">에이전트 침입</text>
+              <rect x="150" y="177" width="240" height="14" rx="2" class="node-accent"/>
+              <text x="402" y="188" class="s-tick">4건</text>
+
+              <text x="16" y="212" class="s-lab" font-size="11">중요 인프라 표적</text>
+              <rect x="150" y="201" width="180" height="14" rx="2" class="s-box"/>
+              <text x="342" y="212" class="s-tick">3건</text>
+
+              <text x="16" y="236" class="s-lab" font-size="11">그중 침입 성공</text>
+              <rect x="150" y="225" width="120" height="14" rx="2" class="node-accent"/>
+              <text x="282" y="236" class="s-tick">2건</text>
+            </svg>
+          </div>
+          <figcaption>위 네 칸은 권고문이 적은 공격 에이전트의 동작 순서이고, 아래 막대는 센터장이 방송 인터뷰에서 밝힌 건수입니다. <span class="src">근거: <a href="https://www.bacs.admin.ch/en/26-ki-agenten-1-en">스위스 국가사이버보안센터 권고문</a> &middot; <a href="https://thehackernews.com/2026/11/switzerland-confirms-ai-assisted.html">The Hacker News</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#스위스</span><span class="tag tag-country" data-type="country">#이탈리아</span><span class="tag tag-country" data-type="country">#영국</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-ai" data-type="ai">#딥시크</span><span class="tag tag-security" data-type="security">#에이전틱공격프레임워크</span><span class="tag tag-security" data-type="security">#자격증명노출</span><span class="tag tag-security" data-type="security">#중요인프라</span></div>
+      </div>
+
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-high">중요도 높음</span>
+          <span class="badge">당국 발표</span>
+        </div>
+        <h3>AI 해킹으로 개인정보 유출 신고가 1년 만에 두 배를 넘었다 &mdash; 12월부터 3개월 집중관리에 들어간다</h3>
+        <p>올해 1월부터 10월까지 개인정보 유출 신고가 1,019건 접수돼<sub class="tgrade">[T2]</sub>, 지난해 1년 치 447건의 두 배를 넘었습니다<sub class="tgrade">[T2]</sub>. 민간이 748건, 공공이 271건이고 민간에서는 해킹이 가장 큰 원인이었습니다<sub class="tgrade">[T2]</sub>. 탈취한 정상 계정과 접근키를 쓰는 공격이 늘어 SQL 인젝션과 파일 업로드 취약점만큼 비중이 커졌습니다<sub class="tgrade">[T2]</sub>. 개인정보보호위원회는 12월부터 3개월을 집중관리 기간으로 정하고 긴급 점검·대응 체계를 가동합니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 인터넷에 드러난 시스템의 접근권한과 공개설정을 먼저 보고, 잊고 둔 테스트 서버와 미사용 API를 목록에서 지웁니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>원인이 갈린다</b> &mdash; 공공과 민간의 1위 원인이 다릅니다. <b>공공(271건):</b> 담당자 과실이나 고의가 가장 많았습니다. 공문과 메일 오발송, 누리집 게시판에 개인정보가 그대로 올라간 사례가 여기에 들어갑니다<sub class="tgrade">[T2]</sub>. 중앙행정기관과 지방자치단체, 대학을 포함한 학교에서 신고가 들어왔고 해킹도 함께 늘고 있습니다<sub class="tgrade">[T2]</sub>.<br><br><b>민간(748건):</b> 해킹이 주된 원인이었습니다. 접근통제와 공개설정, API·파라미터 변조, 인터넷에 드러난 시스템의 인증 우회가 구체적 약점으로 꼽혔습니다<sub class="tgrade">[T2]</sub>. 피해는 중소기업에서 가장 많고 중견기업, 소상공인·개인사업자, 대기업 순이었습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>노려진 곳</b> &mdash; 본체가 아니라 주변부였습니다. 수탁사 서버, 잊고 둔 미사용 API와 테스트 서버, 지원·부가 서비스 같은 비핵심 시스템이 표적으로 거론됐습니다<sub class="tgrade">[T2]</sub>. 공격 자체는 AI가 자동화하고 규모를 키워 시간과 비용을 낮췄습니다<sub class="tgrade">[T2]</sub>. 전문가가 아니어도 시도할 수 있게 문턱이 내려갔다는 설명이 함께 붙었습니다<sub class="tgrade">[T2]</sub>. 바로 앞 카드의 스위스 사례에서 꼽힌 약점 목록과 상당 부분 겹칩니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>집중관리 방식</b> &mdash; 개인정보위는 과학기술정보통신부와 금융위원회, 국가정보원과 정보공유·긴급협력 창구를 만듭니다<sub class="tgrade">[T2]</sub>. 유출 분석을 근거로 인터넷 노출 시스템 점검과 접근권한 관리를 먼저 조치합니다<sub class="tgrade">[T2]</sub>. 부처와 광역지자체는 부기관장급이 이끄는 긴급 점검·대응팀을 꾸려 소속 기관의 준수 여부를 봅니다<sub class="tgrade">[T2]</sub>. 전문성이 모자란 기관은 개인정보위가 직접 현장점검에 들어갑니다<sub class="tgrade">[T2]</sub>.<br><br>민간은 CPO 협의회와 자율규제단체를 거쳐 안내가 내려가고, 고위험군에는 긴급 점검과 산학연 기술지원이 붙습니다<sub class="tgrade">[T2]</sub>. 위험 업종으로는 금융과 교육, 유통, 통신이 지목됐습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>제재 방향</b> &mdash; 보호에 충분히 투자한 기업은 과징금을 줄여 받을 수 있습니다<sub class="tgrade">[T2]</sub>. 기본 조치를 빠뜨려 막을 수 있던 유출을 낸 경우는 엄정하게 제재합니다<sub class="tgrade">[T2]</sub>. 조사 뒤 시정에서 사전 위협 공유와 선제 방어로 무게를 옮긴다는 설명도 붙었습니다<sub class="tgrade">[T2]</sub>. 투자 수준을 어떤 지표로 재는지는 공개되지 않았습니다<sub class="tgrade">[T3]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 인터넷에 응답하는 자사 엔드포인트를 전수 조회해 인증을 요구하는지부터 확인하고, 공개설정이 열린 게시판과 저장소를 닫습니다. &#9313; 수탁사 목록을 꺼내 각 수탁사가 보유한 개인정보 항목과 접근 경로를 다시 적습니다. &#9314; 미사용 API와 테스트 서버를 찾아 폐기하거나 내부망으로 옮기고, 남길 것은 소유자를 지정합니다. &#9315; 계정 탈취 대응으로 다중인증 적용 범위를 넓히고 장기 접근키를 단기 토큰으로 바꿉니다. &#9316; 12월 집중관리 기간에 맞춰 투자 내역과 점검 기록을 과징금 감경 근거로 쓸 수 있게 정리해 둡니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 222" role="img" aria-label="개인정보 유출 신고는 2025년 한 해 447건에서 2026년 1월부터 10월까지 1,019건으로 늘었다. 2026년 수치는 민간 748건과 공공 271건으로 나뉘고, 민간의 주된 원인은 해킹이며 공공의 주된 원인은 담당자 과실과 고의다">
+              <defs>
+                <marker id="d2h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head-acc"/></marker>
+              </defs>
+              <text x="16" y="24" class="s-sub">유출 신고 건수</text>
+
+              <text x="16" y="52" class="s-lab" font-size="11">2025년 전체</text>
+              <rect x="130" y="41" width="193" height="16" rx="2" class="s-box"/>
+              <text x="333" y="53" class="s-tick">447건</text>
+
+              <text x="16" y="84" class="s-lab" font-size="11">2026년 1~10월</text>
+              <rect x="130" y="73" width="440" height="16" rx="2" class="node-accent"/>
+              <text x="580" y="85" text-anchor="end" class="s-tick t-accent">1,019건</text>
+
+              <line x1="226" y1="61" x2="226" y2="69" class="s-arw" marker-end="url(#d2h)"/>
+
+              <text x="16" y="118" class="s-sub">2026년 1~10월 내부 구성</text>
+
+              <rect x="130" y="128" width="323" height="16" rx="2" class="s-box"/>
+              <text x="291" y="140" text-anchor="middle" class="s-lab" font-size="11">민간 748건</text>
+              <rect x="453" y="128" width="117" height="16" rx="2" class="s-box"/>
+              <text x="511" y="140" text-anchor="middle" class="s-lab" font-size="11">공공 271건</text>
+
+              <line x1="291" y1="148" x2="291" y2="166" class="s-arw" marker-end="url(#d2h)"/>
+              <line x1="511" y1="148" x2="511" y2="166" class="s-arw" marker-end="url(#d2h)"/>
+
+              <rect x="188" y="168" width="206" height="40" rx="3" class="s-box"/>
+              <text x="291" y="184" text-anchor="middle" class="s-lab" font-size="11">1위 원인: 해킹</text>
+              <text x="291" y="201" text-anchor="middle" class="s-sub" text-anchor="middle">계정·접근키 탈취 급증</text>
+
+              <rect x="416" y="168" width="190" height="40" rx="3" class="s-box"/>
+              <text x="511" y="184" text-anchor="middle" class="s-lab" font-size="11">1위 원인: 과실·고의</text>
+              <text x="511" y="201" text-anchor="middle" class="s-sub" text-anchor="middle">오발송·게시판 노출</text>
+            </svg>
+          </div>
+          <figcaption>위 두 막대는 같은 기준의 신고 건수를 해마다 비교했고, 아래는 올해 수치를 민간과 공공으로 나눠 각 1위 원인을 붙였습니다. <span class="src">근거: <a href="https://www.boannews.com/news/articleView.html?idxno=147601">보안뉴스</a> &middot; <a href="https://www.pipc.go.kr/np/cop/bbs/selectBoardList.do?bbsId=BS074&amp;mCode=C020010000">개인정보보호위원회 보도자료</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#한국</span><span class="tag tag-org" data-type="org">#정부기관</span><span class="tag tag-org" data-type="org">#금융사</span><span class="tag tag-org" data-type="org">#통신사</span><span class="tag tag-law" data-type="law">#개인정보보호법</span><span class="tag tag-security" data-type="security">#계정탈취</span><span class="tag tag-security" data-type="security">#접근키</span><span class="tag tag-security" data-type="security">#API변조</span></div>
+      </div>
+
+      <div class="trend-card">
+        <div class="tc-meta">
+          <span class="imp imp-mid">중요도 중간~높음</span>
+          <span class="badge">벤더 보고서</span>
+        </div>
+        <h3>인증 없이 열린 자가호스팅 AI 서버의 54.8%에 남의 흔적이 있었다 &mdash; 공격자는 취약점을 쓰지 않았다</h3>
+        <p>Rapid7이 11월 10일 하루를 기준으로 조사한 결과, 인증 없이 응답한 AI·노트북 API가 7,627대였습니다<sub class="tgrade">[T2]</sub>. 거의 전부 Ollama였고, Ollama로 확인된 7,675건 가운데 4,209건(54.8%)에서 제3자 흔적이 나왔습니다<sub class="tgrade">[T2]</sub>. 흔적은 비공식 레지스트리 내려받기와 beacon·probe 같은 표식 모델 이름, 서버 자신의 IP를 박은 이름이었습니다<sub class="tgrade">[T2]</sub>. 노출된 Ollama 호스트의 79%가 <b>cloud 태그</b> 모델을 하나 이상 올려 둬, 주인의 유료 구독으로 남이 추론을 돌릴 여지가 있습니다<sub class="tgrade">[T3]</sub>. 취약점 공격이 필요 없고 요금은 서버 주인에게 갑니다<sub class="tgrade">[T2]</sub>.</p>
+        <p><b class="take">[elisha&rsquo;s take]</b> &mdash; 모델 서버를 localhost나 사설망으로 한정하고, 외부 접근이 필요하면 인증 프록시를 앞에 둡니다. 모델 목록에 모르는 이름이 있으면 침해로 보고 키를 교체합니다.</p>
+        <details class="more"><summary>자세히 보기</summary><div class="more-body">
+          <p><b>표본의 한계</b> &mdash; 미리 고른 IPv4 주소 20,354개를 포트 7개(3000·5000·8000·8080·8501·8888·11434)에서 확인했습니다<sub class="tgrade">[T2]</sub>. 서비스마다 인증 없는 HTTP 요청을 한 번만 보냈고 추론이나 쓰기, 공격 요청은 보내지 않았습니다<sub class="tgrade">[T2]</sub>. 조사 대상 목록의 58%만 응답했으므로 인터넷 전수 조사가 아닙니다<sub class="tgrade">[T2]</sub>.<br><br>저자는 스캐너의 1차 집계를 과장으로 봤습니다. 허니팟이나 센서로 보이는 429개를 빼면서 심각 판정이 387건에서 39건으로 줄었습니다<sub class="tgrade">[T2]</sub>. 전체 확인 건수 가운데 HTTPS로 응답한 비율은 0.3%였습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>흔적을 어떻게 셌나</b> &mdash; 호스트 내부를 들여다본 것이 아니라 모델 목록 응답의 이름을 읽었습니다<sub class="tgrade">[T2]</sub>. 비공식 레지스트리에서 받은 흔적이 23.7%, 무료 터널과 임시 레지스트리가 22.4%였습니다<sub class="tgrade">[T2]</sub>. beacon·verify·probe 같은 표식 이름이 40.3%, 프리미엄 모델 별칭이 15.5%였고, 서버 자신의 IP를 이름에 박은 호스트가 712대였습니다<sub class="tgrade">[T2]</sub>.<br><br>인코딩한 파일경로를 모델 이름에 넣은 호스트가 55대(0.7%)이고, 풀어 보면 /etc/shadow와 /proc/self/environ을 노렸습니다<sub class="tgrade">[T2]</sub>. 표식 이름에 박힌 시각은 6월 10일부터 11월 3일까지 걸쳐 있어, 흔적이 몇 달 남아 있던 호스트가 있습니다<sub class="tgrade">[T2]</sub>. 목록이 깨끗해도 침해가 없었다는 증거는 아닙니다. 이름은 지울 수 있습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>구독 도용 가설</b> &mdash; Ollama에 로그인하면 로컬 데몬이 ed25519 키로 요청을 클라우드로 넘깁니다<sub class="tgrade">[T2]</sub>. 그래서 로그인된 서버가 인증 없이 열려 있으면 남이 주인 구독으로 추론을 돌릴 수 있습니다<sub class="tgrade">[T2]</sub>. 저자는 이를 가설로 적었습니다. cloud 태그가 보인다고 로그인 상태가 증명되지는 않고 추론을 돌려 확인하지도 않았습니다<sub class="tgrade">[T3]</sub>. 다만 같은 클라우드 모델 일곱 개가 서로 무관한 호스트 1,295대에 똑같이 올라가 있어, 제3자가 자동으로 조사한 흔적으로 판단했습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b>지난 호와의 관계</b> &mdash; 지난 11월 4일 호의 LLMjacking은 훔친 클라우드 키로 남의 모델을 돌려 요금을 떠넘기는 공격이었습니다. 11월 11일 호는 같은 수법이 추론 사업자 본체를 겨냥한 사례였습니다. 이번에는 표적이 열어 둔 자가호스팅 서버로 옮겨 왔고, 키를 훔칠 필요조차 없습니다<sub class="tgrade">[T2]</sub>.<br><br>분포는 값싼 임대 호스팅을 따라가, 독일이 1,306대로 가장 많습니다. 중국은 1,130대, 미국은 1,097대입니다<sub class="tgrade">[T2]</sub>. 약 65%가 호스팅·클라우드망에 있고<sub class="tgrade">[T2]</sub>, 사업자 6곳이 42%를 차지합니다<sub class="tgrade">[T2]</sub>. 검열을 걷어낸 모델을 돌리는 호스트가 28%, 임베딩 모델을 돌리는 호스트가 28%였습니다<sub class="tgrade">[T2]</sub>.</p>
+          <p><b class="take">[elisha&rsquo;s take]</b> &mdash; &#9312; 공개 IP 범위와 클라우드 계정을 조사해 11434번을 포함한 모델 서버 포트가 열려 있는지 확인합니다. &#9313; 모델 목록을 전부 읽어 모르는 이름이 하나라도 있으면 침해로 보고 비밀값과 연결된 키를 교체한 뒤 재구축합니다. &#9314; 모델 런타임을 localhost나 사설망 안에만 두고, 원격 접근이 필요하면 인증 프록시나 제로트러스트 계층을 앞에 둡니다. &#9315; 외부로 나가는 트래픽을 승인된 레지스트리로 제한하고 상태를 바꾸는 API 호출에 경보를 걸어 둡니다. &#9316; 모델 서버마다 담당자와 데이터 등급, 폐기 예정일을 적고 한 시간 안에 찾아 끌 수 있는지 점검합니다.</p>
+        </div></details>
+        <figure>
+          <div class="scroll-x">
+            <svg class="dg" viewBox="0 0 620 214" role="img" aria-label="Rapid7이 11월 10일 확인한 결과를 좁혀 가면 미리 고른 IPv4 주소 20,354개 가운데 인증 없이 응답한 호스트가 7,627대이고, Ollama로 확인된 사례가 7,675건, 그중 제3자 흔적이 나온 사례가 4,209건으로 54.8퍼센트다. 노출된 Ollama 호스트의 79퍼센트가 클라우드 태그 모델을 올려 두고 있다">
+              <defs>
+                <marker id="d3h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head-mut"/></marker>
+              </defs>
+              <text x="16" y="24" class="s-sub">조사 범위를 좁혀 간 단계</text>
+
+              <rect x="40" y="36" width="540" height="22" rx="2" class="s-box"/>
+              <text x="310" y="51" text-anchor="middle" class="s-lab" font-size="11">확인한 IPv4 주소 20,354개 &middot; 포트 7개</text>
+
+              <line x1="310" y1="58" x2="310" y2="72" class="s-arw" marker-end="url(#d3h)"/>
+
+              <rect x="115" y="74" width="390" height="22" rx="2" class="s-box"/>
+              <text x="310" y="89" text-anchor="middle" class="s-lab" font-size="11">인증 없이 응답한 호스트 7,627대</text>
+
+              <line x1="310" y1="96" x2="310" y2="110" class="s-arw" marker-end="url(#d3h)"/>
+
+              <rect x="140" y="112" width="340" height="22" rx="2" class="s-box"/>
+              <text x="310" y="127" text-anchor="middle" class="s-lab" font-size="11">Ollama 확인 7,675건</text>
+
+              <line x1="310" y1="134" x2="310" y2="148" class="s-arw" marker-end="url(#d3h)"/>
+
+              <rect x="215" y="150" width="190" height="22" rx="2" class="node-accent"/>
+              <text x="310" y="165" text-anchor="middle" class="s-lab t-accent" font-size="11">제3자 흔적 4,209건</text>
+              <text x="415" y="165" class="s-tick t-accent">54.8%</text>
+
+              <text x="16" y="196" class="s-sub">노출된 Ollama 호스트의 79%가 cloud 태그 모델을 올려 둠 &middot; 취약점 공격 없이 주인 구독으로 추론 가능</text>
+            </svg>
+          </div>
+          <figcaption>위에서 아래로 갈수록 범위가 좁아지며, 가장 아래 칸만 제3자 흔적이 실제로 확인된 구간입니다. <span class="src">근거: <a href="https://www.rapid7.com/blog/post/tr-self-hosted-ai-renting-compute-exposed-servers/">Rapid7</a> &middot; <a href="https://thehackernews.com/2026/11/threatsday-250-rogue-extensions-10m.html">The Hacker News</a></span></figcaption>
+        </figure>
+        <div class="tags"><span class="tag tag-country" data-type="country">#독일</span><span class="tag tag-country" data-type="country">#중국</span><span class="tag tag-country" data-type="country">#미국</span><span class="tag tag-org" data-type="org">#벤더사</span><span class="tag tag-ai" data-type="ai">#Ollama</span><span class="tag tag-security" data-type="security">#LLMjacking</span><span class="tag tag-security" data-type="security">#무인증노출</span><span class="tag tag-security" data-type="security">#모델목록</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="blk">
+      <div class="sec-tag"><span class="sec-no">3</span><h2>솔루션 동향 &middot; 세미나 / 컨퍼런스</h2></div>
+      <div class="sub-h">오늘의 솔루션 픽</div>
+      <div class="sol">
+        <b>앤트로픽 Enterprise Frontier Safeguards &mdash; 데이터를 남기지 않으면서 여러 요청에 걸친 오용 패턴을 찾는다</b> <span class="m"><sub class="tgrade">[T2 &middot; 2026-11-23 공개]</sub></span><br>
+        비공개 베타에서 공개 베타로 넘어왔습니다<sub class="tgrade">[T2]</sub>. 기존 실시간 분류기는 요청 하나씩 걸러내는데, 이 기능은 여러 요청에 걸친 오용 패턴을 봅니다<sub class="tgrade">[T2]</sub>. 한 건씩 보면 평범해 보이는 공격을 잡겠다는 설계입니다<sub class="tgrade">[T2]</sub>. 데이터 미보관(ZDR) 설정과 함께 쓸 수 있고, 입력과 출력은 고객이 가진 Amazon S3나 Google Cloud Storage에 저장된 뒤 곧 지워집니다<sub class="tgrade">[T2]</sub>. 앤트로픽과 클라우드 사업자는 사본을 두지 않고 사람이 열어 보지도 않으며 학습에도 쓰지 않습니다<sub class="tgrade">[T2]</sub>. 위험이 잡히면 Safety Case가 만들어집니다. 사건 번호와 피해 유형·상태·표시된 대화 번호만 담고 입력과 출력은 넣지 않아, 고객 팀만 읽을 수 있습니다<sub class="tgrade">[T2]</sub>. 클라우드 저장소나 API로 받아 SIEM에 넣을 수 있습니다<sub class="tgrade">[T2]</sub>. 적용 범위는 Claude Platform과 AWS판, Amazon Bedrock, Google Cloud판이고 Microsoft Foundry는 예정으로 적혀 있습니다<sub class="tgrade">[T2]</sub>. <span class="src">근거: <a href="https://claude.com/resources/articles/zero-data-retention-with-enterprise-frontier-safeguards">앤트로픽</a></span>
+      </div>
+      <div class="sol">
+        <b>노조미네트웍스·포스코DX, OT·IoT 보안 협약 &mdash; 공정 제어 맥락에 자산 가시성을 붙여 위험 순위를 매긴다</b> <span class="m"><sub class="tgrade">[T2 &middot; 2026-11-27 발표]</sub></span><br>
+        두 회사가 OT·IoT 보안 기술과 사업 협력 양해각서를 맺었습니다<sub class="tgrade">[T2]</sub>. 노조미네트웍스는 OT·IoT 자산 가시성과 취약점 분석, 위협·이상행위 탐지를 대고<sub class="tgrade">[T2]</sub>, 복잡한 OT 엔드포인트와 무선 환경까지 범위에 넣었습니다<sub class="tgrade">[T2]</sub>. 포스코DX는 산업 현장 구축·운영 경험과 제어시스템 보안을 내놓고, 자사 제어 솔루션 포스마스터에 노조미 기술을 결합합니다<sub class="tgrade">[T2]</sub>. 설비와 통신 흐름을 계속 감시한 결과를 공정·제어 맥락에 이어, 현장 영향을 반영해 위험 순위를 매기는 구성입니다<sub class="tgrade">[T2]</sub>. 보안 진단부터 구축과 유지보수, 상시 관제까지 한데 모아 기존 인텔리전트 팩토리 고객부터 적용합니다<sub class="tgrade">[T2]</sub>. 사이버 사고로 생산이 멈추는 위험을 낮추는 데 목표를 두었습니다<sub class="tgrade">[T2]</sub>. 계약 금액과 적용 일정은 공개되지 않았습니다<sub class="tgrade">[T3]</sub>. <span class="src">근거: <a href="https://www.datanet.co.kr/news/articleView.html?idxno=300655">데이터넷</a></span>
+      </div>
+      <div class="sol">
+        <b>아이티센피엔에스·싸이버원, 중견·중소기업 AI 통합 보안 확대 &mdash; 구축과 관제를 한 창구로 모은다</b> <span class="m"><sub class="tgrade">[T2 &middot; 2026-11-27 발표]</sub></span><br>
+        보안 인력이 모자란 중견·중소기업을 겨냥해 구축과 운영을 함께 받는 모델을 내놓습니다<sub class="tgrade">[T2]</sub>. 아이티센피엔에스는 Palo Alto Networks 공식 총판으로 AI 기반 차세대 방화벽과 Cortex XDR을 공급합니다<sub class="tgrade">[T2]</sub>. 싸이버원은 같은 벤더의 관제 서비스 파트너로 컨설팅과 구축, 관제 경험을 댑니다<sub class="tgrade">[T2]</sub>. 서비스 범위는 환경 진단과 보안 아키텍처 설계, 인프라 구축·교체, 정책 최적화, 위협 관제·대응입니다<sub class="tgrade">[T2]</sub>. 1단계는 방화벽 신규·교체 구축과 네트워크 보안정책 고도화이고, 이후 고객 수요에 맞춰 엔드포인트 보호와 관제로 넓힙니다<sub class="tgrade">[T2]</sub>. 육동현 싸이버원 대표는 제품 도입만으로는 부족하고 고객 환경에 맞춘 상시 운영·관제 역량이 필요하다고 말했습니다<sub class="tgrade">[T2]</sub>. 가격과 계약 조건은 공개되지 않았습니다<sub class="tgrade">[T3]</sub>. <span class="src">근거: <a href="https://www.datanet.co.kr/news/articleView.html?idxno=300629">데이터넷</a></span>
+      </div>
+
+      <div class="sub-h">등록 진행 중인 행사</div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-12-03 09:00~17:20 &middot; 서울 여의도 전경련회관 컨퍼런스센터 1층 그랜드볼룸</div>
+          <div class="name">제30회 해킹방지워크샵</div>
+          <div class="where">한국침해사고대응팀협의회 주최 &middot; 10개 트랙, 선제적 자율 방어와 에이전트 AI 통제 포함 &middot; 참가비 무료, 자료집&middot;중식은 CONCERT와 한국CPO포럼 회원사 한정 &middot; 사전등록 12월 2일 17:00 마감 &middot; CPE 최대 7시간</div>
+        </div>
+        <a class="apply" href="https://luckygate.co.kr/">등록 &rarr;</a>
+      </div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-12-03~04 &middot; 강릉 스카이베이 호텔 1층 연회장</div>
+          <div class="name">2026년 양자보안연구회 하반기 워크숍</div>
+          <div class="where">한국정보보호학회 연구회 워크숍 &middot; 양자내성암호&middot;양자보안 주제 &middot; 등록 11월 29일 마감 &middot; 숙박 별도 예약</div>
+        </div>
+        <a class="apply" href="https://kiisc.or.kr/pre-registration">등록 &rarr;</a>
+      </div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-12-04 14:00 &middot; 서울 서초 한국컨퍼런스센터 대강당 B2</div>
+          <div class="name">정보보호 공시 의무대상 확대 권역별 순회 설명회 (수도권)</div>
+          <div class="where">과학기술정보통신부 주최, 한국인터넷진흥원 운영 &middot; 2027년 의무 확대에 따른 적용기준과 제출 실무 &middot; 유튜브 생중계 병행 &middot; 사전신청 없으면 현장 참석 제한, 전일까지 접수 &middot; 광주 12월 8일, 대전 12월 9일, 부산 12월 17일, 대구 12월 18일</div>
+        </div>
+        <a class="apply" href="https://naver.me/FTdveyqN">등록 &rarr;</a>
+      </div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-12-09 09:00 ~ 12-10 16:30 &middot; 서울 서초 라이프비즈니스센터 B2</div>
+          <div class="name">개인정보 유출 사고 실전 대응훈련 27기</div>
+          <div class="where">1박 2일 실습 과정 &middot; 유출 사고 대응 절차 훈련 &middot; 유료 &middot; 신청 12월 4일 13:00 마감</div>
+        </div>
+        <a class="apply" href="https://luckygate.co.kr/">등록 &rarr;</a>
+      </div>
+      <div class="evt">
+        <div>
+          <div class="when">2026-12-15 10:00 ~ 12-16 15:00 &middot; 경기 가평 교원 가평비전센터</div>
+          <div class="name">여성 정보보호 주니어 캠프</div>
+          <div class="where">정보보호 분야 진입 과정 &middot; 합숙 캠프 &middot; 유료 &middot; 신청 12월 10일 16:00 마감</div>
+        </div>
+        <a class="apply" href="https://luckygate.co.kr/">등록 &rarr;</a>
+      </div>
+    </section>
+
+    <footer class="rpt-foot">
+      <p><b>AI SEC Pulse</b> · 일일 발송 매일 오전 10:00 KST · No. 085 (2026-11-28)</p>
+      <div class="legend">
+        <span><b>T1</b> 원문·공식 확인</span><span><b>T2</b> 공신력 확인</span><span><b>T3</b> 재확인 필요</span>
+      </div>
+      <div class="legend">
+        <span><b>중요도 높음</b> KEV 등재·CVSS9+ 또는 즉시조치·의사결정 필요한 확정 사안</span><span><b>중요도 중간~높음</b> CVSS7~8.9(악용 미확인) 또는 벤더 대응 진행 중·초안 단계</span><span><b>중요도 중간</b> CVSS4~6.9 또는 참고용 업계 동향, 직접 조치 없음</span><span><b>중요도 낮음</b> CVSS4 미만 또는 배경 정보 성격</span>
+      </div>
+      <p>구독 관리 · 지난 호 · 제보: (수신자 안내에 따름)</p>
+    </footer>
+
+  </div>
+</div>
+<img src="https://elishajey.goatcounter.com/count?p=/pulse/2026-11-28" alt="" width="1" height="1" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
